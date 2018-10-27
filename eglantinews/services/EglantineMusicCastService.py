@@ -26,15 +26,6 @@ class EglantineMusicService(EglantineRoomService):
         else:
             return "dans %s" % self._getCurrentRoomName(context)
 
-    def __turnOffAll(self, context: ExecutionContext):
-
-        for room in self._getRooms():
-            self._remoteByRoom(room).turnOff()
-
-        self._setCurrentDefaultRoom(context)
-
-        return 'Arrêt de toutes les enceintes'
-
     def __turnOff(self, context: ExecutionContext):
 
         room = self._getRoom(context)
@@ -190,9 +181,6 @@ class EglantineMusicService(EglantineRoomService):
                 'expected-slots': {
                     'volume': None
                 }
-            },
-            'TurnOffAll': {
-                'function': self.__turnOffAll,
             },
             'TurnOff': {
                 'function': self.__turnOff,

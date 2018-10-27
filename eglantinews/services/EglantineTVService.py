@@ -70,6 +70,11 @@ class EglantineTVService(EglantineRoomService):
     def __nothing(self, context: ExecutionContext):
         return ""
 
+    def _turnOffAll(self, context: ExecutionContext):
+        self.__turnOff(context)
+        super()._turnOffAll(context)
+        return "Ok, j'éteins tout"
+
     def getIntentConfigs(self):
         return {
             'ChangeVolume': {
@@ -91,7 +96,7 @@ class EglantineTVService(EglantineRoomService):
                 }
             },
             'TurnOffAll': {
-                'function': self.__turnOff,
+                'function': self._turnOffAll,
             },
             'ChangeChannel': {
                 'function': self.__changeChannel,

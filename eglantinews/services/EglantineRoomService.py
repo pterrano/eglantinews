@@ -79,6 +79,8 @@ class EglantineRoomService(EglantineService):
     def _currentRemote(self):
         return self._remoteByRoom(self._getCurrentRoom())
 
+
+
     def _changeVolume(self, context: ExecutionContext):
 
         volume = context.getSlot('volume')
@@ -110,3 +112,12 @@ class EglantineRoomService(EglantineService):
             remote.setVolume(volume)
 
             return 'Modification du volume à %s dans %s' % (volume, self._getRoomName(room))
+
+    def _turnOffAll(self, context: ExecutionContext):
+
+        for room in self._getRooms():
+            self._remoteByRoom(room).turnOff()
+
+        self._setCurrentDefaultRoom(context)
+
+        return 'Arrêt de toutes les enceintes'
