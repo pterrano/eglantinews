@@ -17,10 +17,10 @@ class EglantineRoomService(EglantineService):
         context.getSession().setAttribute('multicast.multiroom', currentMultiroom)
 
     def _getCurrentRoom(self, context: ExecutionContext):
-        return context.getSession().getAttribute('musiccast.multiroom', self._getDefaultRoom())
+        return context.getSession().getAttribute('musiccast.room', self._getDefaultRoom())
 
     def _setCurrentRoom(self, context: ExecutionContext, currentRoom: str):
-        return context.getSession().setAttribute('musiccast.multiroom', currentRoom)
+        return context.getSession().setAttribute('musiccast.room', currentRoom)
 
     def _setCurrentDefaultRoom(self, context):
         self._setCurrentRoom(context, self._getDefaultRoom())
