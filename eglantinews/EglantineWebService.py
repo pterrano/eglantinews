@@ -17,7 +17,7 @@ from eglantinews.services.EglantineService import EglantineService
 from eglantinews.services.EglantineTVService import EglantineTVService
 
 LAST_SERVICES_SESSION = 'common.last-services'
-DEFAULT_SERVICE_TIMEOUT: int = 5
+DEFAULT_SERVICE_TIMEOUT: int = 6
 
 OK_INTENT = 'OK'
 
