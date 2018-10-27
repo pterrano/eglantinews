@@ -6,7 +6,6 @@ from eglantinews.services.EglantineRoomService import EglantineRoomService
 
 
 class EglantineMusicService(EglantineRoomService):
-
     _serviceName = "Musiccast"
 
     NORMALISE_WORDS = [
@@ -108,6 +107,32 @@ class EglantineMusicService(EglantineRoomService):
         self._setCurrentRoom(context, room)
 
         return EglantineServiceResult('Pause de la musique %s' % self.__getMusicLocation(context))
+
+    def __currentTitle(self, context: ExecutionContext):
+
+        playInfo = self._currentRemote(context).getPlayInfo(True)
+
+        if playInfo['track'] == '':
+            return 'Aucun titre en cours'
+        elif playInfo['album'] == '':
+            return "Nous écoutons actuellement le titre %s de %s" % (playInfo['track'], playInfo['artist'])
+        else:
+            return "Nous écoutons actuellement le titre %s de %s dans l'album %s" % (
+                playInfo['track'], playInfo['artist'], playInfo['album'])
+
+    def __currentVolume(self, context: ExecutionContext):
+
+        if not self._isCurrentMultiroom(context):
+            room = self._getRoom(context)
+            volume = self._remoteByRoom(room).getVolume()
+            return 'Le volume est à %i dans %s.' % (volume, self._getRoomName(room))
+
+        else:
+            result = ''
+            for room in self._getRooms():
+                volume = self._remoteByRoom(room).getVolume()
+                result = result + 'Le volume est à %i dans %s. ' % (volume, self._getRoomName(room))
+            return result
 
     def __listenArtist(self, context: ExecutionContext):
 
@@ -214,6 +239,12 @@ class EglantineMusicService(EglantineRoomService):
             },
             'DisableMultiroom': {
                 'function': self.__disableMultiroom
+            },
+            'CurrentTitle': {
+                'function': self.__currentTitle
+            },
+            'CurrentVolume': {
+                'function': self.__currentVolume
             },
             'ListenAlbum': {
                 'function': self.__listenAlbum,

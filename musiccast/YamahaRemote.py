@@ -134,7 +134,7 @@ class YamahaRemote:
         if searchType=='artists':
             return { 'artist' : pattern }
         else:
-            return self._waitPlayInfo()
+            return self.getPlayInfo(True)
 
 
 
@@ -144,20 +144,17 @@ class YamahaRemote:
     def getPlayQueue(self, index):
         return self.__get('get play queue at %s' % index, 'netusb/getPlayQueue' ,params={'index': index})
 
-    def getPlayInfo(self):
-        return self.__get('get play info', 'netusb/getPlayInfo')
-
-    def _waitPlayInfo(self):
+    def getPlayInfo(self, waitResult=False):
 
         maxIteration=6
-        playInfo=self.getPlayInfo()
+        playInfo=self.__get('get play info', 'netusb/getPlayInfo')
 
         t0=time.perf_counter()
 
-        while maxIteration>0 and playInfo['track']=='':
+        while waitResult and maxIteration>0 and playInfo['track']=='':
             maxIteration=maxIteration-1
             time.sleep(0.4)
-            playInfo = self.getPlayInfo()
+            playInfo = self.__get('get play info', 'netusb/getPlayInfo')
 
         logging.info("WAITING-PLAY-INFO - %.1f" % (time.perf_counter() - t0) )
 

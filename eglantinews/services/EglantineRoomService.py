@@ -14,7 +14,7 @@ class EglantineRoomService(EglantineService):
         return context.getSession().getAttribute('musiccast.multiroom', False)
 
     def _setCurrentMultiroom(self, context: ExecutionContext, currentMultiroom):
-        context.getSession().setAttribute('multicast.multiroom', currentMultiroom)
+        context.getSession().setAttribute('musiccast.multiroom', currentMultiroom)
 
     def _getCurrentRoom(self, context: ExecutionContext):
         return context.getSession().getAttribute('musiccast.room', self._getDefaultRoom())
@@ -76,8 +76,8 @@ class EglantineRoomService(EglantineService):
     def _defaultRemote(self):
         return self._remoteByRoom(self._getDefaultRoom())
 
-    def _currentRemote(self):
-        return self._remoteByRoom(self._getCurrentRoom())
+    def _currentRemote(self, context: ExecutionContext):
+        return self._remoteByRoom(self._getCurrentRoom(context))
 
 
 
