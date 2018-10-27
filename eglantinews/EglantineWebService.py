@@ -22,7 +22,7 @@ DEFAULT_SERVICE_TIMEOUT: int = 5
 OK_INTENT = 'OK'
 
 DEFAULT_PROMPT = 'Que puis je faire ?'
-TOO_LONG = 'Je cherche toujours. Dîtes O.K.'
+TOO_LONG = 'Je cherche toujours. Dîtes OK pour avoir ma réponse'
 UNKNOWN_PROMPT = 'Je ne comprends pas'
 ERROR_PROMPT = "Une erreur s'est produite"
 BUSY_PROMPT = "Je suis déjà occupé. Peux-tu attendre un instant, s'il te plaît ?"
@@ -115,7 +115,7 @@ class EglantineWebService(Resource):
 
                         elif threadService != None and threadService.isAlive():
 
-                            result = EglantineServiceResult(BUSY_PROMPT)
+                            result = EglantineServiceResult(BUSY_PROMPT, False)
 
                         else:
 
@@ -183,8 +183,7 @@ class EglantineWebService(Resource):
             self.__setCurrentService(alexaRequest, None)
             self.placeServiceAsFirst(alexaRequest, threadService.getService())
         else:
-            result = EglantineServiceResult('')
-            result.setPrompt(TOO_LONG)
+            result = EglantineServiceResult(TOO_LONG, False)
 
         return result
 
