@@ -225,7 +225,13 @@ class EglantineMusicService(EglantineRoomService):
             'Next': {
                 'function': self.__next
             },
+            'NextTitle': {
+                'function': self.__next
+            },
             'Previous': {
+                'function': self.__previous
+            },
+            'PreviousTitle': {
                 'function': self.__previous
             },
             'Resume': {
