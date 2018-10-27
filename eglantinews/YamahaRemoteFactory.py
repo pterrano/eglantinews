@@ -12,8 +12,8 @@ class YamahaRemoteFactory:
     DEFAUT_ROOM = 'LIVING'
 
     __remoteByRooms = {
-        'LIVING': YamahaRemote('amplifier', "le salon"),
-        'DESKTOP': YamahaRemote('wx051', "le bureau")
+        'LIVING': YamahaRemote('amplifier', "le salon", 60, 120),
+        'DESKTOP': YamahaRemote('wx051', "le bureau", 50)
     }
 
     def getDefaultRoom(self):

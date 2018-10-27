@@ -12,14 +12,11 @@ class YamahaRemote:
 
     UNLINK_GROUP="00000000000000000000000000000000"
 
-    __maxVolume=None
-
-    __remoteName=None
-
-    def __init__(self, hostName:str, remoteName:str=None, maxVolume:int=None):
+    def __init__(self, hostName:str, remoteName:str=None, defaultVolume:int=None, maxVolume:int=None):
         self.baseURL = "http://" + hostName + self.__CONTEXT_PATH
         self.__hostName = hostName
         self.__remoteName = remoteName
+        self.__defaultVolume = defaultVolume
         self.__maxVolume=maxVolume
 
     def getRemoteName(self):
@@ -356,8 +353,11 @@ class YamahaRemote:
 
         for iteration in range(100):
             if self.isOn():
-                return
+                break
             time.sleep(0.1)
+
+        if self.__defaultVolume != None:
+            self.setVolume(self.__defaultVolume)
 
     def turnOff(self):
         self.setPower('standby')
@@ -369,8 +369,9 @@ class YamahaRemote:
 
     def __getMaxVolume(self):
         if self.__maxVolume==None:
-            __maxVolume=int(self.getStatus()['max_volume'])
-        return __maxVolume
+            return int(self.getStatus()['max_volume'])
+        else:
+            return self.__maxVolume
 
     def isMute(self):
         return bool(self.getStatus()['mute'])
