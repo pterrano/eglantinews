@@ -25,14 +25,20 @@ class EglantineRoomService(EglantineService):
     def _setCurrentDefaultRoom(self, context):
         self._setCurrentRoom(context, self._getDefaultRoom())
 
-    def _getRoomNames(self):
-        return self.__yamahaRemoteFactory.getRoomNames()
+    def _getRooms(self):
+        return self.__yamahaRemoteFactory.getRooms()
 
     def _getDefaultRoom(self):
         return self.__yamahaRemoteFactory.getDefaultRoom()
 
     def _getRoom(self, context: ExecutionContext):
         return context.getSlot('room', self._getCurrentRoom(context))
+
+    def _getCurrentRoomName(self, context: ExecutionContext) -> str:
+        return self.__yamahaRemoteFactory.getRoomName(self._getCurrentRoom(context))
+
+    def _getRoomName(self, room:str) -> str:
+        return self.__yamahaRemoteFactory.getRoomName(room)
 
     def _isMultiroom(self, context: ExecutionContext):
         return context.getSlot('multiroom', False) or (
@@ -90,7 +96,7 @@ class EglantineRoomService(EglantineService):
         room = self._getRoom(context)
 
         if multiroom:
-            for room in self.__yamahaRemoteFactory.getRoomNames():
+            for room in self.__yamahaRemoteFactory.getRooms():
                 remote = self._remoteByRoom(room);
                 remote.turnOn()
                 logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
@@ -103,4 +109,4 @@ class EglantineRoomService(EglantineService):
             logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
             remote.setVolume(volume)
 
-            return 'Modification du volume à %s dans %s' % (volume, room)
+            return 'Modification du volume à %s dans %s' % (volume, self._getRoomName(room))

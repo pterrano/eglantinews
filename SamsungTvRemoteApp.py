@@ -66,6 +66,3 @@ if command in map(lambda key:key.get('code'), SamsungKeys.keys):
     exit(0)
 else:
     samsungTvRemote.sendKey(command)
-    #print('Key [%s] not found !\n' % command)
-
-#usage()

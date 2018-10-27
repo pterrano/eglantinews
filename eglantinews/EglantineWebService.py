@@ -17,7 +17,7 @@ from eglantinews.services.EglantineService import EglantineService
 from eglantinews.services.EglantineTVService import EglantineTVService
 
 LAST_SERVICES_SESSION = 'common.last-services'
-DEFAULT_SERVICE_TIMEOUT: int = 6
+DEFAULT_SERVICE_TIMEOUT: int = 5
 
 OK_INTENT = 'OK'
 
@@ -83,6 +83,7 @@ class EglantineWebService(Resource):
         req = json.loads(request.data);
 
         logging.info('POST')
+        logging.info(req)
 
         try:
 
@@ -92,9 +93,9 @@ class EglantineWebService(Resource):
 
                 alexaRequest = req['request']
 
-                print('<ALEXA-REQUEST>')
-                print(alexaRequest)
-                print('</ALEXA-REQUEST>')
+                logging.info('<ALEXA-REQUEST>')
+                logging.info(alexaRequest)
+                logging.info('</ALEXA-REQUEST>')
 
                 if 'type' in alexaRequest and alexaRequest['type'] == 'LaunchRequest':
                     result = EglantineServiceResult("Bonjour c'est Eglantine, que puis-je faire ?", False)
@@ -167,9 +168,9 @@ class EglantineWebService(Resource):
 
             }
 
-        print('<ALEXA-RESPONSE>')
-        print(alexaResponse)
-        print('</ALEXA-RESPONSE>')
+        logging.info('<ALEXA-RESPONSE>')
+        logging.info(alexaResponse)
+        logging.info('</ALEXA-RESPONSE>')
 
         return alexaResponse
 
@@ -212,8 +213,33 @@ class EglantineWebService(Resource):
 
         for slotName in alexaSlots:
             slot = alexaSlots[slotName]
-            if 'value' in slot:
-                slotValue = slot['value']
-                slots[slotName] = slotValue;
+
+            slotId=self.__getSlotId(slot)
+            if slotId != None:
+                slots[slotName] = slotId
+            elif 'value' in slot:
+                slots[slotName] = slot['value']
 
         return slots;
+
+    def __getSlotId(self, slot) -> str:
+
+        if 'resolutions' not in slot:
+            return None
+
+        resolutions = slot['resolutions']
+        if 'resolutionsPerAuthority' not in resolutions:
+            return None
+
+        resolutionsPerAuthority = resolutions['resolutionsPerAuthority']
+
+        if len(resolutionsPerAuthority) < 1:
+            return None
+
+        for resolutionPerAuthority in resolutionsPerAuthority:
+
+            values = resolutionPerAuthority['values']
+
+            if len(values) > 0:
+                return values[0]['value']['id']
+

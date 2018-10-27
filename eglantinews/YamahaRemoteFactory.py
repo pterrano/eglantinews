@@ -1,26 +1,35 @@
-from musiccast.YamahaRemote import YamahaRemote
-import time
 import logging
+import time
+
+from musiccast.YamahaRemote import YamahaRemote
+
 
 class YamahaRemoteFactory:
-
     LINK_GROUP_ID = "d9ded9c3eea94ba8b137a805dc6d8942"
 
     LINK_GROUP = 'EglantineGroup'
 
-    DEFAUT_ROOM = 'le salon'
+    DEFAUT_ROOM = 'LIVING'
 
     __remoteByRooms = {
-        'le salon': YamahaRemote('amplifier', "salon"),
-        'le bureau': YamahaRemote('wx051', "bureau")
+        'LIVING': YamahaRemote('amplifier', "le salon"),
+        'DESKTOP': YamahaRemote('wx051', "le bureau")
     }
-
 
     def getDefaultRoom(self):
         return self.DEFAUT_ROOM
 
-    def getRoomNames(self):
+    def getRooms(self):
         return self.__remoteByRooms.keys()
+
+    def getRoomName(self, room: str):
+
+        remote = self.remote(room)
+
+        if remote == None:
+            return None
+
+        return remote.getRemoteName()
 
     def remote(self, room):
 
@@ -66,6 +75,3 @@ class YamahaRemoteFactory:
 
         serverRemote.startDistribution()
         serverRemote.createGroup(self.LINK_GROUP)
-
-
-

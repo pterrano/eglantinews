@@ -81,13 +81,13 @@ class EglantineTVService(EglantineRoomService):
             'TurnOn': {
                 'function': self.__turnOn,
                 'expected-slots': {
-                    'room': 'la télé'}
+                    'room': 'TV'}
             }
             ,
             'TurnOff': {
                 'function': self.__turnOff,
                 'expected-slots': {
-                    'room': 'la télé'
+                    'room': 'TV'
                 }
             },
             'TurnOffAll': {
@@ -99,7 +99,7 @@ class EglantineTVService(EglantineRoomService):
                     'channel': None
                 } ,
                 'complete-slots' : {
-                    'room' : 'le salon'
+                    'room' : 'LIVING'
                 }
             },
             'NextChannel': {

@@ -24,11 +24,11 @@ class EglantineMusicService(EglantineRoomService):
         if self._isCurrentMultiroom(context):
             return "de partout"
         else:
-            return "dans %s" % self._getCurrentRoom(context)
+            return "dans %s" % self._getCurrentRoomName(context)
 
     def __turnOffAll(self, context: ExecutionContext):
 
-        for room in self._getRoomNames():
+        for room in self._getRooms():
             self._remoteByRoom(room).turnOff()
 
         self._setCurrentDefaultRoom(context)
@@ -46,7 +46,7 @@ class EglantineMusicService(EglantineRoomService):
 
         self._setCurrentDefaultRoom(context)
 
-        return 'Arrêt de %s' % room
+        return 'Arrêt de %s' % self._getRoomName(room)
 
     def __turnOn(self, context: ExecutionContext):
 
@@ -54,13 +54,13 @@ class EglantineMusicService(EglantineRoomService):
 
         remote = self._remoteByRoom(room);
 
-        logging.info('TURN ON (%s)' % room)
+        logging.info('TURN ON (%s)' % self._getRoomName(room))
 
         remote.turnOn()
 
         self._setCurrentRoom(context, room)
 
-        return 'Allumage du %s' % room
+        return 'Allumage de %s' % self._getRoomName(room)
 
     def __next(self, context: ExecutionContext):
 
@@ -197,13 +197,13 @@ class EglantineMusicService(EglantineRoomService):
             'TurnOff': {
                 'function': self.__turnOff,
                 'expected-slots': {
-                    'room': self._getRoomNames()
+                    'room': self._getRooms()
                 }
             },
             'TurnOn': {
                 'function': self.__turnOn,
                 'expected-slots': {
-                    'room': self._getRoomNames()
+                    'room': self._getRooms()
                 }
             },
             'AMAZON.StopIntent': {
@@ -239,7 +239,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'le salon',
+                    'room': 'LIVING',
                     'multiroom': True
                 }
             },
@@ -249,7 +249,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'le bureau',
+                    'room': 'DESKTOP',
                 }
             },
             'ListenAlbumLiving': {
@@ -258,7 +258,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'le salon',
+                    'room': 'LIVING',
                 }
             },
             'ListenArtist': {
@@ -273,7 +273,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'le salon',
+                    'room': 'DESKTOP',
                     'multiroom': True
                 }
             },
@@ -283,7 +283,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'le bureau'
+                    'room': 'DESKTOP'
                 }
             },
             'ListenArtistLiving': {
@@ -292,7 +292,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'le salon'
+                    'room': 'DESKTOP'
                 }
             },
             'ListenTrack': {
@@ -307,7 +307,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'le salon',
+                    'room': 'LIVING',
                     'multiroom': True
                 }
             },
@@ -317,7 +317,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'le bureau'
+                    'room': 'DESKTOP'
                 }
             },
             'ListenTrackLiving': {
@@ -326,7 +326,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'le salon'
+                    'room': 'LIVING'
                 }
             }
 
