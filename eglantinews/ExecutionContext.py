@@ -4,7 +4,8 @@ from eglantinews.Session import Session
 class ExecutionContext:
 
     def addSlots(self, slots):
-        self.__slots.update(slots)
+        if slots!=None:
+            self.__slots.update(slots)
 
     def __init__(self, intent: str, slots, session: Session):
 
