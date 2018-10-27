@@ -219,8 +219,8 @@
             }
           ],
           "samples": [
-            "jouer {track} de partout",
-            "écouter {track} de partout"
+            "jouer en multiroom {track}",
+            "écouter en multiroom {track}"
           ]
         },
         {
@@ -289,12 +289,15 @@
             }
           ],
           "samples": [
-            "écouter l'artiste {artist} de partout",
-            "jouer les titres de {artist} de partout",
-            "jouer le chanteur {artist} de partout",
-            "jouer l'artiste {artist} de partout",
-            "écouter les titres de {artist} de partout",
-            "écouter le chanteur {artist} de partout"
+            "mettre en multiroom l'artiste {artist}",
+            "mettre en multiroom les titres de {artist}",
+            "mettre en multiroom le chanteur {artist}",
+            "écouter en multiroom l'artiste {artist}",
+            "écouter en multiroom les titres de {artist}",
+            "écouter en multiroom le chanteur {artist}",
+            "jouer en multiroom les titres de {artist}",
+            "jouer en multiroom le chanteur {artist}",
+            "jouer en multiroom l'artiste {artist}"
           ]
         },
         {
@@ -403,12 +406,6 @@
           "name": "room",
           "values": [
             {
-              "id": "TV",
-              "name": {
-                "value": "la télé"
-              }
-            },
-            {
               "id": "DESKTOP",
               "name": {
                 "value": "le bureau"
@@ -421,9 +418,9 @@
               }
             },
             {
-              "id": "ALL",
+              "id": "TV",
               "name": {
-                "value": "tout l'appartement"
+                "value": "la télé"
               }
             }
           ]
