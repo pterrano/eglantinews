@@ -4,14 +4,21 @@ import socket
 import time
 
 import requests
+from musiccast.YamahaRadio import YamahaRadio
+from utils.SearchUtils import distance
+
+FOLDER_ATTRIBUTE = 2
 
 
 class YamahaRemote:
+
     __CONTEXT_PATH = "/YamahaExtendedControl/v1"
 
     PAGE_SIZE = 8
 
     UNLINK_GROUP = "00000000000000000000000000000000"
+
+    yamahaRadio=YamahaRadio()
 
     def __init__(self, hostName: str, remoteName: str = None, defaultVolume: int = None, maxVolume: int = None):
         self.baseURL = "http://" + hostName + self.__CONTEXT_PATH
@@ -104,6 +111,31 @@ class YamahaRemote:
     def createGroup(self, groupName):
         self.__post('set group name %s' % groupName, 'dist/setGroupName', params={'name': groupName})
 
+    def playRadio(self, radio):
+
+        media = 'net_radio'
+
+        self.turnOn()
+        self.prepareInput(media)
+        self.gotoRoot()
+
+        if self.selectItem('radio', media):
+
+            self.__post('set search string %s' % radio, 'netusb/setSearchString',
+                        params={'list_id': 'main', 'string': radio, 'index': 9})
+
+            return self.selectNearest(radio, True, media)
+
+        else:
+
+            foundRadio=self.yamahaRadio.search(radio)
+
+            if foundRadio!=None:
+
+                self.__post('set stream %s' % foundRadio['title'], 'netusb/setYmapUri', params={'zone':'main','uri':'ymap://NET_RADIO@vTuner.com/%s' % foundRadio['id']})
+
+                return foundRadio['title']
+
     def searchPlay(self, pattern, searchType, media='server'):
 
         self.turnOn()
@@ -195,6 +227,33 @@ class YamahaRemote:
             return list(map(lambda line: line['text'].lower(), listItem)).index(item)
         except ValueError:
             return None
+
+    def selectNearest(self, selectedItem, play: bool = False, media='server') -> str:
+
+        listInfos = self.listInfo(0, media)['list_info']
+
+        nearestIndex = -1
+        nearestDistance = float('inf')
+        nearestItem = None
+
+        for currentIndex in range(0, len(listInfos)):
+            listInfo = listInfos[currentIndex]
+            if listInfo['attribute'] != FOLDER_ATTRIBUTE:
+                currentItem = listInfo['text']
+                currentDistance = distance(currentItem, selectedItem)
+
+                if currentDistance < nearestDistance:
+                    nearestIndex = currentIndex
+                    nearestDistance = currentDistance
+                    nearestItem = currentItem
+
+        if nearestIndex != -1:
+            if play:
+                self.menuPlay(nearestIndex)
+            else:
+                self.menuSelect(nearestIndex)
+
+        return nearestItem
 
     def selectItem(self, selectedItem, media='server'):
 

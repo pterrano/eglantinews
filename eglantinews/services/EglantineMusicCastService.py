@@ -134,6 +134,23 @@ class EglantineMusicService(EglantineRoomService):
                 result = result + 'Le volume est à %i dans %s. ' % (volume, self._getRoomName(room))
             return result
 
+    def __listenRadio(self, context: ExecutionContext):
+
+        room = self._getRoom(context)
+        remote = self._remoteByRoom(room);
+        radio = self.normalizeSearch(context.getSlot('radio'))
+
+        logging.info('LISTEN RADIO %s in %s' % (radio, room))
+
+        self._processRooms(context)
+
+        resultSearch = remote.playRadio(radio)
+
+        if (resultSearch != None):
+            return "Ok, je mets %s %s" % (resultSearch, self.__getMusicLocation(context))
+        else:
+            return "Je n'ai pas trouvé la radio %s %s" % (radio, self.__getMusicLocation(context))
+
     def __listenArtist(self, context: ExecutionContext):
 
         room = self._getRoom(context)
@@ -353,6 +370,40 @@ class EglantineMusicService(EglantineRoomService):
                 'complete-slots': {
                     'room': 'LIVING'
                 }
-            }
+            },
+            'ListenRadio': {
+                'function': self.__listenRadio,
+                'expected-slots': {
+                    'radio': None
+                }
+            },
+            'ListenRadioAll': {
+                'function': self.__listenRadio,
+                'expected-slots': {
+                    'radio': None
+                },
+                'complete-slots': {
+                    'room': 'LIVING',
+                    'multiroom': True
+                }
+            },
+            'ListenRadioDesktop': {
+                'function': self.__listenRadio,
+                'expected-slots': {
+                    'radio': None
+                },
+                'complete-slots': {
+                    'room': 'DESKTOP'
+                }
+            },
+            'ListenRadioLiving': {
+                'function': self.__listenRadio,
+                'expected-slots': {
+                    'radio': None
+                },
+                'complete-slots': {
+                    'room': 'LIVING'
+                }
+            },
 
         }

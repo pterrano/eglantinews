@@ -1,714 +1,770 @@
-  {
-      "interactionModel": {
-          "languageModel": {
-              "invocationName": "églantine",
-              "intents": [
-                  {
-                      "name": "AMAZON.CancelIntent",
-                      "samples": []
-                  },
-                  {
-                      "name": "AMAZON.HelpIntent",
-                      "samples": []
-                  },
-                  {
-                      "name": "AMAZON.StopIntent",
-                      "samples": [
-                          "Stop",
-                          "Arrêter"
-                      ]
-                  },
-                  {
-                      "name": "OK",
-                      "slots": [],
-                      "samples": [
-                          "O.K."
-                      ]
-                  },
-                  {
-                      "name": "AMAZON.NavigateHomeIntent",
-                      "samples": []
-                  },
-                  {
-                      "name": "TurnOn",
-                      "slots": [
-                          {
-                              "name": "room",
-                              "type": "room"
-                          }
-                      ],
-                      "samples": [
-                          "allumer {room}",
-                          "activation {room}",
-                          "activer {room}"
-                      ]
-                  },
-                  {
-                      "name": "TurnOff",
-                      "slots": [
-                          {
-                              "name": "room",
-                              "type": "room"
-                          }
-                      ],
-                      "samples": [
-                          "éteindre {room}",
-                          "désactivation {room}",
-                          "désactiver {room}"
-                      ]
-                  },
-                  {
-                      "name": "ChangeVolume",
-                      "slots": [
-                          {
-                              "name": "volume",
-                              "type": "AMAZON.NUMBER"
-                          },
-                          {
-                              "name": "room",
-                              "type": "room"
-                          }
-                      ],
-                      "samples": [
-                          "mettre le volume à {volume} dans {room}",
-                          "mettre le volume à {volume}"
-                      ]
-                  },
-                  {
-                      "name": "ChangeChannel",
-                      "slots": [
-                          {
-                              "name": "channel",
-                              "type": "channel"
-                          }
-                      ],
-                      "samples": [
-                          "regarder la chaine {channel}",
-                          "zapper sur la chaine {channel}",
-                          "mettre la chaine {channel}"
-                      ]
-                  },
-                  {
-                      "name": "NextChannel",
-                      "slots": [],
-                      "samples": [
-                          "regarder la chaine suivante",
-                          "mettre la chaine suivante",
-                          "chaine suivante"
-                      ]
-                  },
-                  {
-                      "name": "PreviousChannel",
-                      "slots": [],
-                      "samples": [
-                          "mettre la chaine précédente",
-                          "regarder la chaine précédente",
-                          "chaine précédente"
-                      ]
-                  },
-                  {
-                      "name": "ReturnDirect",
-                      "slots": [],
-                      "samples": [
-                          "Retour au direct"
-                      ]
-                  },
-                  {
-                      "name": "WatchMovie",
-                      "slots": [
-                          {
-                              "name": "movie",
-                              "type": "AMAZON.Movie"
-                          }
-                      ],
-                      "samples": [
-                          "mettre le film {movie}",
-                          "regarder le film {movie}"
-                      ]
-                  },
-                  {
-                      "name": "ListenAlbum",
-                      "slots": [
-                          {
-                              "name": "album",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre l'album {album}",
-                          "jouer l'album {album}",
-                          "écouter l'album {album}"
-                      ]
-                  },
-                  {
-                      "name": "ListenAlbumDesktop",
-                      "slots": [
-                          {
-                              "name": "album",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre dans le bureau l'album {album}",
-                          "jouer dans le bureau l'album {album}",
-                          "écouter dans le bureau l'album {album}"
-                      ]
-                  },
-                  {
-                      "name": "ListenAlbumAll",
-                      "slots": [
-                          {
-                              "name": "album",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre en multiroom l'album {album}",
-                          "jouer en multiroom l'album {album}",
-                          "écouter en multiroom l'album {album}"
-                      ]
-                  },
-                  {
-                      "name": "ListenTrack",
-                      "slots": [
-                          {
-                              "name": "track",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre {track}",
-                          "jouer {track}",
-                          "écouter {track}"
-                      ]
-                  },
-                  {
-                      "name": "ListenTrackLiving",
-                      "slots": [
-                          {
-                              "name": "track",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre dans le salon {track}",
-                          "jouer dans le salon {track}",
-                          "écouter dans le salon {track}"
-                      ]
-                  },
-                  {
-                      "name": "ListenTrackDesktop",
-                      "slots": [
-                          {
-                              "name": "track",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "mettre dans le bureau {track}",
-                          "jouer dans le bureau {track}",
-                          "écouter dans le bureau {track}"
-                      ]
-                  },
-                  {
-                      "name": "ListenTrackAll",
-                      "slots": [
-                          {
-                              "name": "track",
-                              "type": "AMAZON.SearchQuery"
-                          }
-                      ],
-                      "samples": [
-                          "jouer en multiroom {track}",
-                          "écouter en multiroom {track}"
-                      ]
-                  },
-                  {
-                      "name": "ListenArtist",
-                      "slots": [
-                          {
-                              "name": "artist",
-                              "type": "AMAZON.Artist"
-                          }
-                      ],
-                      "samples": [
-                          "mettre les titres de {artist} ",
-                          "mettre l'artiste {artist}",
-                          "mettre le chanteur {artist}",
-                          "jouer les titres de {artist} ",
-                          "jouer l'artiste {artist}",
-                          "jouer le chanteur {artist}",
-                          "écouter les titres de {artist} ",
-                          "écouter l'artiste {artist}",
-                          "écouter le chanteur {artist}"
-                      ]
-                  },
-                  {
-                      "name": "ListenArtistLiving",
-                      "slots": [
-                          {
-                              "name": "artist",
-                              "type": "AMAZON.Artist"
-                          }
-                      ],
-                      "samples": [
-                          "mettre dans le salon les titres de {artist}",
-                          "mettre dans le salon le chanteur {artist}",
-                          "mettre dans le salon l'artiste {artist}",
-                          "jouer dans le salon les titres de {artist}",
-                          "jouer dans le salon le chanteur {artist}",
-                          "jouer dans le salon l'artiste {artist}",
-                          "écouter dans le salon les titres de {artist}",
-                          "écouter dans le salon le chanteur {artist}",
-                          "écouter dans le salon l'artiste {artist}"
-                      ]
-                  },
-                  {
-                      "name": "ListenArtistDesktop",
-                      "slots": [
-                          {
-                              "name": "artist",
-                              "type": "AMAZON.Artist"
-                          }
-                      ],
-                      "samples": [
-                          "jouer les titres de {artist} dans le bureau",
-                          "jouer le chanteur {artist} dans le bureau",
-                          "jouer l'artiste {artist} dans le bureau",
-                          "écouter les titres de {artist} dans le bureau",
-                          "écouter le chanteur {artist} dans le bureau",
-                          "écouter l'artiste {artist} dans le bureau"
-                      ]
-                  },
-                  {
-                      "name": "ListenArtistAll",
-                      "slots": [
-                          {
-                              "name": "artist",
-                              "type": "AMAZON.Artist"
-                          }
-                      ],
-                      "samples": [
-                          "mettre en multiroom l'artiste {artist}",
-                          "mettre en multiroom les titres de {artist}",
-                          "mettre en multiroom le chanteur {artist}",
-                          "écouter en multiroom l'artiste {artist}",
-                          "écouter en multiroom les titres de {artist}",
-                          "écouter en multiroom le chanteur {artist}",
-                          "jouer en multiroom les titres de {artist}",
-                          "jouer en multiroom le chanteur {artist}",
-                          "jouer en multiroom l'artiste {artist}"
-                      ]
-                  },
-                  {
-                      "name": "WatchPhotoAlbum",
-                      "slots": [
-                          {
-                              "name": "photoAlbum",
-                              "type": "photoAlbum"
-                          }
-                      ],
-                      "samples": [
-                          "regarder l'album photos {photoAlbum}"
-                      ]
-                  },
-                  {
-                      "name": "Next",
-                      "slots": [],
-                      "samples": [
-                          "Suivant"
-                      ]
-                  },
-                  {
-                      "name": "Previous",
-                      "slots": [],
-                      "samples": [
-                          "Précédent"
-                      ]
-                  },
-                  {
-                      "name": "NextTitle",
-                      "slots": [],
-                      "samples": [
-                          "titre suivant"
-                      ]
-                  },
-                  {
-                      "name": "PreviousTitle",
-                      "slots": [],
-                      "samples": [
-                          "titre précédent"
-                      ]
-                  },
-                  {
-                      "name": "Pause",
-                      "slots": [],
-                      "samples": [
-                          "Pause"
-                      ]
-                  },
-                  {
-                      "name": "Resume",
-                      "slots": [],
-                      "samples": [
-                          "reprendre",
-                          "reprise"
-                      ]
-                  },
-                  {
-                      "name": "Back",
-                      "slots": [],
-                      "samples": [
-                          "revenir en arrière"
-                      ]
-                  },
-                  {
-                      "name": "Forward",
-                      "slots": [],
-                      "samples": [
-                          "avancer"
-                      ]
-                  },
-                  {
-                      "name": "TurnOffAll",
-                      "slots": [],
-                      "samples": [
-                          "éteindre tout",
-                          "éteindre partout"
-                      ]
-                  },
-                  {
-                      "name": "CurrentTitle",
-                      "slots": [],
-                      "samples": [
-                          "quel est le morceau en cours",
-                          "morceau en cours",
-                          "quel est le titre en cours",
-                          "titre en cours",
-                          "ce que nous écoutons actuellement"
-                      ]
-                  },
-                  {
-                      "name": "CurrentVolume",
-                      "slots": [
-                          {
-                              "name": "room",
-                              "type": "room"
-                          }
-                      ],
-                      "samples": [
-                          "quel est le niveau du volume",
-                          "quel est le niveau du volume dans {room}",
-                          "quel est le volume en cours",
-                          "quel est le volume en cours dans {room}"
-                      ]
-                  },
-                  {
-                      "name": "EnableMultiroom",
-                      "slots": [],
-                      "samples": [
-                          "activer multiroom",
-                          "activer le multiroom"
-                      ]
-                  },
-                  {
-                      "name": "DisableMultiroom",
-                      "slots": [],
-                      "samples": [
-                          "désactiver multiroom",
-                          "désactiver le multiroom"
-                      ]
-                  }
-              ],
-              "types": [
-                  {
-                      "name": "room",
-                      "values": [
-                          {
-                              "id": "DESKTOP",
-                              "name": {
-                                  "value": "le bureau"
-                              }
-                          },
-                          {
-                              "id": "LIVING",
-                              "name": {
-                                  "value": "le salon"
-                              }
-                          },
-                          {
-                              "id": "TV",
-                              "name": {
-                                  "value": "la télé"
-                              }
-                          }
-                      ]
-                  },
-                  {
-                      "name": "photoAlbum",
-                      "values": [
-                          {
-                              "name": {
-                                  "value": "Champignons"
-                              }
-                          },
-                          {
-                              "name": {
-                                  "value": "Parc ornithologique Cesson"
-                              }
-                          }
-                      ]
-                  },
-                  {
-                      "name": "channel",
-                      "values": [
-                          {
-                              "id": "1",
-                              "name": {
-                                  "value": "1",
-                                  "synonyms": [
-                                      "T.F.1."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "2",
-                              "name": {
-                                  "value": "2",
-                                  "synonyms": [
-                                      "france 2"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "3",
-                              "name": {
-                                  "value": "3",
-                                  "synonyms": [
-                                      "france 3"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "4",
-                              "name": {
-                                  "value": "4",
-                                  "synonyms": [
-                                      "canal plus"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "5",
-                              "name": {
-                                  "value": "5",
-                                  "synonyms": [
-                                      "france 5"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "6",
-                              "name": {
-                                  "value": "6",
-                                  "synonyms": [
-                                      "M.6."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "7",
-                              "name": {
-                                  "value": "7",
-                                  "synonyms": [
-                                      "arté"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "8",
-                              "name": {
-                                  "value": "8",
-                                  "synonyms": [
-                                      "C.8."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "9",
-                              "name": {
-                                  "value": "9",
-                                  "synonyms": [
-                                      "W.9."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "10",
-                              "name": {
-                                  "value": "10",
-                                  "synonyms": [
-                                      "T.M.C."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "11",
-                              "name": {
-                                  "value": "11",
-                                  "synonyms": [
-                                      "T",
-                                      "F.X."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "12",
-                              "name": {
-                                  "value": "12",
-                                  "synonyms": [
-                                      "N.R.J. 12"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "13",
-                              "name": {
-                                  "value": "13",
-                                  "synonyms": [
-                                      "L.C.P."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "14",
-                              "name": {
-                                  "value": "14",
-                                  "synonyms": [
-                                      "france 4"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "15",
-                              "name": {
-                                  "value": "15",
-                                  "synonyms": [
-                                      "B.F.M. T.V."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "16",
-                              "name": {
-                                  "value": "16",
-                                  "synonyms": [
-                                      "C. news"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "17",
-                              "name": {
-                                  "value": "17",
-                                  "synonyms": [
-                                      "C. star"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "18",
-                              "name": {
-                                  "value": "18",
-                                  "synonyms": [
-                                      "gulli"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "19",
-                              "name": {
-                                  "value": "19",
-                                  "synonyms": [
-                                      "france o"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "20",
-                              "name": {
-                                  "value": "20",
-                                  "synonyms": [
-                                      "T.F.1. séries films"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "21",
-                              "name": {
-                                  "value": "21",
-                                  "synonyms": [
-                                      "l'équipe"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "22",
-                              "name": {
-                                  "value": "22",
-                                  "synonyms": [
-                                      "6. ter"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "23",
-                              "name": {
-                                  "value": "23",
-                                  "synonyms": [
-                                      "R.M.C. story"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "24",
-                              "name": {
-                                  "value": "24",
-                                  "synonyms": [
-                                      "R.M.C. découverte"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "25",
-                              "name": {
-                                  "value": "25",
-                                  "synonyms": [
-                                      "chérie 25"
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "26",
-                              "name": {
-                                  "value": "26",
-                                  "synonyms": [
-                                      "L.C.I."
-                                  ]
-                              }
-                          },
-                          {
-                              "id": "27",
-                              "name": {
-                                  "value": "27",
-                                  "synonyms": [
-                                      "france info"
-                                  ]
-                              }
-                          }
-                      ]
-                  }
-              ]
-          }
-      }
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "églantine",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "Stop",
+            "Arrêter"
+          ]
+        },
+        {
+          "name": "OK",
+          "slots": [],
+          "samples": [
+            "O.K."
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "TurnOn",
+          "slots": [
+            {
+              "name": "room",
+              "type": "room"
+            }
+          ],
+          "samples": [
+            "allumer {room}",
+            "activation {room}",
+            "activer {room}"
+          ]
+        },
+        {
+          "name": "TurnOff",
+          "slots": [
+            {
+              "name": "room",
+              "type": "room"
+            }
+          ],
+          "samples": [
+            "éteindre {room}",
+            "désactivation {room}",
+            "désactiver {room}"
+          ]
+        },
+        {
+          "name": "ChangeVolume",
+          "slots": [
+            {
+              "name": "volume",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "room",
+              "type": "room"
+            }
+          ],
+          "samples": [
+            "mettre le volume à {volume} dans {room}",
+            "mettre le volume à {volume}"
+          ]
+        },
+        {
+          "name": "ChangeChannel",
+          "slots": [
+            {
+              "name": "channel",
+              "type": "channel"
+            }
+          ],
+          "samples": [
+            "regarder la chaine {channel}",
+            "zapper sur la chaine {channel}",
+            "mettre la chaine {channel}"
+          ]
+        },
+        {
+          "name": "NextChannel",
+          "slots": [],
+          "samples": [
+            "regarder la chaine suivante",
+            "mettre la chaine suivante",
+            "chaine suivante"
+          ]
+        },
+        {
+          "name": "PreviousChannel",
+          "slots": [],
+          "samples": [
+            "mettre la chaine précédente",
+            "regarder la chaine précédente",
+            "chaine précédente"
+          ]
+        },
+        {
+          "name": "ReturnDirect",
+          "slots": [],
+          "samples": [
+            "Retour au direct"
+          ]
+        },
+        {
+          "name": "WatchMovie",
+          "slots": [
+            {
+              "name": "movie",
+              "type": "AMAZON.Movie"
+            }
+          ],
+          "samples": [
+            "mettre le film {movie}",
+            "regarder le film {movie}"
+          ]
+        },
+        {
+          "name": "ListenAlbum",
+          "slots": [
+            {
+              "name": "album",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre l'album {album}",
+            "jouer l'album {album}",
+            "écouter l'album {album}"
+          ]
+        },
+        {
+          "name": "ListenAlbumDesktop",
+          "slots": [
+            {
+              "name": "album",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre dans le bureau l'album {album}",
+            "jouer dans le bureau l'album {album}",
+            "écouter dans le bureau l'album {album}"
+          ]
+        },
+        {
+          "name": "ListenAlbumAll",
+          "slots": [
+            {
+              "name": "album",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre en multiroom l'album {album}",
+            "jouer en multiroom l'album {album}",
+            "écouter en multiroom l'album {album}"
+          ]
+        },
+        {
+          "name": "ListenTrack",
+          "slots": [
+            {
+              "name": "track",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre {track}",
+            "jouer {track}",
+            "écouter {track}"
+          ]
+        },
+        {
+          "name": "ListenTrackLiving",
+          "slots": [
+            {
+              "name": "track",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre dans le salon {track}",
+            "jouer dans le salon {track}",
+            "écouter dans le salon {track}"
+          ]
+        },
+        {
+          "name": "ListenTrackDesktop",
+          "slots": [
+            {
+              "name": "track",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre dans le bureau {track}",
+            "jouer dans le bureau {track}",
+            "écouter dans le bureau {track}"
+          ]
+        },
+        {
+          "name": "ListenTrackAll",
+          "slots": [
+            {
+              "name": "track",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "jouer en multiroom {track}",
+            "écouter en multiroom {track}"
+          ]
+        },
+        {
+          "name": "ListenArtist",
+          "slots": [
+            {
+              "name": "artist",
+              "type": "AMAZON.Artist"
+            }
+          ],
+          "samples": [
+            "mettre les titres de {artist} ",
+            "mettre l'artiste {artist}",
+            "mettre le chanteur {artist}",
+            "jouer les titres de {artist} ",
+            "jouer l'artiste {artist}",
+            "jouer le chanteur {artist}",
+            "écouter les titres de {artist} ",
+            "écouter l'artiste {artist}",
+            "écouter le chanteur {artist}"
+          ]
+        },
+        {
+          "name": "ListenArtistLiving",
+          "slots": [
+            {
+              "name": "artist",
+              "type": "AMAZON.Artist"
+            }
+          ],
+          "samples": [
+            "mettre dans le salon les titres de {artist}",
+            "mettre dans le salon le chanteur {artist}",
+            "mettre dans le salon l'artiste {artist}",
+            "jouer dans le salon les titres de {artist}",
+            "jouer dans le salon le chanteur {artist}",
+            "jouer dans le salon l'artiste {artist}",
+            "écouter dans le salon les titres de {artist}",
+            "écouter dans le salon le chanteur {artist}",
+            "écouter dans le salon l'artiste {artist}"
+          ]
+        },
+        {
+          "name": "ListenArtistDesktop",
+          "slots": [
+            {
+              "name": "artist",
+              "type": "AMAZON.Artist"
+            }
+          ],
+          "samples": [
+            "jouer les titres de {artist} dans le bureau",
+            "jouer le chanteur {artist} dans le bureau",
+            "jouer l'artiste {artist} dans le bureau",
+            "écouter les titres de {artist} dans le bureau",
+            "écouter le chanteur {artist} dans le bureau",
+            "écouter l'artiste {artist} dans le bureau"
+          ]
+        },
+        {
+          "name": "ListenArtistAll",
+          "slots": [
+            {
+              "name": "artist",
+              "type": "AMAZON.Artist"
+            }
+          ],
+          "samples": [
+            "mettre en multiroom l'artiste {artist}",
+            "mettre en multiroom les titres de {artist}",
+            "mettre en multiroom le chanteur {artist}",
+            "écouter en multiroom l'artiste {artist}",
+            "écouter en multiroom les titres de {artist}",
+            "écouter en multiroom le chanteur {artist}",
+            "jouer en multiroom les titres de {artist}",
+            "jouer en multiroom le chanteur {artist}",
+            "jouer en multiroom l'artiste {artist}"
+          ]
+        },
+        {
+          "name": "ListenRadio",
+          "slots": [
+            {
+              "name": "radio",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre la radio {radio}",
+            "écouter la radio {radio}",
+            "jouer la radio {radio}"
+          ]
+        },
+        {
+          "name": "ListenRadioLiving",
+          "slots": [
+            {
+              "name": "radio",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre dans le salon la radio {radio}",
+            "écouter dans le salon la radio {radio}",
+            "jouer dans le salon la radio {radio}"
+          ]
+        },
+        {
+          "name": "ListenRadioDesktop",
+          "slots": [
+            {
+              "name": "radio",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre dans le bureau la radio {radio}",
+            "écouter dans le bureau la radio {radio}",
+            "jouer dans le bureau la radio {radio}"
+          ]
+        },
+        {
+          "name": "ListenRadioAll",
+          "slots": [
+            {
+              "name": "radio",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "mettre en multiroom la radio {radio}",
+            "écouter en multiroom la radio {radio}",
+            "jouer en multiroom les radio {radio}"
+          ]
+        },
+        {
+          "name": "WatchPhotoAlbum",
+          "slots": [
+            {
+              "name": "photoAlbum",
+              "type": "photoAlbum"
+            }
+          ],
+          "samples": [
+            "regarder l'album photos {photoAlbum}"
+          ]
+        },
+        {
+          "name": "Next",
+          "slots": [],
+          "samples": [
+            "Suivant"
+          ]
+        },
+        {
+          "name": "Previous",
+          "slots": [],
+          "samples": [
+            "Précédent"
+          ]
+        },
+        {
+          "name": "NextTitle",
+          "slots": [],
+          "samples": [
+            "titre suivant"
+          ]
+        },
+        {
+          "name": "PreviousTitle",
+          "slots": [],
+          "samples": [
+            "titre précédent"
+          ]
+        },
+        {
+          "name": "Pause",
+          "slots": [],
+          "samples": [
+            "Pause"
+          ]
+        },
+        {
+          "name": "Resume",
+          "slots": [],
+          "samples": [
+            "reprendre",
+            "reprise"
+          ]
+        },
+        {
+          "name": "Back",
+          "slots": [],
+          "samples": [
+            "revenir en arrière"
+          ]
+        },
+        {
+          "name": "Forward",
+          "slots": [],
+          "samples": [
+            "avancer"
+          ]
+        },
+        {
+          "name": "TurnOffAll",
+          "slots": [],
+          "samples": [
+            "éteindre tout",
+            "éteindre partout"
+          ]
+        },
+        {
+          "name": "CurrentTitle",
+          "slots": [],
+          "samples": [
+            "quel est le morceau en cours",
+            "morceau en cours",
+            "quel est le titre en cours",
+            "titre en cours",
+            "ce que nous écoutons actuellement"
+          ]
+        },
+        {
+          "name": "CurrentVolume",
+          "slots": [
+            {
+              "name": "room",
+              "type": "room"
+            }
+          ],
+          "samples": [
+            "quel est le niveau du volume",
+            "quel est le niveau du volume dans {room}",
+            "quel est le volume en cours",
+            "quel est le volume en cours dans {room}"
+          ]
+        },
+        {
+          "name": "EnableMultiroom",
+          "slots": [],
+          "samples": [
+            "activer multiroom",
+            "activer le multiroom"
+          ]
+        },
+        {
+          "name": "DisableMultiroom",
+          "slots": [],
+          "samples": [
+            "désactiver multiroom",
+            "désactiver le multiroom"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "room",
+          "values": [
+            {
+              "id": "DESKTOP",
+              "name": {
+                "value": "le bureau"
+              }
+            },
+            {
+              "id": "LIVING",
+              "name": {
+                "value": "le salon"
+              }
+            },
+            {
+              "id": "TV",
+              "name": {
+                "value": "la télé"
+              }
+            }
+          ]
+        },
+        {
+          "name": "photoAlbum",
+          "values": [
+            {
+              "name": {
+                "value": "Champignons"
+              }
+            },
+            {
+              "name": {
+                "value": "Parc ornithologique Cesson"
+              }
+            }
+          ]
+        },
+        {
+          "name": "channel",
+          "values": [
+            {
+              "id": "1",
+              "name": {
+                "value": "1",
+                "synonyms": [
+                  "T.F.1."
+                ]
+              }
+            },
+            {
+              "id": "2",
+              "name": {
+                "value": "2",
+                "synonyms": [
+                  "france 2"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "name": {
+                "value": "3",
+                "synonyms": [
+                  "france 3"
+                ]
+              }
+            },
+            {
+              "id": "4",
+              "name": {
+                "value": "4",
+                "synonyms": [
+                  "canal plus"
+                ]
+              }
+            },
+            {
+              "id": "5",
+              "name": {
+                "value": "5",
+                "synonyms": [
+                  "france 5"
+                ]
+              }
+            },
+            {
+              "id": "6",
+              "name": {
+                "value": "6",
+                "synonyms": [
+                  "M.6."
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "name": {
+                "value": "7",
+                "synonyms": [
+                  "arté"
+                ]
+              }
+            },
+            {
+              "id": "8",
+              "name": {
+                "value": "8",
+                "synonyms": [
+                  "C.8."
+                ]
+              }
+            },
+            {
+              "id": "9",
+              "name": {
+                "value": "9",
+                "synonyms": [
+                  "W.9."
+                ]
+              }
+            },
+            {
+              "id": "10",
+              "name": {
+                "value": "10",
+                "synonyms": [
+                  "T.M.C."
+                ]
+              }
+            },
+            {
+              "id": "11",
+              "name": {
+                "value": "11",
+                "synonyms": [
+                  "T",
+                  "F.X."
+                ]
+              }
+            },
+            {
+              "id": "12",
+              "name": {
+                "value": "12",
+                "synonyms": [
+                  "N.R.J. 12"
+                ]
+              }
+            },
+            {
+              "id": "13",
+              "name": {
+                "value": "13",
+                "synonyms": [
+                  "L.C.P."
+                ]
+              }
+            },
+            {
+              "id": "14",
+              "name": {
+                "value": "14",
+                "synonyms": [
+                  "france 4"
+                ]
+              }
+            },
+            {
+              "id": "15",
+              "name": {
+                "value": "15",
+                "synonyms": [
+                  "B.F.M. T.V."
+                ]
+              }
+            },
+            {
+              "id": "16",
+              "name": {
+                "value": "16",
+                "synonyms": [
+                  "C. news"
+                ]
+              }
+            },
+            {
+              "id": "17",
+              "name": {
+                "value": "17",
+                "synonyms": [
+                  "C. star"
+                ]
+              }
+            },
+            {
+              "id": "18",
+              "name": {
+                "value": "18",
+                "synonyms": [
+                  "gulli"
+                ]
+              }
+            },
+            {
+              "id": "19",
+              "name": {
+                "value": "19",
+                "synonyms": [
+                  "france o"
+                ]
+              }
+            },
+            {
+              "id": "20",
+              "name": {
+                "value": "20",
+                "synonyms": [
+                  "T.F.1. séries films"
+                ]
+              }
+            },
+            {
+              "id": "21",
+              "name": {
+                "value": "21",
+                "synonyms": [
+                  "l'équipe"
+                ]
+              }
+            },
+            {
+              "id": "22",
+              "name": {
+                "value": "22",
+                "synonyms": [
+                  "6. ter"
+                ]
+              }
+            },
+            {
+              "id": "23",
+              "name": {
+                "value": "23",
+                "synonyms": [
+                  "R.M.C. story"
+                ]
+              }
+            },
+            {
+              "id": "24",
+              "name": {
+                "value": "24",
+                "synonyms": [
+                  "R.M.C. découverte"
+                ]
+              }
+            },
+            {
+              "id": "25",
+              "name": {
+                "value": "25",
+                "synonyms": [
+                  "chérie 25"
+                ]
+              }
+            },
+            {
+              "id": "26",
+              "name": {
+                "value": "26",
+                "synonyms": [
+                  "L.C.I."
+                ]
+              }
+            },
+            {
+              "id": "27",
+              "name": {
+                "value": "27",
+                "synonyms": [
+                  "france info"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
   }
+}
