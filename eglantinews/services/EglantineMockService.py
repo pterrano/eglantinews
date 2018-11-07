@@ -9,14 +9,14 @@ class EglantineMockService(EglantineService):
     _serviceName= "Mock"
 
     def __watchMovie(self, context: ExecutionContext):
-        movie = context.getSlot('movie')
+        movie = context.getSlotId('movie')
 
         logging.info('WATCH MOVIE: %s ' % movie)
 
         return "Ok, je mets le film %s " % movie
 
     def __watchPhotoAlbum(self, context: ExecutionContext):
-        photoAlbum = context.getSlot('photoAlbum')
+        photoAlbum = context.getSlotId('photoAlbum')
 
         logging.info('WATCH PHOTO ALBUM: %s ' % photoAlbum)
 

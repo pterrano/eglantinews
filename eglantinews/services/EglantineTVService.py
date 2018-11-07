@@ -36,9 +36,9 @@ class EglantineTVService(EglantineRoomService):
 
     def __changeChannel(self, context: ExecutionContext):
 
-        room = context.getSlot('room', self._getDefaultRoom())
+        room = context.getSlotId('room', self._getDefaultRoom())
 
-        channel = context.getSlot('channel')
+        channel = context.getSlotId('channel')
 
         logging.info('CHANGE CHANNEL')
 
@@ -76,6 +76,10 @@ class EglantineTVService(EglantineRoomService):
         return "Ok, j'éteins tout"
 
     def getIntentConfigs(self):
+
+        livingRoom = {'id': 'LIVING', 'value': 'le salon'}
+        tvRoom = {'id': 'TV' }
+
         return {
             'ChangeVolume': {
                 'function': self._changeVolume,
@@ -86,13 +90,14 @@ class EglantineTVService(EglantineRoomService):
             'TurnOn': {
                 'function': self.__turnOn,
                 'expected-slots': {
-                    'room': 'TV'}
+                    'room': tvRoom
+                }
             }
             ,
             'TurnOff': {
                 'function': self.__turnOff,
                 'expected-slots': {
-                    'room': 'TV'
+                    'room': tvRoom
                 }
             },
             'TurnOffAll': {
@@ -104,7 +109,7 @@ class EglantineTVService(EglantineRoomService):
                     'channel': None
                 } ,
                 'complete-slots' : {
-                    'room' : 'LIVING'
+                    'room' : livingRoom
                 }
             },
             'NextChannel': {

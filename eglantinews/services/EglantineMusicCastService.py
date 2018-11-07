@@ -138,7 +138,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._getRoom(context)
         remote = self._remoteByRoom(room);
-        radio = self.normalizeSearch(context.getSlot('radio'))
+        radio = self.normalizeSearch(context.getSlotId('radio'))
 
         logging.info('LISTEN RADIO %s in %s' % (radio, room))
 
@@ -155,7 +155,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._getRoom(context)
         remote = self._remoteByRoom(room);
-        artist = self.normalizeSearch(context.getSlot('artist'))
+        artist = self.normalizeSearch(context.getSlotId('artist'))
 
         logging.info('LISTEN ARTIST %s in %s' % (artist, room))
 
@@ -172,7 +172,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._getRoom(context)
         remote = self._remoteByRoom(room);
-        track = self.normalizeSearch(context.getSlot('track'))
+        track = self.normalizeSearch(context.getSlotId('track'))
 
         logging.info('LISTEN TRACK %s in %s' % (track, room))
 
@@ -190,7 +190,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._getRoom(context)
         remote = self._remoteByRoom(room);
-        album = self.normalizeSearch(context.getSlot('album'))
+        album = self.normalizeSearch(context.getSlotId('album'))
 
         logging.info('LISTEN ALBUM %s in %s' % (album, room))
 
@@ -217,6 +217,11 @@ class EglantineMusicService(EglantineRoomService):
         return "Désactivation du multiroom"
 
     def getIntentConfigs(self):
+
+        livingRoom={ 'id' : 'LIVING', 'value' : 'le salon'}
+
+        desktopRoom = {'id': 'DESKTOP', 'value': 'le bureau'}
+
         return {
             'ChangeVolume': {
                 'function': self._changeVolume,
@@ -281,7 +286,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING',
+                    'room': livingRoom,
                     'multiroom': True
                 }
             },
@@ -291,7 +296,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP',
+                    'room': desktopRoom,
                 }
             },
             'ListenAlbumLiving': {
@@ -300,7 +305,7 @@ class EglantineMusicService(EglantineRoomService):
                     'album': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING',
+                    'room': livingRoom,
                 }
             },
             'ListenArtist': {
@@ -315,7 +320,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP',
+                    'room': desktopRoom,
                     'multiroom': True
                 }
             },
@@ -325,7 +330,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP'
+                    'room': desktopRoom
                 }
             },
             'ListenArtistLiving': {
@@ -334,7 +339,7 @@ class EglantineMusicService(EglantineRoomService):
                     'artist': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP'
+                    'room': livingRoom
                 }
             },
             'ListenTrack': {
@@ -349,7 +354,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING',
+                    'room': livingRoom,
                     'multiroom': True
                 }
             },
@@ -359,7 +364,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP'
+                    'room': desktopRoom
                 }
             },
             'ListenTrackLiving': {
@@ -368,7 +373,7 @@ class EglantineMusicService(EglantineRoomService):
                     'track': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING'
+                    'room': livingRoom
                 }
             },
             'ListenRadio': {
@@ -383,7 +388,7 @@ class EglantineMusicService(EglantineRoomService):
                     'radio': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING',
+                    'room': livingRoom,
                     'multiroom': True
                 }
             },
@@ -393,7 +398,7 @@ class EglantineMusicService(EglantineRoomService):
                     'radio': None
                 },
                 'complete-slots': {
-                    'room': 'DESKTOP'
+                    'room': desktopRoom
                 }
             },
             'ListenRadioLiving': {
@@ -402,7 +407,7 @@ class EglantineMusicService(EglantineRoomService):
                     'radio': None
                 },
                 'complete-slots': {
-                    'room': 'LIVING'
+                    'room': livingRoom
                 }
             },
 

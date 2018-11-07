@@ -17,11 +17,21 @@ class ExecutionContext:
 
         self.__session = session
 
-    def getSlot(self, slotName, defaultValue = None) -> str:
+
+    def getSlotId(self, slotName, defaultValue = None) -> str:
         if slotName in self.__slots:
-            return self.__slots[slotName]
+            return self.__slots[slotName]['id']
 
         return defaultValue
+
+    def getSlotValue(self, slotName, defaultValue = None) -> str:
+        if slotName in self.__slots:
+            return self.__slots[slotName]['value']
+
+        return defaultValue
+
+    def getSlot(self, slotName):
+        return self.__slots[slotName]
 
     def getSlots(self):
         return self.__slots

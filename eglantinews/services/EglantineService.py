@@ -75,17 +75,49 @@ class EglantineService:
 
             for expectedSlotName in expectedSlots:
 
-                slotValue = context.getSlot(expectedSlotName)
-
-                if slotValue == None:
+                inputSlot = context.getSlot(expectedSlotName)
+                if inputSlot == None:
                     return False
 
-                expectedValues = expectedSlots[expectedSlotName]
+                expectedSlot = expectedSlots[expectedSlotName]
+                if expectedSlot == None:
+                    return True
 
-                if expectedValues != None and slotValue not in expectedValues:
+                if isinstance(expectedSlot, list):
+                    if self.__hasExpectedSlot(inputSlot, expectedSlot):
+                        return False
+                elif not self.__isExpectedSlot(inputSlot, expectedSlot):
                     return False
 
         return True
 
     def getName(self):
         return self._serviceName
+
+
+    def __getAttribute(self, jsonObject, attributeName):
+        if jsonObject == None or attributeName not in jsonObject:
+            return None
+        return jsonObject[attributeName]
+
+    def __hasExpectedSlot(self, inputSlot, expectedSlots):
+        for acceptableSlot in expectedSlots:
+            if self.__isExpectedSlot(inputSlot, acceptableSlot):
+                return True
+        return False
+
+    def __isExpectedSlot(self, inputSlot, expectedSlot):
+
+        inputSlotId = self.__getAttribute(inputSlot, 'value')
+        inputSlotValue = self.__getAttribute(inputSlot, 'id')
+
+        expectedSlotId = self.__getAttribute(expectedSlot, 'value')
+        expectedSlotValue = self.__getAttribute(expectedSlot, 'id')
+
+        return \
+            (expectedSlotId == None or inputSlotId == expectedSlotId) and \
+            (expectedSlotValue == None or inputSlotValue == expectedSlotValue)
+
+
+
+

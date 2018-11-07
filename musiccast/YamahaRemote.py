@@ -151,6 +151,8 @@ class YamahaRemote:
         ##tracks
         if searchType == 'tracks':
 
+            self.setInput(media)
+
             ##on joue le premier titre
             if not self.selectAfterItem(searchType, True, media):
                 return None

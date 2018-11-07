@@ -6,6 +6,10 @@ from samsungtv.SamsungTvRemote import SamsungTvRemote
 
 argv = sys.argv;
 
+samsungTvRemote = SamsungTvRemote('tv');
+samsungTvRemote.sendKey('l')
+exit(0)
+
 script = path.basename(argv.pop(0))
 
 
@@ -34,7 +38,6 @@ if len(argv) < 2:
 
 device = argv.pop(0)
 
-samsungTvRemote = SamsungTvRemote(device);
 
 
 command = argv.pop(0)

@@ -32,7 +32,7 @@ class EglantineRoomService(EglantineService):
         return self.__yamahaRemoteFactory.getDefaultRoom()
 
     def _getRoom(self, context: ExecutionContext):
-        return context.getSlot('room', self._getCurrentRoom(context))
+        return context.getSlotId('room', self._getCurrentRoom(context))
 
     def _getCurrentRoomName(self, context: ExecutionContext) -> str:
         return self.__yamahaRemoteFactory.getRoomName(self._getCurrentRoom(context))
@@ -41,8 +41,8 @@ class EglantineRoomService(EglantineService):
         return self.__yamahaRemoteFactory.getRoomName(room)
 
     def _isMultiroom(self, context: ExecutionContext):
-        return context.getSlot('multiroom', False) or (
-                self._isCurrentMultiroom(context) and context.getSlot('room') == None)
+        return context.getSlotId('multiroom', False) or (
+                self._isCurrentMultiroom(context) and context.getSlotId('room') == None)
 
     def _setMultiRoomStatus(self, context:ExecutionContext, multiroom:bool):
 
@@ -83,7 +83,7 @@ class EglantineRoomService(EglantineService):
 
     def _changeVolume(self, context: ExecutionContext):
 
-        volume = context.getSlot('volume')
+        volume = context.getSlotId('volume')
 
         if volume == '?':
             return EglantineServiceResult(None)
@@ -93,7 +93,7 @@ class EglantineRoomService(EglantineService):
         if volume < 0 or volume > 100:
             return 'Le volume maximum est de 100'
 
-        multiroom = self._isMultiroom(context) and context.getSlot('room') == None
+        multiroom = self._isMultiroom(context) and context.getSlotId('room') == None
 
         room = self._getRoom(context)
 

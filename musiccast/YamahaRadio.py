@@ -84,8 +84,3 @@ class YamahaRadio:
                 return {'id': radios[nearestRadio], 'title': nearestRadio}
 
             return None
-
-
-yamahaRadio = YamahaRadio()
-
-print(yamahaRadio.search('france bleu'))

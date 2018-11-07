@@ -46,6 +46,76 @@ class SamsungTvRemote:
                 }
             })
 
+            payload = json.dumps({
+                "method": "ms.channel.emit",
+                 "params": {
+                     "event": "ed.apps.launch",
+                     "to": "host",
+                     "data": {"appId": "bstjKvX6LM.molotov",
+                      "action_type": "DEEP_LINK"}
+                }
+            })
+
+            """
+            Ahw07WXIjx.Dailymotion
+tisT7SVUug.tunein
+cexr1qp97S.Deezer
+xqqJ00GGlC.okidoki
+4ovn894vo9.Facebook
+vbUQClczfR.Wuakitv
+QizQxC7CUf.PlayMovies
+QBA3qXl8rv.Kick
+DJ8grEH6Hu.arte
+JtPoChZbf4.Vimeo
+hIWwRyZjcD.GameFlyStreaming
+sHi2hDJGmf.nolim
+guMmq95nKK.CanalPlusLauncher
+RN1MCdNq8t.Netflix / org.tizen.netflix-app
+evKhCgZelL.AmazonIgnitionLauncher2 / org.tizen.ignition
+9Ur5IzDKqV.TizenYouTube
+gDhibXvFya.HBOGO
+EmCpcvhukH.ElevenSports
+ASUvdWVqRb.FilmBoxLive
+rJeHak5zRg.Spotify
+ABor2M9vjb.acc   (AccuWeather)
+EkzyZtmneG.My5
+yFo6bAK50v.Dennexpres
+gdEZI5lLXr.Europa2FHD
+bm9PqdAwjv.TvSme
+dH3Ztod7bU.IDNES
+wsFJCxteqc.OnetVodEden
+rZyaXW5csM.TubaFM
+4bjaTLNMia.curzon
+RVvpJ8SIU6.ocs
+bstjKvX6LM.molotov
+RffagId0eC.SfrSport
+phm0eEdRZ4.ExtraTweetIM2
+VAarU8iUtx.samsungTizen   (Vevo)
+g0ScrkpO1l.SmartIPTV
+kIciSQlYEM.plex
+            
+            """
+
+
+            payload = json.dumps({"method":"ms.channel.emit","params":{"event": "ed.apps.launch", "to":"host", "data":{"appId": "org.tizen.browser", "action_type": "NATIVE_LAUNCH"}}})
+
+
+            payload = json.dumps({
+                "method": "ms.channel.emit",
+                 "params": {
+                     "event": "ed.apps.launch",
+                     "to": "host",
+                     "data": {"appId": "9Ur5IzDKqV.TizenYouTube",
+                      "action_type": "DEEP_LINK"}
+                }
+            })
+
+            payload = json.dumps({"method":"ms.channel.emit","params":{"event": "ed.apps.launch", "to":"host", "data":{"appId": "org.tizen.browser", "action_type": "NATIVE_LAUNCH"}}})
+
+            """ Close Current Application """
+            payload = json.dumps({"method": "ms.channel.emit", "params": {"event": "ed.apps.launch", "to": "host", "data": {"appId": "org.tizen.tv-viewer", "action_type": "NATIVE_LAUNCH"}}})
+
+
             await websocket.send(payload)
 
             if key != self.__KEY_TEST:

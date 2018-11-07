@@ -211,13 +211,17 @@ class EglantineWebService(Resource):
         slots = {}
 
         for slotName in alexaSlots:
+
             slot = alexaSlots[slotName]
 
             slotId=self.__getSlotId(slot)
-            if slotId != None:
-                slots[slotName] = slotId
-            elif 'value' in slot:
-                slots[slotName] = slot['value']
+
+            if 'value' in slot:
+                slotValue = slot['value']
+            else:
+                slotValue = None
+
+            slots[slotName] = { 'id' : slotId, 'value' : slotValue }
 
         return slots;
 
