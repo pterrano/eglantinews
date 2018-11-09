@@ -1,16 +1,15 @@
-import sys
 import os.path as path
-import time
+import sys
 
-from musiccast.YamahaConsole import YamahaConsole;
+from musiccast.YamahaConsole import YamahaConsole
 
-argv = sys.argv;
+argv = sys.argv
 
 script = path.basename(argv.pop(0))
 
 
-def checkArgs(expectedArgument):
-    if len(argv) != expectedArgument:
+def check_args(expected_argument):
+    if len(argv) != expected_argument:
         usage()
 
 
@@ -36,118 +35,111 @@ def usage():
 
 
 if len(argv) < 1:
-    usage();
+    usage()
 
 device = argv.pop(0)
 
-yamahaConsole = YamahaConsole(device);
-
-
+yamaha_console = YamahaConsole(device)
 
 if len(argv) == 0:
-    yamahaConsole.sumUp();
+    yamaha_console.sum_up()
     exit(0)
 
 command = argv.pop(0)
 argc = len(argv)
 
 if command == 'on':
-    checkArgs(0)
-    yamahaConsole.turnOn()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.turn_on()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'off':
-    checkArgs(0)
-    yamahaConsole.turnOff()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.turn_off()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'play':
     if argc == 0:
-        yamahaConsole.play()
-        yamahaConsole.sumUp();
+        yamaha_console.play()
+        yamaha_console.sum_up()
         exit(0)
     elif argc == 1:
-        yamahaConsole.playTrack(int(argv[0]))
-        yamahaConsole.sumUp();
+        yamaha_console.play_track(int(argv[0]))
+        yamaha_console.sum_up()
         exit(0)
 
-
 if command == 'stop':
-    checkArgs(0)
-    yamahaConsole.stop()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.stop()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'pause':
-    checkArgs(0)
-    yamahaConsole.pause()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.pause()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'previous':
-    checkArgs(0)
-    yamahaConsole.previousSong()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.previous_song()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'next':
-    checkArgs(0)
-    yamahaConsole.nextSong()
-    yamahaConsole.sumUp();
+    check_args(0)
+    yamaha_console.next_song()
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'inputs':
-    checkArgs(0)
-    yamahaConsole.showInputs()
+    check_args(0)
+    yamaha_console.show_inputs()
     exit(0)
 
-
 if command == 'set-input':
-    checkArgs(1)
-    yamahaConsole.setInput(argv[0])
-    yamahaConsole.showInputs()
+    check_args(1)
+    yamaha_console.set_input(argv[0])
+    yamaha_console.show_inputs()
     exit(0)
 
 if command == 'set-volume':
-    checkArgs(1)
-    yamahaConsole.setVolume(int(argv[0]))
-    yamahaConsole.sumUp();
+    check_args(1)
+    yamaha_console.set_volume(int(argv[0]))
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'set-mute':
-    checkArgs(1)
-    yamahaConsole.setMute(argv[0])
-    yamahaConsole.sumUp();
+    check_args(1)
+    yamaha_console.set_mute(argv[0])
+    yamaha_console.sum_up()
     exit(0)
 
 if command == 'dlna':
     if argc == 0:
-        yamahaConsole.prepareInput('server')
-        yamahaConsole.showDirectory('/')
+        yamaha_console.prepare_input('server')
+        yamaha_console.show_directory('/')
         exit(0)
     elif argc == 1:
-        yamahaConsole.prepareInput('server')
-        yamahaConsole.showDirectory(argv[0])
+        yamaha_console.prepare_input('server')
+        yamaha_console.show_directory(argv[0])
         exit(0)
     elif argc == 2 and argv[1] == 'play':
-        yamahaConsole.prepareInput('server')
-        yamahaConsole.playDirectory(argv[0])
-        yamahaConsole.sumUp();
+        yamaha_console.prepare_input('server')
+        yamaha_console.play_directory(argv[0])
+        yamaha_console.sum_up()
     elif argc == 3 and argv[1] == 'play':
-        yamahaConsole.prepareInput('server')
-        yamahaConsole.playFile(argv[0], int(argv[2]))
-        yamahaConsole.sumUp();
+        yamaha_console.prepare_input('server')
+        yamaha_console.play_file(argv[0], int(argv[2]))
+        yamaha_console.sum_up()
         exit(0)
 
 if command == 'deezer':
     if argc == 2 and argv[0] == 'search':
-        result=yamahaConsole.search(argv[1], 'tracks', command)
-        print ('listening "%s" ...' % result)
+        result = yamaha_console.search(argv[1], 'tracks', command)
+        print('listening "%s" ...' % result)
         exit(0)
 
-
 usage()
-
-

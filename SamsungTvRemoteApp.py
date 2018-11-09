@@ -4,17 +4,17 @@ import sys
 from samsungtv.SamsungTvKeys import SamsungKeys
 from samsungtv.SamsungTvRemote import SamsungTvRemote
 
-argv = sys.argv;
+argv = sys.argv
 
-samsungTvRemote = SamsungTvRemote('tv');
-samsungTvRemote.sendKey('l')
+samsung_tv_remote = SamsungTvRemote('tv')
+samsung_tv_remote.send_key('l')
 exit(0)
 
 script = path.basename(argv.pop(0))
 
 
-def checkArgs(expectedArgument):
-    if len(argv) != expectedArgument:
+def check_args(expected_argument: int):
+    if len(argv) != expected_argument:
         usage()
 
 
@@ -28,44 +28,40 @@ def usage():
     print()
 
     for code in SamsungKeys.keys:
-        print('%-15s%-15s' % (code.get('code'),code.get('label')))
+        print('%-15s%-15s' % (code.get('code'), code.get('label')))
 
     exit(1)
 
 
 if len(argv) < 2:
-    usage();
+    usage()
 
 device = argv.pop(0)
-
-
 
 command = argv.pop(0)
 argc = len(argv)
 
 if command == 'on':
-    checkArgs(0)
-    samsungTvRemote.turnOn()
+    check_args(0)
+    samsung_tv_remote.turn_on()
     exit(0)
 
 if command == 'off':
-    checkArgs(0)
-    samsungTvRemote.turnOff()
+    check_args(0)
+    samsung_tv_remote.turn_off()
     exit(0)
 
 if command == 'status':
-    checkArgs(0)
-    if samsungTvRemote.isUp():
-        print(device+' is up.')
+    check_args(0)
+    if samsung_tv_remote.is_up():
+        print(device + ' is up.')
         exit(0)
     else:
-        print(device+' is down.')
+        print(device + ' is down.')
         exit(1)
 
-
-
-if command in map(lambda key:key.get('code'), SamsungKeys.keys):
-    samsungTvRemote.sendKey(command)
+if command in map(lambda key: key.get('code'), SamsungKeys.keys):
+    samsung_tv_remote.send_key(command)
     exit(0)
 else:
-    samsungTvRemote.sendKey(command)
+    samsung_tv_remote.send_key(command)

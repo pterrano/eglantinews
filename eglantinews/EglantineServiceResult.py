@@ -1,34 +1,29 @@
-
 class EglantineServiceResult:
+    prompt: str = None
 
-    prompt:str
+    sentence: str = None
 
-    sentence:str
+    should_end_session: bool = None
 
-    shouldEndSession:bool
+    def __init__(self, sentence: str = None, should_end_session: bool = True, prompt: str = None):
+        self.sentence = sentence
+        self.should_end_session = should_end_session
+        self.prompt = prompt
 
-    def __init__(self, sentence:str, shouldEndSession:bool=True, prompt:str=None):
-        self.sentence=sentence
-        self.shouldEndSession=shouldEndSession
-        self.prompt=prompt
-
-    def getSentence(self):
+    def get_sentence(self) -> str:
         return self.sentence
 
-    def getPrompt(self):
+    def get_prompt(self) -> str:
         return self.prompt
 
-    def isShouldEndSession(self):
-        return self.shouldEndSession
+    def is_should_end_session(self) -> bool:
+        return self.should_end_session
 
-    def setSentence(self, sentence:str):
-        self.sentence=sentence
+    def set_sentence(self, sentence: str):
+        self.sentence = sentence
 
-    def setShouldEndSession(self, shouldEndSession: bool):
-        self.shouldEndSession=shouldEndSession
+    def set_should_end_session(self, should_end_session: bool):
+        self.should_end_session = should_end_session
 
-    def setPrompt(self, prompt:str):
-        self.prompt=prompt
-
-
-
+    def set_prompt(self, prompt: str):
+        self.prompt = prompt

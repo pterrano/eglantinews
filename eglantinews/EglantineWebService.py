@@ -11,6 +11,8 @@ from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.EglantineThreadService import EglantineThreadService
 from eglantinews.ExecutionContext import ExecutionContext
 from eglantinews.Session import Session
+from eglantinews.Slot import Slot
+from eglantinews.Slots import Slots
 from eglantinews.services.EglantineMockService import EglantineMockService
 from eglantinews.services.EglantineMusicCastService import EglantineMusicService
 from eglantinews.services.EglantineService import EglantineService
@@ -43,44 +45,48 @@ AVAILABLE_SERVICES: EglantineService = [
 
 
 class EglantineWebService(Resource):
-    __singleSession = Session()
+    __single_session = Session()
+
+    __app: Flask
+
+    __api: Api
 
     def __init__(self):
-        self.__name__ = 'eglantine-ws';
-        self.app = Flask(self.__name__)
-        self.api = Api(self.app)
-        self.api.add_resource(self, '/ws-eglantine')
+        self.__name__ = 'eglantine-ws'
+        self.__app = Flask(self.__name__)
+        self.__api = Api(self.__app)
+        self.__api.add_resource(self, '/ws-eglantine')
 
     def run(self):
         logging.info('Server started')
-        self.app.run(debug=True, host='0.0.0.0')
+        self.__app.run(debug=True, host='0.0.0.0')
 
-    def placeServiceAsFirst(self, alexaRequest, service: EglantineService):
-        services = self.getSessionServices(alexaRequest)
+    def place_service_as_first(self, alexa_request, service: EglantineService):
+        services = self.get_session_services(alexa_request)
         services.remove(service)
         services.insert(0, service)
 
-    def correctPrepositions(self, sentence: str):
+    def correct_prepositions(self, sentence: str):
         return sentence \
             .replace(' de le ', ' du ') \
             .replace(' de les ', ' des ') \
             .replace(' à le ', ' au  ') \
             .replace(' à les ', ' aux ')
 
-    def getSessionServices(self, alexaRequest):
-        session = self.getSession(alexaRequest)
-        lastServices = session.getAttribute(LAST_SERVICES_SESSION)
-        if lastServices == None:
-            lastServices = copy(AVAILABLE_SERVICES)
-            session.setAttribute(LAST_SERVICES_SESSION, lastServices)
-        return lastServices
+    def get_session_services(self, alexa_request):
+        session = self.get_session(alexa_request)
+        last_services = session.get_attribute(LAST_SERVICES_SESSION)
+        if last_services is None:
+            last_services = copy(AVAILABLE_SERVICES)
+            session.set_attribute(LAST_SERVICES_SESSION, last_services)
+        return last_services
 
-    def getSession(self, alexaRequest):
-        return self.__singleSession
+    def get_session(self, alexa_request):
+        return self.__single_session
 
     def post(self):
 
-        req = json.loads(request.data);
+        req = json.loads(request.data)
 
         logging.info('POST')
         logging.info(req)
@@ -91,141 +97,139 @@ class EglantineWebService(Resource):
 
             if 'request' in req:
 
-                alexaRequest = req['request']
+                alexa_request = req['request']
 
                 logging.info('<ALEXA-REQUEST>')
-                logging.info(alexaRequest)
+                logging.info(alexa_request)
                 logging.info('</ALEXA-REQUEST>')
 
-                if 'type' in alexaRequest and alexaRequest['type'] == 'LaunchRequest':
+                if 'type' in alexa_request and alexa_request['type'] == 'LaunchRequest':
                     result = EglantineServiceResult("Bonjour c'est Eglantine, que puis-je faire ?", False)
-                elif 'intent' in alexaRequest:
+                elif 'intent' in alexa_request:
 
-                    alexaIntent = alexaRequest['intent']
+                    alexa_intent = alexa_request['intent']
 
-                    if 'name' in alexaIntent:
+                    if 'name' in alexa_intent:
 
-                        intent = alexaIntent['name']
+                        intent = alexa_intent['name']
 
-                        threadService = self.__getCurrentService(alexaRequest)
+                        thread_service = self.__get_current_service(alexa_request)
 
-                        if threadService != None and intent == OK_INTENT:
+                        if thread_service is not None and intent == OK_INTENT:
 
-                            result = self.__waitResult(alexaRequest, threadService)
+                            result = self.__wait_result(alexa_request, thread_service)
 
-                        elif threadService != None and threadService.isAlive():
+                        elif thread_service is not None and thread_service.isAlive():
 
                             result = EglantineServiceResult(BUSY_PROMPT, False)
 
                         else:
 
-                            slots = self.__getSlots(alexaRequest);
+                            slots = self.__get_slots(alexa_request)
 
-                            executionContext = ExecutionContext(intent, slots, self.getSession(alexaRequest))
+                            execution_context = ExecutionContext(intent, slots, self.get_session(alexa_request))
 
-                            for service in self.getSessionServices(alexaRequest):
+                            for service in self.get_session_services(alexa_request):
 
-                                if service.canManageIntent(executionContext):
-                                    threadService = EglantineThreadService(service)
+                                if service.canManageIntent(execution_context):
+                                    thread_service = EglantineThreadService(service)
 
-                                    self.__setCurrentService(alexaRequest, threadService)
+                                    self.__set_current_service(alexa_request, thread_service)
 
-                                    threadService.launch(executionContext)
+                                    thread_service.launch(execution_context)
 
-                                    result = self.__waitResult(alexaRequest, threadService)
+                                    result = self.__wait_result(alexa_request, thread_service)
 
                                     break
 
-                if result == None:
+                if result is None:
                     result = EglantineServiceResult(UNKNOWN_PROMPT, False)
-
-
 
         except Exception:
             result = EglantineServiceResult(ERROR_PROMPT)
             traceback.print_exc()
 
-        alexaResponse = deepcopy(RESPONSE_TEMPLATE)
+        alexa_response: dict = deepcopy(RESPONSE_TEMPLATE)
 
-        if result == None:
+        if result is None:
             result = EglantineServiceResult(ERROR_PROMPT)
-        elif result.getSentence() is None:
-            result.setSentence('')
+        elif result.get_sentence() is None:
+            result.set_sentence('')
 
-        alexaResponse['response']['shouldEndSession'] = result.isShouldEndSession()
+        alexa_response['response']['shouldEndSession'] = result.is_should_end_session()
 
-        alexaResponse['response']['outputSpeech'] = {
+        alexa_response['response']['outputSpeech'] = {
             "type": "PlainText",
-            "text": self.correctPrepositions(result.getSentence())
+            "text": self.correct_prepositions(result.get_sentence())
         }
 
-        if not result.getPrompt() is None:
-            alexaResponse['response']['reprompt'] = {
+        if not result.get_prompt() is None:
+            alexa_response['response']['reprompt'] = {
                 "outputSpeech": {
                     "type": "PlainText",
-                    "text": result.getPrompt()
+                    "text": result.get_prompt()
                 }
 
             }
 
         logging.info('<ALEXA-RESPONSE>')
-        logging.info(alexaResponse)
+        logging.info(alexa_response)
         logging.info('</ALEXA-RESPONSE>')
 
-        return alexaResponse
+        return alexa_response
 
-    def __waitResult(self, alexaRequest, threadService):
+    def __wait_result(self, alexa_request, thread_service):
 
-        result = threadService.waitResult(DEFAULT_SERVICE_TIMEOUT)
+        result = thread_service.wait_result(DEFAULT_SERVICE_TIMEOUT)
 
         # Le service s'est terminé
-        if result != None:
-            self.__setCurrentService(alexaRequest, None)
-            self.placeServiceAsFirst(alexaRequest, threadService.getService())
+        if result is not None:
+            self.__set_current_service(alexa_request, None)
+            self.place_service_as_first(alexa_request, thread_service.get_service())
         else:
             result = EglantineServiceResult(TOO_LONG, False)
 
         return result
 
-    def __setCurrentService(self, alexaRequest, threadService: EglantineThreadService):
-        self.getSession(alexaRequest).setAttribute('common.current-service', threadService)
+    def __set_current_service(self, alexa_request, thread_service: EglantineThreadService):
+        self.get_session(alexa_request).set_attribute('common.current-service', thread_service)
 
-    def __getCurrentService(self, alexaRequest) -> EglantineThreadService:
-        return self.getSession(alexaRequest).getAttribute('common.current-service')
+    def __get_current_service(self, alexa_request) -> EglantineThreadService:
+        return self.get_session(alexa_request).get_attribute('common.current-service')
 
     def get(self):
         return {'hello': 'world'}
 
-    def __getSlots(self, alexaRequest):
+    def __get_slots(self, alexa_request) -> Slots:
 
-        if 'intent' not in alexaRequest:
+        if 'intent' not in alexa_request:
             return None
 
-        alexaIntent = alexaRequest['intent']
+        alexa_intent = alexa_request['intent']
 
-        if 'slots' not in alexaIntent:
+        if 'slots' not in alexa_intent:
             return None
 
-        alexaSlots = alexaIntent['slots']
+        alexa_slots = alexa_intent['slots']
 
-        slots = {}
+        slots = Slots()
 
-        for slotName in alexaSlots:
+        for slot_name in alexa_slots:
 
-            slot = alexaSlots[slotName]
+            slot = alexa_slots[slot_name]
 
-            slotId=self.__getSlotId(slot)
+            slot_id = self.__get_slot_id(slot)
 
             if 'value' in slot:
-                slotValue = slot['value']
+                slot_value = slot['value']
             else:
-                slotValue = None
+                slot_value = None
 
-            slots[slotName] = { 'id' : slotId, 'value' : slotValue }
+            slots.add(slot_name, Slot(slot_id, slot_value))
 
-        return slots;
+        return slots
 
-    def __getSlotId(self, slot) -> str:
+    def __get_slot_id(self, slot) -> str:
 
         if 'resolutions' not in slot:
             return None
@@ -234,15 +238,14 @@ class EglantineWebService(Resource):
         if 'resolutionsPerAuthority' not in resolutions:
             return None
 
-        resolutionsPerAuthority = resolutions['resolutionsPerAuthority']
+        resolutions_per_authority = resolutions['resolutionsPerAuthority']
 
-        if len(resolutionsPerAuthority) < 1:
+        if len(resolutions_per_authority) < 1:
             return None
 
-        for resolutionPerAuthority in resolutionsPerAuthority:
+        for resolution_per_authority in resolutions_per_authority:
 
-            values = resolutionPerAuthority['values']
+            values = resolution_per_authority['values']
 
             if len(values) > 0:
                 return values[0]['value']['id']
-

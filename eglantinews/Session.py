@@ -1,14 +1,11 @@
 class Session:
-
     __attributes = {}
 
-    def getAttribute(self, attributeName:str, defaultValue = None):
+    def get_attribute(self, attribute_name: str, default_value=None):
+        if attribute_name in self.__attributes:
+            return self.__attributes[attribute_name]
 
-        if attributeName in self.__attributes:
-            return self.__attributes[attributeName]
+        return default_value
 
-        return defaultValue
-
-    def setAttribute(self, attributeName:str, attributeValue):
-
-        self.__attributes[attributeName]=attributeValue
+    def set_attribute(self, attribute_name: str, attribute_value):
+        self.__attributes[attribute_name] = attribute_value

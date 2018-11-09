@@ -2,88 +2,93 @@ import logging
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
+from eglantinews.Slot import Slot
 from eglantinews.YamahaRemoteFactory import YamahaRemoteFactory
 from eglantinews.services.EglantineService import EglantineService
 
 
 class EglantineRoomService(EglantineService):
+    __yamaha_remote_factory = YamahaRemoteFactory()
 
-    __yamahaRemoteFactory = YamahaRemoteFactory()
+    def _is_current_multiroom(self, context: ExecutionContext):
+        return context.getSession().get_attribute('musiccast.multiroom', False)
 
-    def _isCurrentMultiroom(self, context: ExecutionContext):
-        return context.getSession().getAttribute('musiccast.multiroom', False)
+    def _set_current_multiroom(self, context: ExecutionContext, current_multi_room: bool):
+        context.getSession().set_attribute('musiccast.multiroom', current_multi_room)
 
-    def _setCurrentMultiroom(self, context: ExecutionContext, currentMultiroom):
-        context.getSession().setAttribute('musiccast.multiroom', currentMultiroom)
+    def _get_current_room(self, context: ExecutionContext):
+        return context.getSession().get_attribute('musiccast.room', self._get_default_room())
 
-    def _getCurrentRoom(self, context: ExecutionContext):
-        return context.getSession().getAttribute('musiccast.room', self._getDefaultRoom())
+    def _set_current_room(self, context: ExecutionContext, current_room: str):
+        return context.getSession().set_attribute('musiccast.room', current_room)
 
-    def _setCurrentRoom(self, context: ExecutionContext, currentRoom: str):
-        return context.getSession().setAttribute('musiccast.room', currentRoom)
+    def _set_current_default_room(self, context: ExecutionContext):
+        self._set_current_room(context, self._get_default_room())
 
-    def _setCurrentDefaultRoom(self, context):
-        self._setCurrentRoom(context, self._getDefaultRoom())
+    def _get_rooms(self):
+        return self.__yamaha_remote_factory.getRooms()
 
-    def _getRooms(self):
-        return self.__yamahaRemoteFactory.getRooms()
+    def _get_default_room(self):
+        return self.__yamaha_remote_factory.getDefaultRoom()
 
-    def _getDefaultRoom(self):
-        return self.__yamahaRemoteFactory.getDefaultRoom()
+    def _get_room(self, context: ExecutionContext):
+        return context.get_slot_id('room', self._get_current_room(context))
 
-    def _getRoom(self, context: ExecutionContext):
-        return context.getSlotId('room', self._getCurrentRoom(context))
+    def _get_current_room_name(self, context: ExecutionContext) -> str:
+        return self.__yamaha_remote_factory.getRoomName(self._get_current_room(context))
 
-    def _getCurrentRoomName(self, context: ExecutionContext) -> str:
-        return self.__yamahaRemoteFactory.getRoomName(self._getCurrentRoom(context))
+    def _get_room_name(self, room: str) -> str:
+        return self.__yamaha_remote_factory.getRoomName(room)
 
-    def _getRoomName(self, room:str) -> str:
-        return self.__yamahaRemoteFactory.getRoomName(room)
+    def _get_room_slot(self, room: str) -> Slot:
+        return Slot(room, self._get_room_name(room))
 
-    def _isMultiroom(self, context: ExecutionContext):
-        return context.getSlotId('multiroom', False) or (
-                self._isCurrentMultiroom(context) and context.getSlotId('room') == None)
+    def _get_room_slots(self) -> Slot():
+        room_slots: Slot() = []
+        for room in self._get_rooms():
+            room_slots.append(self._get_room_slot(room))
 
-    def _setMultiRoomStatus(self, context:ExecutionContext, multiroom:bool):
+    def _is_multiroom(self, context: ExecutionContext):
+        return context.get_slot_id('multiroom', False) or (
+                self._is_current_multiroom(context) and context.get_slot_id('room') is None)
+
+    def _set_multi_room_status(self, context: ExecutionContext, multiroom: bool):
 
         if multiroom:
-            serverRoom = self._getRoom(context)
-            self.__yamahaRemoteFactory.enableMultiroom(serverRoom);
+            server_room = self._get_room(context)
+            self.__yamaha_remote_factory.enable_multiroom(server_room)
         else:
-            self.__yamahaRemoteFactory.disableMultiroom()
+            self.__yamaha_remote_factory.disable_multiroom()
 
-        self._setCurrentMultiroom(context, multiroom)
+        self._set_current_multiroom(context, multiroom)
 
+    def _process_rooms(self, context: ExecutionContext):
 
-    def _processRooms(self, context: ExecutionContext):
+        room = self._get_room(context)
 
-        room = self._getRoom(context)
+        multi_room = self._is_multiroom(context)
 
-        multiRoom = self._isMultiroom(context)
+        self._set_current_multiroom(context, multi_room)
 
-        self._setCurrentMultiroom(context, multiRoom)
-
-        if multiRoom:
-            self.__yamahaRemoteFactory.enableMultiroom(room)
+        if multi_room:
+            self.__yamaha_remote_factory.enable_multiroom(room)
         else:
-            self.__yamahaRemoteFactory.disableMultiroom()
+            self.__yamaha_remote_factory.disable_multiroom()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
-    def _remoteByRoom(self, room):
-        return self.__yamahaRemoteFactory.remote(room)
+    def _remote_by_room(self, room: str):
+        return self.__yamaha_remote_factory.remote(room)
 
-    def _defaultRemote(self):
-        return self._remoteByRoom(self._getDefaultRoom())
+    def _default_remote(self):
+        return self._remote_by_room(self._get_default_room())
 
-    def _currentRemote(self, context: ExecutionContext):
-        return self._remoteByRoom(self._getCurrentRoom(context))
+    def _current_remote(self, context: ExecutionContext):
+        return self._remote_by_room(self._get_current_room(context))
 
+    def _change_volume(self, context: ExecutionContext):
 
-
-    def _changeVolume(self, context: ExecutionContext):
-
-        volume = context.getSlotId('volume')
+        volume = context.get_slot_id('volume')
 
         if volume == '?':
             return EglantineServiceResult(None)
@@ -93,31 +98,34 @@ class EglantineRoomService(EglantineService):
         if volume < 0 or volume > 100:
             return 'Le volume maximum est de 100'
 
-        multiroom = self._isMultiroom(context) and context.getSlotId('room') == None
+        multiroom = self._is_multiroom(context) and context.get_slot_id('room') is None
 
-        room = self._getRoom(context)
+        room = self._get_room(context)
 
         if multiroom:
-            for room in self.__yamahaRemoteFactory.getRooms():
-                remote = self._remoteByRoom(room);
-                remote.turnOn()
+            for room in self.__yamaha_remote_factory.getRooms():
+                remote = self._remote_by_room(room)
+                remote.turn_on()
                 logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
-                remote.setVolume(volume)
+                remote.set_volume(volume)
 
-            return 'Modification du volume à %s' % (volume)
+            return 'Modification du volume à %s' % volume
         else:
-            remote = self._remoteByRoom(room);
-            remote.turnOn()
+            remote = self._remote_by_room(room)
+            remote.turn_on()
             logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
-            remote.setVolume(volume)
+            remote.set_volume(volume)
 
-            return 'Modification du volume à %s dans %s' % (volume, self._getRoomName(room))
+            return 'Modification du volume à %s dans %s' % (volume, self._get_room_name(room))
 
-    def _turnOffAll(self, context: ExecutionContext):
+    def _turn_off_all(self, context: ExecutionContext):
 
-        for room in self._getRooms():
-            self._remoteByRoom(room).turnOff()
+        for room in self._get_rooms():
+            self._remote_by_room(room).turn_off()
 
-        self._setCurrentDefaultRoom(context)
+        self._set_current_default_room(context)
 
         return 'Arrêt de toutes les enceintes'
+
+    def get_intent_configs(self):
+        pass

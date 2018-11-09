@@ -5,6 +5,7 @@ from musiccast.YamahaRemote import YamahaRemote
 
 
 class YamahaRemoteFactory:
+
     LINK_GROUP_ID = "d9ded9c3eea94ba8b137a805dc6d8942"
 
     LINK_GROUP = 'EglantineGroup'
@@ -29,9 +30,9 @@ class YamahaRemoteFactory:
         if remote == None:
             return None
 
-        return remote.getRemoteName()
+        return remote.get_remote_name()
 
-    def remote(self, room):
+    def remote(self, room: str):
 
         if room not in self.__remoteByRooms:
             logging.info("Can't find remote control for room %s" % room)
@@ -39,7 +40,7 @@ class YamahaRemoteFactory:
 
         return self.__remoteByRooms[room]
 
-    def disableMultiroom(self):
+    def disable_multiroom(self):
         hasUnlink = False
         for remote in self.__remoteByRooms.values():
             hasUnlink = remote.unlink() != None or hasUnlink
@@ -47,31 +48,31 @@ class YamahaRemoteFactory:
         if hasUnlink:
             time.sleep(2)
 
-    def enableMultiroom(self, serverRoom):
+    def enable_multiroom(self, serverRoom):
 
         for remote in self.__remoteByRooms.values():
-            remote.turnOn()
+            remote.turn_on()
 
         serverRemote = self.__remoteByRooms[serverRoom]
 
         clientRemotes = list(map(lambda room: self.__remoteByRooms[room],
                                  filter(lambda room: room != serverRoom, self.__remoteByRooms.keys())))
 
-        clientHostnames = list(map(lambda clientRemote: clientRemote.getHostName(), clientRemotes))
+        clientHostnames = list(map(lambda clientRemote: clientRemote.get_host_name(), clientRemotes))
 
         # Si le serveur multiroom a déja ce role, on ne fait rien
-        if serverRemote.getLinkRole() == 'server':
+        if serverRemote.get_link_role() == 'server':
             return
 
         # Sinon on désactive le multiroom actuelle
-        self.disableMultiroom()
+        self.disable_multiroom()
 
         # Et on créé à nouveau le réseau multiroom
 
-        serverRemote.linkServer(self.LINK_GROUP_ID, clientHostnames)
+        serverRemote.link_server(self.LINK_GROUP_ID, clientHostnames)
 
         for clientRemote in clientRemotes:
-            clientRemote.linkClient(self.LINK_GROUP_ID, serverRemote.getHostName())
+            clientRemote.link_client(self.LINK_GROUP_ID, serverRemote.get_host_name())
 
-        serverRemote.startDistribution()
-        serverRemote.createGroup(self.LINK_GROUP)
+        serverRemote.start_distribution()
+        serverRemote.create_group(self.LINK_GROUP)
