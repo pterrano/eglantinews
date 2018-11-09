@@ -2,7 +2,7 @@ import logging
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 
 
@@ -173,7 +173,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
         remote = self._remote_by_room(room)
-        track = self.normalize_search(context.get_slot_id('track'))
+        track = self.normalize_search(context.get_slot_value('track'))
 
         logging.info('LISTEN TRACK %s in %s' % (track, room))
 
@@ -191,7 +191,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
         remote = self._remote_by_room(room)
-        album = self.normalize_search(context.get_slot_id('album'))
+        album = self.normalize_search(context.get_slots('album'))
 
         logging.info('LISTEN ALBUM %s in %s' % (album, room))
 

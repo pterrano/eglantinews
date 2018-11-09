@@ -2,7 +2,7 @@ import logging
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 from samsungtv.SamsungTvRemote import SamsungTvRemote
 

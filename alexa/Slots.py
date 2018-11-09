@@ -1,4 +1,4 @@
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
 from copy import deepcopy
 
 class Slots:

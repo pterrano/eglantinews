@@ -2,7 +2,7 @@ import logging
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
 from eglantinews.YamahaRemoteFactory import YamahaRemoteFactory
 from eglantinews.services.EglantineService import EglantineService
 
@@ -11,16 +11,16 @@ class EglantineRoomService(EglantineService):
     __yamaha_remote_factory = YamahaRemoteFactory()
 
     def _is_current_multiroom(self, context: ExecutionContext):
-        return context.getSession().get_attribute('musiccast.multiroom', False)
+        return context.get_session().get_attribute('musiccast.multiroom', False)
 
     def _set_current_multiroom(self, context: ExecutionContext, current_multi_room: bool):
-        context.getSession().set_attribute('musiccast.multiroom', current_multi_room)
+        context.get_session().set_attribute('musiccast.multiroom', current_multi_room)
 
     def _get_current_room(self, context: ExecutionContext):
-        return context.getSession().get_attribute('musiccast.room', self._get_default_room())
+        return context.get_session().get_attribute('musiccast.room', self._get_default_room())
 
     def _set_current_room(self, context: ExecutionContext, current_room: str):
-        return context.getSession().set_attribute('musiccast.room', current_room)
+        return context.get_session().set_attribute('musiccast.room', current_room)
 
     def _set_current_default_room(self, context: ExecutionContext):
         self._set_current_room(context, self._get_default_room())
@@ -88,7 +88,7 @@ class EglantineRoomService(EglantineService):
 
     def _change_volume(self, context: ExecutionContext):
 
-        volume = context.get_slot_id('volume')
+        volume = context.get_slot_value('volume')
 
         if volume == '?':
             return EglantineServiceResult(None)

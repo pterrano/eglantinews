@@ -3,7 +3,7 @@ import time
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
 
 
 class EglantineService:
@@ -26,11 +26,11 @@ class EglantineService:
         intentConfig = self._getIntentConfig(context)
 
         if 'complete-slots' in intentConfig:
-            context.addSlots(intentConfig['complete-slots'])
+            context.add_slots(intentConfig['complete-slots'])
 
         function = self._getIntentFunction(context)
 
-        logging.info('PROCESS-INTENT - BEGIN - slots = %s' % str(context.getSlots()))
+        logging.info('PROCESS-INTENT - BEGIN - slots = %s' % str(context.get_slots().to_json()))
 
         t0 = time.perf_counter()
 
@@ -39,7 +39,7 @@ class EglantineService:
         if isinstance(resultFunction, str):
             resultFunction = EglantineServiceResult(resultFunction)
 
-        logging.info('PROCESS-INTENT - END - %.1f - slots = %s' % ((time.perf_counter() - t0), str(context.getSlots())))
+        logging.info('PROCESS-INTENT - END - %.1f - slots = %s' % ((time.perf_counter() - t0), str(context.get_slots().to_json())))
 
         logging.info('PROCESS-INTENT - RESULT="%s"' % resultFunction.get_sentence())
 
@@ -54,7 +54,7 @@ class EglantineService:
 
         intentConfigs = self.get_intent_configs()
 
-        intent = context.getIntent()
+        intent = context.get_intent()
 
         if intent in intentConfigs:
             return intentConfigs[intent]
@@ -76,7 +76,7 @@ class EglantineService:
 
             for expectedSlotName in expectedSlots:
 
-                inputSlot : Slot = context.getSlot(expectedSlotName)
+                inputSlot : Slot = context.get_slot(expectedSlotName)
                 if inputSlot == None:
                     return False
 

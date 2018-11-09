@@ -1,21 +1,21 @@
 from eglantinews.Session import Session
-from eglantinews.Slots import Slots
-from eglantinews.Slot import Slot
+from alexa.Slot import Slot
+from alexa.Slots import Slots
 
 
 class ExecutionContext:
 
     __slots: Slots = None
 
-    __intent : str = None
+    __intent: str = None
 
-    __session : Session = None
+    __session: Session = None
 
-    def addSlots(self, slots):
-        if slots != None:
-            self.__slots.update(slots)
+    def add_slots(self, slots):
+        if slots is not None:
+            self.__slots.merge(slots)
 
-    def __init__(self, intent: str, slots : Slots, session: Session):
+    def __init__(self, intent: str, slots: Slots, session: Session):
 
         self.__intent = intent
 
@@ -23,32 +23,32 @@ class ExecutionContext:
 
         self.__session = session
 
-    def get_slot_id(self, slotName, defaultValue=None) -> str:
+    def get_slot_id(self, slot_name, default_value=None) -> str:
 
-        slot: Slot = self.getSlot(slotName)
+        slot: Slot = self.get_slot(slot_name)
 
         if slot is None or slot.get_id() is None:
-            return defaultValue
+            return default_value
 
         return slot.get_id()
 
-    def getSlotValue(self, slotName, defaultValue=None) -> str:
+    def get_slot_value(self, slot_name, default_value=None) -> str:
 
-        slot : Slot =self.getSlot(slotName)
+        slot: Slot = self.get_slot(slot_name)
 
         if slot is None or slot.get_value() is None:
-            return defaultValue
+            return default_value
 
         return slot.get_value()
 
-    def getSlot(self, slotName) -> Slot:
-        return self.__slots.get(slotName)
+    def get_slot(self, slot_name) -> Slot:
+        return self.__slots.get(slot_name)
 
-    def getSlots(self) -> Slots:
+    def get_slots(self) -> Slots:
         return self.__slots
 
-    def getIntent(self) -> str:
+    def get_intent(self) -> str:
         return self.__intent
 
-    def getSession(self) -> Session:
+    def get_session(self) -> Session:
         return self.__session
