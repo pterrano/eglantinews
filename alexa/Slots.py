@@ -1,11 +1,12 @@
 from eglantinews.Slot import Slot
-
+from copy import deepcopy
 
 class Slots:
+
     __slots: dict
 
     def __init__(self, slots={}):
-        self.__slots = slots
+        self.__slots = deepcopy(slots)
 
     def merge(self, slots):
         for slot_name in slots.__slots:
