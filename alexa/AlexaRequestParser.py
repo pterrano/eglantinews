@@ -12,15 +12,11 @@ class AlexaRequestParser:
 
     def parse(self, json: dict) -> AlexaRequest:
 
-        alexa_request: AlexaRequest
+        alexa_request=AlexaRequest()
 
         if 'request' in json:
 
             json_request = json['request']
-
-            logging.info('<ALEXA-REQUEST>')
-            logging.info(alexa_request)
-            logging.info('</ALEXA-REQUEST>')
 
             if 'type' in json_request:
                 alexa_request.set_request_type(json_request['type'])

@@ -39,8 +39,4 @@ class AlexaResponse:
 
             }
 
-        logging.info('<ALEXA-RESPONSE>')
-        logging.info(alexa_response)
-        logging.info('</ALEXA-RESPONSE>')
-
         return alexa_response

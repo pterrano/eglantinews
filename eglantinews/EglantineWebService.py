@@ -57,16 +57,36 @@ class EglantineWebService(Resource):
 
         return self.__sessions[user_id]
 
+    """
+    Information sur le web service
+    """
     def get(self):
         return self.__config.get_ws_infos()
 
+    """
+    Réception requete Alexa
+    """
     def post(self):
 
         json_data = json.loads(request.data)
 
-        logging.info('POST')
+        logging.info('<JSON-REQUEST>')
         logging.info(json_data)
+        logging.info('</JSON-REQUEST>')
 
+        json_response = self.process_post(json_data)
+
+        logging.info('<JSON-RESPONSE>')
+        logging.info(json_response)
+        logging.info('</JSON-RESPONSE>')
+
+        return json_response
+
+    """
+    Traitement de la requête POST JSON en provance d'Alexa
+    """
+
+    def process_post(self, json_data):
         try:
 
             alexa_request = self.__alexaRequestParser.parse(json_data)
@@ -75,6 +95,7 @@ class EglantineWebService(Resource):
                 alexa_response = AlexaResponse()
                 alexa_response.set_sentence(EglantineSentences.FORBIDDEN)
                 alexa_response.set_end_session(True)
+                return alexa_response.to_json()
 
             return self.process_request(alexa_request).to_json()
 
@@ -132,7 +153,7 @@ class EglantineWebService(Resource):
                 execution_context = ExecutionContext(alexa_intent, alexa_request.get_slots(),
                                                      self.__get_session(alexa_request))
 
-                has_candidate = self.execute_candidate_service(alexa_request, alexa_response, execution_context)
+                has_candidate = self.process_candidate_service(alexa_request, alexa_response, execution_context)
 
                 if not has_candidate:
                     alexa_response.set_sentence(EglantineSentences.UNKNOWN)
@@ -145,7 +166,7 @@ class EglantineWebService(Resource):
     @Return True si un candidat est trouvé, sinon False
     """
 
-    def execute_candidate_service(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse,
+    def process_candidate_service(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse,
                                   execution_context: ExecutionContext) -> bool:
 
         for service in self.get_session_services(alexa_request):
