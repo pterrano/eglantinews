@@ -9,6 +9,8 @@ from flask_restful import Resource, Api
 from alexa.AlexaRequest import AlexaRequest
 from alexa.AlexaRequestParser import AlexaRequestParser
 from alexa.AlexaResponse import AlexaResponse
+from eglantinews.EglantineConfig import EglantineConfig
+from eglantinews.EglantineConstants import EglantineConstants
 from eglantinews.EglantineSentences import EglantineSentences
 from eglantinews.EglantineThreadService import EglantineThreadService
 from eglantinews.ExecutionContext import ExecutionContext
@@ -18,23 +20,19 @@ from eglantinews.services.EglantineMusicCastService import EglantineMusicService
 from eglantinews.services.EglantineService import EglantineService
 from eglantinews.services.EglantineTVService import EglantineTVService
 
-LAST_SERVICES_SESSION = 'common.last-services'
-DEFAULT_SERVICE_TIMEOUT: int = 6
-
-OK_INTENT = 'OK'
-LAUNCH_INTENT = 'LaunchRequest'
-
-AVAILABLE_SERVICES: EglantineService = [
-    EglantineTVService(),
-    EglantineMusicService(),
-    EglantineMockService()
-]
-
 
 class EglantineWebService(Resource):
+    __available_services: EglantineService = [
+        EglantineTVService(),
+        EglantineMusicService(),
+        EglantineMockService()
+    ]
+
     __single_session = Session()
 
     __alexaRequestParser = AlexaRequestParser()
+
+    __config = EglantineConfig()
 
     __app: Flask
 
@@ -67,6 +65,11 @@ class EglantineWebService(Resource):
 
             alexa_request = self.__alexaRequestParser.parse(json_data)
 
+            if not self.__check_access(alexa_request):
+                alexa_response = AlexaResponse()
+                alexa_response.set_sentence(EglantineSentences.FORBIDDEN)
+                alexa_response.set_end_session(True)
+
             return self.process_request(alexa_request).to_json()
 
         except Exception:
@@ -74,7 +77,7 @@ class EglantineWebService(Resource):
             traceback.print_exc()
 
             alexa_response = AlexaResponse()
-            alexa_response.set_sentence(EglantineSentences.ERROR_PROMPT)
+            alexa_response.set_sentence(EglantineSentences.ERROR)
             alexa_response.set_end_session(True)
 
             return alexa_response.to_json()
@@ -91,11 +94,11 @@ class EglantineWebService(Resource):
 
         # S'il n'y a pas de phrase fournie par Alexa, c'est une erreur
         if alexa_intent is None:
-            alexa_response.set_sentence(EglantineSentences.ERROR_PROMPT)
+            alexa_response.set_sentence(EglantineSentences.ERROR)
             alexa_response.set_end_session(True)
 
         # S'il s'agit d'une requete de lancement de la skill
-        elif alexa_intent == LAUNCH_INTENT:
+        elif alexa_intent == EglantineConstants.LAUNCH_INTENT:
             alexa_response.set_sentence(EglantineSentences.LAUNCH_PROMPT)
             alexa_response.set_end_session(False)
 
@@ -105,31 +108,28 @@ class EglantineWebService(Resource):
             thread_service = self.__get_current_service(alexa_request)
 
             # S'il y a un service précédemment non terminé et que l'on dit "OK"
-            if thread_service is not None and alexa_intent == OK_INTENT:
+            if thread_service is not None and alexa_intent == EglantineConstants.OK_INTENT:
 
-                # On attend l'attend à nouveau
+                # On attend le service à nouveau
                 self.__wait_result(alexa_request, thread_service)
 
             # S'il y a Thread précédemment non terminé, qu'il tourne toujours et que l'on dit autre chose que "OK"
             elif thread_service is not None and thread_service.isAlive():
 
                 # On demande d'attendre
-                alexa_response.set_sentence(EglantineSentences.BUSY_PROMPT)
+                alexa_response.set_sentence(EglantineSentences.BUSY)
                 alexa_response.set_end_session(True)
 
             # S'il n'y a pas ou plus de Thread en cours, on execute la requete
             else:
 
-                execution_context = ExecutionContext( \
-                    alexa_intent, \
-                    alexa_request.get_slots(), \
-                    self.__get_session(alexa_request) \
-                    )
+                execution_context = ExecutionContext(alexa_intent, alexa_request.get_slots(),
+                                                     self.__get_session(alexa_request))
 
-                has_candidate = self.executeCandidateService(alexa_request, alexa_response, execution_context)
+                has_candidate = self.execute_candidate_service(alexa_request, alexa_response, execution_context)
 
                 if not has_candidate:
-                    alexa_response.set_sentence(EglantineSentences.UNKNOWN_PROMPT)
+                    alexa_response.set_sentence(EglantineSentences.UNKNOWN)
                     alexa_response.set_end_session(False)
 
         return alexa_response
@@ -139,7 +139,7 @@ class EglantineWebService(Resource):
     @Return True si un candidat est trouvé, sinon False
     """
 
-    def executeCandidateService(self, alexa_request, alexa_response, execution_context) -> bool:
+    def execute_candidate_service(self, alexa_request, alexa_response, execution_context) -> bool:
 
         for service in self.get_session_services(alexa_request):
 
@@ -157,12 +157,12 @@ class EglantineWebService(Resource):
         return False
 
     """
-    Attente du résultat du service dans un Thread séparée jusqu'à un timeout
+    Attente du résultat du service dans un Thread séparé jusqu'à un timeout
     """
 
     def __wait_result(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse, thread_service):
 
-        result = thread_service.wait_result(DEFAULT_SERVICE_TIMEOUT)
+        result = thread_service.wait_result(EglantineConstants.DEFAULT_SERVICE_TIMEOUT)
 
         # S'il y a un résultat, le service s'est terminé
         if result is not None:
@@ -173,7 +173,10 @@ class EglantineWebService(Resource):
             # Le service qui vient de s'execute remonte au dessus de la pile
             self.__place_service_as_first(alexa_request, thread_service.get_service())
 
-            alexa_response.set_sentence(result.get_sentence())
+            # On remplace les prépopositions par leurs contractions
+            sentence = EglantineSentences.correct_prepositions(result.get_sentence())
+
+            alexa_response.set_sentence(sentence)
             alexa_response.set_prompt(result.get_prompt())
             alexa_response.set_end_session(result.is_should_end_session())
 
@@ -205,10 +208,10 @@ class EglantineWebService(Resource):
 
         session = self.__get_session(alexa_request)
 
-        last_services = session.get_attribute(LAST_SERVICES_SESSION)
+        last_services = session.get_attribute(EglantineConstants.LAST_SERVICES_SESSION)
         if last_services is None:
-            last_services = copy(AVAILABLE_SERVICES)
-            session.set_attribute(LAST_SERVICES_SESSION, last_services)
+            last_services = copy(self.__available_services)
+            session.set_attribute(EglantineConstants.LAST_SERVICES_SESSION, last_services)
 
         return last_services
 
@@ -221,9 +224,14 @@ class EglantineWebService(Resource):
         services.remove(service)
         services.insert(0, service)
 
-    def __correct_prepositions(self, sentence: str):
-        return sentence \
-            .replace(' de le ', ' du ') \
-            .replace(' de les ', ' des ') \
-            .replace(' à le ', ' au  ') \
-            .replace(' à les ', ' aux ')
+    """
+    Vérification que l'utilisateur à accès à la skill
+    """
+
+    def __check_access(self) -> bool:
+
+        access_user = self.alexa_request.get_user_id() in self.__config.get_authorised_users()
+
+        access_device = self.alexa_request.get_device_id() in self.__config.get_authorised_devices()
+
+        return access_user and access_device

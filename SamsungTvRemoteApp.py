@@ -7,8 +7,6 @@ from samsungtv.SamsungTvRemote import SamsungTvRemote
 argv = sys.argv
 
 samsung_tv_remote = SamsungTvRemote('tv')
-samsung_tv_remote.send_key('l')
-exit(0)
 
 script = path.basename(argv.pop(0))
 
