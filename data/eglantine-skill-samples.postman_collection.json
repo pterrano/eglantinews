@@ -30,7 +30,14 @@
 			"name": "ChangeVolume",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"version\": \"1.0\",\n  \"session\": {\n    \"new\": \"True\",\n    \"sessionId\": \"amzn1.echo-api.session.5d59523b-353e-4bfd-a0ab-ce403577224d\",\n    \"application\": {\n      \"applicationId\": \"amzn1.ask.skill.590f4feb-3d1f-453a-9d1f-8735adad2362\"\n    },\n    \"user\": {\n      \"userId\": \"...\"\n    }\n  },\n  \"context\": {\n    \"System\": {\n      \"application\": {\n        \"applicationId\": \"...\"\n      },\n      \"user\": {\n        \"userId\": \"...\"\n      },\n      \"device\": {\n        \"deviceId\": \"...\",\n        \"supportedInterfaces\": {}\n      },\n      \"apiEndpoint\": \"https://api.eu.amazonalexa.com\",\n      \"apiAccessToken\": \"...\"\n    }\n  },\n  \"request\": {\n    \"type\": \"IntentRequest\",\n    \"requestId\": \"..\",\n    \"timestamp\": \"2018-11-08T18:07:44Z\",\n    \"locale\": \"fr-FR\",\n    \"intent\": {\n      \"name\": \"ChangeVolume\",\n      \"confirmationStatus\": \"NONE\",\n      \"slots\": {\n        \"room\": {\n          \"name\": \"room\",\n          \"confirmationStatus\": \"NONE\"\n        },\n        \"volume\": {\n          \"name\": \"volume\",\n          \"value\": \"80\",\n          \"confirmationStatus\": \"NONE\",\n          \"source\": \"USER\"\n        }\n      }\n    }\n  }\n}"
