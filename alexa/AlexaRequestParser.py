@@ -34,6 +34,31 @@ class AlexaRequestParser:
 
             alexa_request.set_slots(self.__parse_slots(json_request))
 
+        if 'context' in json:
+
+            json_context = json['context']
+
+            if 'System' in json_context:
+
+                json_system = json_context['System']
+
+                if 'user' in json_system:
+
+                    json_user = json_system['user']
+
+                    if 'userId' in json_user:
+
+                        alexa_request.set_user_id(json_user['userId'])
+
+                if 'device' in json_system:
+
+                    json_device = json_system['device']
+
+                    if 'deviceId' in json_device:
+
+                        alexa_request.set_device_id(json_device['deviceId'])
+
+
         return alexa_request
 
     """
