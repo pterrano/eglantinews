@@ -9,3 +9,10 @@ class EglantineConfig:
         return [
             '...'
         ]
+
+    def get_ws_infos(self):
+        return {
+            'name' : 'Eglantine Skill WebService',
+            'id' : 'eglantine-skill',
+            'version' : '1.0'
+        }

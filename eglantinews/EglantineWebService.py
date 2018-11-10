@@ -28,7 +28,7 @@ class EglantineWebService(Resource):
         EglantineMockService()
     ]
 
-    __single_session = Session()
+    __sessions = {}
 
     __alexaRequestParser = AlexaRequestParser()
 
@@ -48,11 +48,17 @@ class EglantineWebService(Resource):
         logging.info('Server started')
         self.__app.run(debug=True, host='0.0.0.0')
 
-    def __get_session(self, alexa_request: AlexaRequest):
-        return self.__single_session
+    def __get_session(self, alexa_request: AlexaRequest) -> Session:
+
+        user_id = alexa_request.get_user_id()
+
+        if user_id not in self.__sessions:
+            self.__sessions[user_id] = Session()
+
+        return self.__sessions[user_id]
 
     def get(self):
-        return {'hello': 'world'}
+        return self.__config.get_ws_infos()
 
     def post(self):
 
@@ -111,7 +117,7 @@ class EglantineWebService(Resource):
             if thread_service is not None and alexa_intent == EglantineConstants.OK_INTENT:
 
                 # On attend le service à nouveau
-                self.__wait_result(alexa_request, thread_service)
+                self.__wait_result(alexa_request, alexa_response, thread_service)
 
             # S'il y a Thread précédemment non terminé, qu'il tourne toujours et que l'on dit autre chose que "OK"
             elif thread_service is not None and thread_service.isAlive():
@@ -139,7 +145,8 @@ class EglantineWebService(Resource):
     @Return True si un candidat est trouvé, sinon False
     """
 
-    def execute_candidate_service(self, alexa_request, alexa_response, execution_context) -> bool:
+    def execute_candidate_service(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse,
+                                  execution_context: ExecutionContext) -> bool:
 
         for service in self.get_session_services(alexa_request):
 
@@ -160,7 +167,8 @@ class EglantineWebService(Resource):
     Attente du résultat du service dans un Thread séparé jusqu'à un timeout
     """
 
-    def __wait_result(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse, thread_service):
+    def __wait_result(self, alexa_request: AlexaRequest, alexa_response: AlexaResponse,
+                      thread_service: EglantineThreadService):
 
         result = thread_service.wait_result(EglantineConstants.DEFAULT_SERVICE_TIMEOUT)
 
@@ -228,10 +236,10 @@ class EglantineWebService(Resource):
     Vérification que l'utilisateur à accès à la skill
     """
 
-    def __check_access(self) -> bool:
+    def __check_access(self, alexa_request: AlexaRequest) -> bool:
 
-        access_user = self.alexa_request.get_user_id() in self.__config.get_authorised_users()
+        access_user = alexa_request.get_user_id() in self.__config.get_authorised_users()
 
-        access_device = self.alexa_request.get_device_id() in self.__config.get_authorised_devices()
+        access_device = alexa_request.get_device_id() in self.__config.get_authorised_devices()
 
         return access_user and access_device
