@@ -5,6 +5,7 @@ class EglantineSentences:
     TOO_LONG = "Je cherche toujours. Dîtes OK pour avoir ma réponse"
     UNKNOWN = "Je ne comprends pas"
     ERROR = "Une erreur s'est produite"
+    ERROR_SERVICE = "Une erreur s'est produite dans le service %s"
     FORBIDDEN = "Accès non autorisé"
     BUSY = "Je suis déjà occupé. Peux-tu attendre un instant, s'il te plaît ?"
 
