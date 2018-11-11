@@ -1,10 +1,12 @@
 import logging
 
+from alexa.Slot import Slot
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from alexa.Slot import Slot
+from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 from samsungtv.SamsungTvRemote import SamsungTvRemote
+
 
 TV_INPUT = 'av4'
 
@@ -17,22 +19,22 @@ class EglantineTVService(EglantineRoomService):
     def __turn_off(self, context: ExecutionContext):
         logging.info('OFF TV')
         self.samsung_tv_remote.turn_off()
-        return 'Extinction de la télé'
+        return TURN_OFF_TV
 
     def __turn_on(self, context: ExecutionContext):
         logging.info('ON TV')
         self.samsung_tv_remote.turn_on()
-        return EglantineServiceResult('Allumage de la télé')
+        return TURN_ON_TV
 
     def __next_channel(self, context: ExecutionContext):
         logging.info('NEXT CHANNEL')
         self.samsung_tv_remote.send_key('KEY_CHUP')
-        return EglantineServiceResult(None, False, '')
+        return EglantineServiceResult(None, False, "")
 
     def __previous_channel(self, context: ExecutionContext):
         logging.info('PREVIOUS CHANNEL')
         self.samsung_tv_remote.send_key('KEY_CHDOWN')
-        return EglantineServiceResult(None, False, '')
+        return EglantineServiceResult(None, False, "")
 
     def __change_channel(self, context: ExecutionContext):
         room = context.get_slot_id('room', self._get_default_room())
@@ -43,28 +45,28 @@ class EglantineTVService(EglantineRoomService):
 
         self.samsung_tv_remote.ensure_up()
 
-        self._remote_by_room(room).set_input(TV_INPUT)
+        self._remote(room).set_input(TV_INPUT)
 
         for digit in channel:
             self.samsung_tv_remote.send_key('KEY_' + digit)
             logging.info('sendKey KEY_' + digit)
 
-        return EglantineServiceResult('Je mets la chaine %s' % channel, False)
+        return EglantineServiceResult(CHANGE_CHANNEL % channel, False)
 
     def __resume(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_PLAY')
 
-        return EglantineServiceResult('Reprise du visionnage de la télé')
+        return EglantineServiceResult(RESUME_TV)
 
     def __pause(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_PAUSE')
 
-        return EglantineServiceResult('Pause de la télé')
+        return EglantineServiceResult(PAUSE_TV)
 
     def __return_direct(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_STOP')
 
-        return EglantineServiceResult('Retour au direct sur la télé')
+        return EglantineServiceResult(RETURN_TO_DIRECT)
 
     def __nothing(self, context: ExecutionContext):
         return ""
@@ -72,7 +74,7 @@ class EglantineTVService(EglantineRoomService):
     def _turn_off_all(self, context: ExecutionContext):
         self.__turn_off(context)
         super()._turn_off_all(context)
-        return "Ok, j'éteins tout"
+        return Sentences.TURN_OFF_ALL
 
     def get_intent_configs(self):
         tv_room = Slot('TV')

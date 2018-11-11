@@ -1,78 +1,112 @@
 import logging
 import time
 
+from alexa.Slot import Slot
+from eglantinews.EglantineConfig import EglantineConfig
 from musiccast.YamahaRemote import YamahaRemote
 
 
 class YamahaRemoteFactory:
+    __config = EglantineConfig()
 
-    LINK_GROUP_ID = "d9ded9c3eea94ba8b137a805dc6d8942"
+    __remote_by_rooms = {}
 
-    LINK_GROUP = 'EglantineGroup'
+    __default_room: str = None
 
-    DEFAUT_ROOM = 'LIVING'
+    def __init__(self):
 
-    __remoteByRooms = {
-        'LIVING': YamahaRemote('amplifier', "le salon", 60, 120),
-        'DESKTOP': YamahaRemote('wx051', "le bureau", 50)
-    }
+        room_configs = self.__config.get_rooms_config()
 
-    def getDefaultRoom(self):
-        return self.DEFAUT_ROOM
+        for room_id in room_configs:
 
-    def getRooms(self):
-        return self.__remoteByRooms.keys()
+            room_config = room_configs[room_id]
 
-    def getRoomName(self, room: str):
+            room_host_name = room_config["hostname"]
+            room_label = room_config["label"]
+
+            if "default-volume" in room_config:
+                room_default_volume = room_config["default-volume"]
+            else:
+                room_default_volume = None
+
+            if "max-volume" in room_config:
+                room_max_volume = room_config["max-volume"]
+            else:
+                room_max_volume = None
+
+            if "default" in room_config and room_config["default"]:
+                self.__default_room = room_id
+
+            self.__remote_by_rooms[room_id] = YamahaRemote(room_host_name, room_label, room_default_volume,
+                                                           room_max_volume)
+
+    def get_default_room(self):
+        return self.__default_room
+
+    def get_rooms(self):
+        return self.__remote_by_rooms.keys()
+
+    def get_room_name(self, room: str):
 
         remote = self.remote(room)
 
-        if remote == None:
+        if remote is None:
             return None
 
         return remote.get_remote_name()
 
+    def get_room_slots(self) -> list:
+
+        room_slots = []
+
+        for room_id in self.__remote_by_rooms.keys():
+            room_slots.append(Slot(room_id, self.__remote_by_rooms[room_id].get_remote_name()))
+
+        return room_slots
+
     def remote(self, room: str):
 
-        if room not in self.__remoteByRooms:
+        if room not in self.__remote_by_rooms:
             logging.info("Can't find remote control for room %s" % room)
             return None
 
-        return self.__remoteByRooms[room]
+        return self.__remote_by_rooms[room]
 
     def disable_multiroom(self):
-        hasUnlink = False
-        for remote in self.__remoteByRooms.values():
-            hasUnlink = remote.unlink() != None or hasUnlink
+        has_unlink = False
+        for remote in self.__remote_by_rooms.values():
+            has_unlink = remote.unlink() is not None or has_unlink
 
-        if hasUnlink:
+        if has_unlink:
             time.sleep(2)
 
-    def enable_multiroom(self, serverRoom):
+    def enable_multiroom(self, server_room):
 
-        for remote in self.__remoteByRooms.values():
+        for remote in self.__remote_by_rooms.values():
             remote.turn_on()
 
-        serverRemote = self.__remoteByRooms[serverRoom]
+        server_remote = self.__remote_by_rooms[server_room]
 
-        clientRemotes = list(map(lambda room: self.__remoteByRooms[room],
-                                 filter(lambda room: room != serverRoom, self.__remoteByRooms.keys())))
+        client_remotes = list(map(lambda room: self.__remote_by_rooms[room],
+                                  filter(lambda room: room != server_room, self.__remote_by_rooms.keys())))
 
-        clientHostnames = list(map(lambda clientRemote: clientRemote.get_host_name(), clientRemotes))
+        client_hostnames = list(map(lambda client_remote: client_remote.get_host_name(), client_remotes))
 
         # Si le serveur multiroom a déja ce role, on ne fait rien
-        if serverRemote.get_link_role() == 'server':
+        if server_remote.get_link_role() == 'server':
             return
 
         # Sinon on désactive le multiroom actuelle
         self.disable_multiroom()
 
         # Et on créé à nouveau le réseau multiroom
+        link_group_id = self.__config.get_multiroom_link_group_id()
+        link_group = self.__config.get_multiroom_link_group_name()
 
-        serverRemote.link_server(self.LINK_GROUP_ID, clientHostnames)
+        server_remote.link_server(link_group_id, client_hostnames)
 
-        for clientRemote in clientRemotes:
-            clientRemote.link_client(self.LINK_GROUP_ID, serverRemote.get_host_name())
+        for clientRemote in client_remotes:
+            clientRemote.link_client(link_group_id, server_remote.get_host_name())
 
-        serverRemote.start_distribution()
-        serverRemote.create_group(self.LINK_GROUP)
+        server_remote.start_distribution()
+        server_remote.create_group(link_group)

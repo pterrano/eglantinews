@@ -1,6 +1,6 @@
 from threading import Thread
 
-from eglantinews.EglantineSentences import EglantineSentences
+from eglantinews.sentences.Sentences import Sentences
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
 from eglantinews.services.EglantineService import EglantineService
@@ -21,7 +21,7 @@ class EglantineThreadService(Thread):
         try:
             self.__result = self.__service.processIntent(self.__context)
         except Exception as e:
-            self.__result = EglantineServiceResult(EglantineSentences.ERROR_SERVICE % self.__service.getName())
+            self.__result = EglantineServiceResult(Sentences.ERROR_SERVICE % self.__service.getName())
             raise e
 
     def launch(self, context: ExecutionContext):

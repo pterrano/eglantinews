@@ -127,63 +127,7 @@
                     ]
                 },
                 {
-                    "name": "ListenAlbum",
-                    "slots": [
-                        {
-                            "name": "album",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre l'album {album}",
-                        "jouer l'album {album}",
-                        "écouter l'album {album}"
-                    ]
-                },
-                {
-                    "name": "ListenAlbumLiving",
-                    "slots": [
-                        {
-                            "name": "album",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le salon l'album {album}",
-                        "jouer dans le salon l'album {album}",
-                        "écouter dans le salon l'album {album}"
-                    ]
-                },
-                {
-                    "name": "ListenAlbumDesktop",
-                    "slots": [
-                        {
-                            "name": "album",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le bureau l'album {album}",
-                        "jouer dans le bureau l'album {album}",
-                        "écouter dans le bureau l'album {album}"
-                    ]
-                },
-                {
-                    "name": "ListenAlbumAll",
-                    "slots": [
-                        {
-                            "name": "album",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre en multiroom l'album {album}",
-                        "jouer en multiroom l'album {album}",
-                        "écouter en multiroom l'album {album}"
-                    ]
-                },
-                {
-                    "name": "ListenTrack",
+                    "name": "Listen",
                     "slots": [
                         {
                             "name": "track",
@@ -191,186 +135,9 @@
                         }
                     ],
                     "samples": [
-                        "mettre {track}",
-                        "jouer {track}",
-                        "écouter {track}"
-                    ]
-                },
-                {
-                    "name": "ListenTrackLiving",
-                    "slots": [
-                        {
-                            "name": "track",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le salon {track}",
-                        "jouer dans le salon {track}",
-                        "écouter dans le salon {track}"
-                    ]
-                },
-                {
-                    "name": "ListenTrackDesktop",
-                    "slots": [
-                        {
-                            "name": "track",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le bureau {track}",
-                        "jouer dans le bureau {track}",
-                        "écouter dans le bureau {track}"
-                    ]
-                },
-                {
-                    "name": "ListenTrackAll",
-                    "slots": [
-                        {
-                            "name": "track",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "jouer en multiroom {track}",
-                        "écouter en multiroom {track}"
-                    ]
-                },
-                {
-                    "name": "ListenArtist",
-                    "slots": [
-                        {
-                            "name": "artist",
-                            "type": "AMAZON.Artist"
-                        }
-                    ],
-                    "samples": [
-                        "mettre les titres de {artist} ",
-                        "mettre l'artiste {artist}",
-                        "mettre le chanteur {artist}",
-                        "jouer les titres de {artist} ",
-                        "jouer l'artiste {artist}",
-                        "jouer le chanteur {artist}",
-                        "écouter les titres de {artist} ",
-                        "écouter l'artiste {artist}",
-                        "écouter le chanteur {artist}"
-                    ]
-                },
-                {
-                    "name": "ListenArtistLiving",
-                    "slots": [
-                        {
-                            "name": "artist",
-                            "type": "AMAZON.Artist"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le salon les titres de {artist}",
-                        "mettre dans le salon le chanteur {artist}",
-                        "mettre dans le salon l'artiste {artist}",
-                        "jouer dans le salon les titres de {artist}",
-                        "jouer dans le salon le chanteur {artist}",
-                        "jouer dans le salon l'artiste {artist}",
-                        "écouter dans le salon les titres de {artist}",
-                        "écouter dans le salon le chanteur {artist}",
-                        "écouter dans le salon l'artiste {artist}"
-                    ]
-                },
-                {
-                    "name": "ListenArtistDesktop",
-                    "slots": [
-                        {
-                            "name": "artist",
-                            "type": "AMAZON.Artist"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le bureau les titres de {artist}",
-                        "mettre dans le bureau le chanteur {artist}",
-                        "mettre dans le bureau l'artiste {artist}",
-                        "jouer dans le bureau les titres de {artist}",
-                        "jouer dans le bureau le chanteur {artist}",
-                        "jouer dans le bureau l'artiste {artist}",
-                        "écouter dans le bureau les titres de {artist}",
-                        "écouter dans le bureau le chanteur {artist}",
-                        "écouter dans le bureau l'artiste {artist}"
-                    ]
-                },
-                {
-                    "name": "ListenArtistAll",
-                    "slots": [
-                        {
-                            "name": "artist",
-                            "type": "AMAZON.Artist"
-                        }
-                    ],
-                    "samples": [
-                        "mettre en multiroom l'artiste {artist}",
-                        "mettre en multiroom les titres de {artist}",
-                        "mettre en multiroom le chanteur {artist}",
-                        "écouter en multiroom l'artiste {artist}",
-                        "écouter en multiroom les titres de {artist}",
-                        "écouter en multiroom le chanteur {artist}",
-                        "jouer en multiroom les titres de {artist}",
-                        "jouer en multiroom le chanteur {artist}",
-                        "jouer en multiroom l'artiste {artist}"
-                    ]
-                },
-                {
-                    "name": "ListenRadio",
-                    "slots": [
-                        {
-                            "name": "radio",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre la radio {radio}",
-                        "écouter la radio {radio}",
-                        "jouer la radio {radio}"
-                    ]
-                },
-                {
-                    "name": "ListenRadioLiving",
-                    "slots": [
-                        {
-                            "name": "radio",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le salon la radio {radio}",
-                        "écouter dans le salon la radio {radio}",
-                        "jouer dans le salon la radio {radio}"
-                    ]
-                },
-                {
-                    "name": "ListenRadioDesktop",
-                    "slots": [
-                        {
-                            "name": "radio",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre dans le bureau la radio {radio}",
-                        "écouter dans le bureau la radio {radio}",
-                        "jouer dans le bureau la radio {radio}"
-                    ]
-                },
-                {
-                    "name": "ListenRadioAll",
-                    "slots": [
-                        {
-                            "name": "radio",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre en multiroom la radio {radio}",
-                        "écouter en multiroom la radio {radio}",
-                        "jouer en multiroom les radio {radio}"
+                        "mettre {query}",
+                        "jouer {query}",
+                        "écouter {query}"
                     ]
                 },
                 {
@@ -776,6 +543,761 @@
                                 "value": "27",
                                 "synonyms": [
                                     "france info"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "radio",
+                    "values": [
+                        {
+                            "id": "RADIO1",
+                            "name": {
+                                "value": "Nostalgie",
+                                "synonyms": [
+                                    "Nostalgie"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO2",
+                            "name": {
+                                "value": "NRJ",
+                                "synonyms": [
+                                    "N.R.J."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO3",
+                            "name": {
+                                "value": "Rire et Chansons",
+                                "synonyms": [
+                                    "Rire et Chansons"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO4",
+                            "name": {
+                                "value": "CHERIE",
+                                "synonyms": [
+                                    "Chérie",
+                                    "Chérie F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO5",
+                            "name": {
+                                "value": "France Bleu Paris",
+                                "synonyms": [
+                                    "France Bleu Paris"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO6",
+                            "name": {
+                                "value": "Mouv'",
+                                "synonyms": [
+                                    "Mouv'",
+                                    "Le Mouv"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO7",
+                            "name": {
+                                "value": "FIP",
+                                "synonyms": [
+                                    "FIP"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO8",
+                            "name": {
+                                "value": "france info",
+                                "synonyms": [
+                                    "france info"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO9",
+                            "name": {
+                                "value": "France Inter",
+                                "synonyms": [
+                                    "France Inter"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO10",
+                            "name": {
+                                "value": "France Culture",
+                                "synonyms": [
+                                    "France Culture"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO11",
+                            "name": {
+                                "value": "France Musique",
+                                "synonyms": [
+                                    "France Musique"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO12",
+                            "name": {
+                                "value": "RFM",
+                                "synonyms": [
+                                    "R.F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO13",
+                            "name": {
+                                "value": "Europe 1",
+                                "synonyms": [
+                                    "Europe 1"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO14",
+                            "name": {
+                                "value": "RTL",
+                                "synonyms": [
+                                    "R.T.L."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO15",
+                            "name": {
+                                "value": "RTL 2",
+                                "synonyms": [
+                                    "R.T.L. 2"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO16",
+                            "name": {
+                                "value": "Radio Classique",
+                                "synonyms": [
+                                    "Radio Classique"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO17",
+                            "name": {
+                                "value": "Radio Orient",
+                                "synonyms": [
+                                    "Radio Orient"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO18",
+                            "name": {
+                                "value": "RCJ",
+                                "synonyms": [
+                                    "R.C.J."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO19",
+                            "name": {
+                                "value": "RAJE Paris",
+                                "synonyms": [
+                                    "RAJE Paris"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO20",
+                            "name": {
+                                "value": "Radio Notre Dame",
+                                "synonyms": [
+                                    "Radio Notre Dame"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO21",
+                            "name": {
+                                "value": "ZEBRadio",
+                                "synonyms": [
+                                    "ZEBRadio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO22",
+                            "name": {
+                                "value": "Urban Hit Rap FR",
+                                "synonyms": [
+                                    "Urban Hit Rap F.R."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO23",
+                            "name": {
+                                "value": "Vivre FM",
+                                "synonyms": [
+                                    "Vivre F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO24",
+                            "name": {
+                                "value": "BFM Business",
+                                "synonyms": [
+                                    "B.F.M. Business"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO25",
+                            "name": {
+                                "value": "Stop Radio",
+                                "synonyms": [
+                                    "Stop Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO26",
+                            "name": {
+                                "value": "Radio Néo",
+                                "synonyms": [
+                                    "Radio Néo"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO27",
+                            "name": {
+                                "value": "Radio Erena",
+                                "synonyms": [
+                                    "Radio Erena"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO28",
+                            "name": {
+                                "value": "EVASION",
+                                "synonyms": [
+                                    "évasion"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO29",
+                            "name": {
+                                "value": "Radio Alfa Fado",
+                                "synonyms": [
+                                    "Radio Alfa Fado"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO30",
+                            "name": {
+                                "value": "Chante France",
+                                "synonyms": [
+                                    "Chante France"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO31",
+                            "name": {
+                                "value": "Crooner Radio",
+                                "synonyms": [
+                                    "Crooner Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO32",
+                            "name": {
+                                "value": "Fun Radio France",
+                                "synonyms": [
+                                    "Fun Radio France"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO33",
+                            "name": {
+                                "value": "Monte Carlo Doualiya",
+                                "synonyms": [
+                                    "Monte Carlo Doualiya"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO34",
+                            "name": {
+                                "value": "Radio Public Santé",
+                                "synonyms": [
+                                    "Radio Public Santé"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO35",
+                            "name": {
+                                "value": "France Maghreb",
+                                "synonyms": [
+                                    "France Maghreb"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO36",
+                            "name": {
+                                "value": "Aligre FM",
+                                "synonyms": [
+                                    "Aligre F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO37",
+                            "name": {
+                                "value": "Skyrock",
+                                "synonyms": [
+                                    "Skyrock"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO38",
+                            "name": {
+                                "value": "Radio Campus Paris",
+                                "synonyms": [
+                                    "Radio Campus Paris"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO39",
+                            "name": {
+                                "value": "Generations Ile de France",
+                                "synonyms": [
+                                    "Generations Ile de France"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO40",
+                            "name": {
+                                "value": "Swigg",
+                                "synonyms": [
+                                    "Swigg"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO41",
+                            "name": {
+                                "value": "Beur FM",
+                                "synonyms": [
+                                    "Beur F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO42",
+                            "name": {
+                                "value": "Radio Soleil France",
+                                "synonyms": [
+                                    "Radio Soleil France"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO43",
+                            "name": {
+                                "value": "Virgin Radio",
+                                "synonyms": [
+                                    "Virgin Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO44",
+                            "name": {
+                                "value": "VOLTAGE",
+                                "synonyms": [
+                                    "Voltage"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO45",
+                            "name": {
+                                "value": "Urban Hit",
+                                "synonyms": [
+                                    "Urban Hit"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO46",
+                            "name": {
+                                "value": "M Radio",
+                                "synonyms": [
+                                    "M. Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO47",
+                            "name": {
+                                "value": "LATINA",
+                                "synonyms": [
+                                    "Latina"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO48",
+                            "name": {
+                                "value": "Espace FM",
+                                "synonyms": [
+                                    "Espace F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO49",
+                            "name": {
+                                "value": "Radio VINCI Autoroutes Ouest Centre",
+                                "synonyms": [
+                                    "Autoroute F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO50",
+                            "name": {
+                                "value": "Radio FG",
+                                "synonyms": [
+                                    "Radio F.G."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO51",
+                            "name": {
+                                "value": "Radio du Père Noël",
+                                "synonyms": [
+                                    "Radio du Père Noël"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO52",
+                            "name": {
+                                "value": "Frequence Protestante",
+                                "synonyms": [
+                                    "Frequence Protestante"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO53",
+                            "name": {
+                                "value": "Radio Courtoisie",
+                                "synonyms": [
+                                    "Radio Courtoisie"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO54",
+                            "name": {
+                                "value": "Sud Radio",
+                                "synonyms": [
+                                    "Sud Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO55",
+                            "name": {
+                                "value": "Radio Shalom",
+                                "synonyms": [
+                                    "Radio Shalom"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO56",
+                            "name": {
+                                "value": "Radio Sensations",
+                                "synonyms": [
+                                    "Radio Sensations"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO57",
+                            "name": {
+                                "value": "Yvelines Radio",
+                                "synonyms": [
+                                    "Yvelines Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO58",
+                            "name": {
+                                "value": "La Radio de la Mer",
+                                "synonyms": [
+                                    "La Radio de la Mer"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO59",
+                            "name": {
+                                "value": "OUI FM",
+                                "synonyms": [
+                                    "OUI F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO60",
+                            "name": {
+                                "value": "TSF Jazz",
+                                "synonyms": [
+                                    "T.S.F. Jazz"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO61",
+                            "name": {
+                                "value": "Radio Nova",
+                                "synonyms": [
+                                    "Radio Nova"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO62",
+                            "name": {
+                                "value": "Radio Mille Pattes",
+                                "synonyms": [
+                                    "Radio Mille Pattes"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO63",
+                            "name": {
+                                "value": "Fréquence Paris Plurielle",
+                                "synonyms": [
+                                    "Fréquence Paris Plurielle"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO64",
+                            "name": {
+                                "value": "idFM",
+                                "synonyms": [
+                                    "I.D. F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO65",
+                            "name": {
+                                "value": "Radio Freedom FM 2",
+                                "synonyms": [
+                                    "Radio Freedom F.M. 2"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO66",
+                            "name": {
+                                "value": "Radio Freedom FM 1",
+                                "synonyms": [
+                                    "Radio Freedom F.M. 1"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO67",
+                            "name": {
+                                "value": "Radio AYP FM",
+                                "synonyms": [
+                                    "Radio A.Y.P. F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO68",
+                            "name": {
+                                "value": "Radio Sensations Sud Essonne",
+                                "synonyms": [
+                                    "Radio Sensations Sud Essonne"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO69",
+                            "name": {
+                                "value": "Radio Sensations Bernay",
+                                "synonyms": [
+                                    "Radio Sensations Bernay"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO70",
+                            "name": {
+                                "value": "La Radio Sans Pub",
+                                "synonyms": [
+                                    "La Radio Sans Pub",
+                                    "Sans Pub"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO71",
+                            "name": {
+                                "value": "Radio Alfa Live",
+                                "synonyms": [
+                                    "Radio Alfa Live"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO72",
+                            "name": {
+                                "value": "MBS",
+                                "synonyms": [
+                                    "M.B.S."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO73",
+                            "name": {
+                                "value": "Radio RGB",
+                                "synonyms": [
+                                    "Radio R.G.B."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO74",
+                            "name": {
+                                "value": "R.G.B",
+                                "synonyms": [
+                                    "R.G.B."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO75",
+                            "name": {
+                                "value": "L.G.B radio ( FM 91.9 )",
+                                "synonyms": [
+                                    "L.G.B. radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO76",
+                            "name": {
+                                "value": "EVASION Essonne",
+                                "synonyms": [
+                                    "évasion Essonne"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO77",
+                            "name": {
+                                "value": "Radio Rézo",
+                                "synonyms": [
+                                    "Radio Rézo"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO78",
+                            "name": {
+                                "value": "Radio RVE",
+                                "synonyms": [
+                                    "Radio R.V.E."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO79",
+                            "name": {
+                                "value": "France Bleu Touraine",
+                                "synonyms": [
+                                    "France Bleu Touraine"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO80",
+                            "name": {
+                                "value": "Fun Radio",
+                                "synonyms": [
+                                    "Fun Radio"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO81",
+                            "name": {
+                                "value": "Tropiques FM",
+                                "synonyms": [
+                                    "Tropiques F.M."
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO82",
+                            "name": {
+                                "value": "France Bleu Roussillon",
+                                "synonyms": [
+                                    "France Bleu Roussillon"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RADIO83",
+                            "name": {
+                                "value": "Top Music Strasbourg",
+                                "synonyms": [
+                                    "Top Music Strasbourg"
                                 ]
                             }
                         }

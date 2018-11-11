@@ -1,9 +1,10 @@
 import logging
 
+from alexa.Slot import Slot
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from alexa.Slot import Slot
 from eglantinews.YamahaRemoteFactory import YamahaRemoteFactory
+from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineService import EglantineService
 
 
@@ -26,19 +27,22 @@ class EglantineRoomService(EglantineService):
         self._set_current_room(context, self._get_default_room())
 
     def _get_rooms(self):
-        return self.__yamaha_remote_factory.getRooms()
+        return self.__yamaha_remote_factory.get_rooms()
+
+    def _get_rooms_slots(self) -> list:
+        return self.__yamaha_remote_factory.get_room_slots()
 
     def _get_default_room(self):
-        return self.__yamaha_remote_factory.getDefaultRoom()
+        return self.__yamaha_remote_factory.get_default_room()
 
     def _get_room(self, context: ExecutionContext):
         return context.get_slot_id('room', self._get_current_room(context))
 
     def _get_current_room_name(self, context: ExecutionContext) -> str:
-        return self.__yamaha_remote_factory.getRoomName(self._get_current_room(context))
+        return self.__yamaha_remote_factory.get_room_name(self._get_current_room(context))
 
     def _get_room_name(self, room: str) -> str:
-        return self.__yamaha_remote_factory.getRoomName(room)
+        return self.__yamaha_remote_factory.get_room_name(room)
 
     def _get_room_slot(self, room: str) -> Slot:
         return Slot(room, self._get_room_name(room))
@@ -77,14 +81,14 @@ class EglantineRoomService(EglantineService):
 
         self._set_current_room(context, room)
 
-    def _remote_by_room(self, room: str):
+    def _remote(self, room: str):
         return self.__yamaha_remote_factory.remote(room)
 
     def _default_remote(self):
-        return self._remote_by_room(self._get_default_room())
+        return self._remote(self._get_default_room())
 
     def _current_remote(self, context: ExecutionContext):
-        return self._remote_by_room(self._get_current_room(context))
+        return self._remote(self._get_current_room(context))
 
     def _change_volume(self, context: ExecutionContext):
 
@@ -95,37 +99,35 @@ class EglantineRoomService(EglantineService):
 
         volume = int(volume)
 
-        if volume < 0 or volume > 100:
-            return 'Le volume maximum est de 100'
+        if not volume in range(0, 101):
+            return Sentences.VOLUME_RANGE
 
         multiroom = self._is_multiroom(context) and context.get_slot_id('room') is None
 
         room = self._get_room(context)
 
         if multiroom:
-            for room in self.__yamaha_remote_factory.getRooms():
-                remote = self._remote_by_room(room)
+            for room in self.__yamaha_remote_factory.get_rooms():
+                remote = self._remote(room)
                 remote.turn_on()
                 logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
                 remote.set_volume(volume)
 
-            return 'Modification du volume à %s' % volume
+            return Sentences.VOLUME_MODIFICATION % volume
         else:
-            remote = self._remote_by_room(room)
+            remote = self._remote(room)
             remote.turn_on()
             logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))
             remote.set_volume(volume)
 
-            return 'Modification du volume à %s dans %s' % (volume, self._get_room_name(room))
+            return Sentences.VOLUME_MODIFICATION_WITH_LOCATION % (volume, self._get_room_name(room))
 
     def _turn_off_all(self, context: ExecutionContext):
 
         for room in self._get_rooms():
-            self._remote_by_room(room).turn_off()
+            self._remote(room).turn_off()
 
         self._set_current_default_room(context)
-
-        return 'Arrêt de toutes les enceintes'
 
     def get_intent_configs(self):
         pass
