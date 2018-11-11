@@ -13,6 +13,8 @@ class YamahaRemoteFactory:
 
     __default_room: str = None
 
+    """ Initialisation des télécommandes à partir de la config """
+
     def __init__(self):
 
         room_configs = self.__config.get_rooms_config()
@@ -40,11 +42,17 @@ class YamahaRemoteFactory:
             self.__remote_by_rooms[room_id] = YamahaRemote(room_host_name, room_label, room_default_volume,
                                                            room_max_volume)
 
+    """ ID de la pièce par défault """
+
     def get_default_room(self):
         return self.__default_room
 
-    def get_rooms(self):
+    """ Donne la liste des ID de pièces """
+
+    def get_room_ids(self):
         return self.__remote_by_rooms.keys()
+
+    """ Nom d'une pièce """
 
     def get_room_name(self, room: str):
 
@@ -55,6 +63,8 @@ class YamahaRemoteFactory:
 
         return remote.get_remote_name()
 
+    """ Donne la liste des slots de toutes les pièces """
+
     def get_room_slots(self) -> list:
 
         room_slots = []
@@ -64,6 +74,8 @@ class YamahaRemoteFactory:
 
         return room_slots
 
+    """ Télécommande d'une pièce """
+
     def remote(self, room: str):
 
         if room not in self.__remote_by_rooms:
@@ -72,6 +84,8 @@ class YamahaRemoteFactory:
 
         return self.__remote_by_rooms[room]
 
+    """ Désactivation du multiroom """
+
     def disable_multiroom(self):
         has_unlink = False
         for remote in self.__remote_by_rooms.values():
@@ -79,6 +93,10 @@ class YamahaRemoteFactory:
 
         if has_unlink:
             time.sleep(2)
+
+    """
+    Activation du multiroom
+    """
 
     def enable_multiroom(self, server_room):
 

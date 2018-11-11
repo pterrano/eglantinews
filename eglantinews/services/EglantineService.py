@@ -1,121 +1,116 @@
 import logging
 import time
 
+from alexa.Slot import Slot
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from alexa.Slot import Slot
 
 
 class EglantineService:
-
     _service_name = None
 
     # Public
 
-    def canManageIntent(self, context: ExecutionContext) -> bool:
+    def can_manage_intent(self, context: ExecutionContext) -> bool:
 
-        intentConfig = self._getIntentConfig(context)
+        intent_config = self._get_intent_config(context)
 
-        if intentConfig == None:
+        if intent_config is None:
             return False
 
-        return self._checkConfig(context)
+        return self._check_config(context)
 
-    def processIntent(self, context: ExecutionContext) -> EglantineServiceResult:
+    def process_intent(self, context: ExecutionContext) -> EglantineServiceResult:
 
-        intentConfig = self._getIntentConfig(context)
+        intent_config = self._get_intent_config(context)
 
-        if 'complete-slots' in intentConfig:
-            context.add_slots(intentConfig['complete-slots'])
+        if 'complete-slots' in intent_config:
+            context.add_slots(intent_config['complete-slots'])
 
-        function = self._getIntentFunction(context)
+        intent_function = self._get_intent_function(context)
 
         logging.info('PROCESS-INTENT - BEGIN - slots = %s' % str(context.get_slots().to_json()))
 
         t0 = time.perf_counter()
 
-        resultFunction = function(context)
+        result_function = intent_function(context)
 
-        if isinstance(resultFunction, str):
-            resultFunction = EglantineServiceResult(resultFunction)
+        if isinstance(result_function, str):
+            result_function = EglantineServiceResult(result_function)
 
-        logging.info('PROCESS-INTENT - END - %.1f - slots = %s' % ((time.perf_counter() - t0), str(context.get_slots().to_json())))
+        logging.info('PROCESS-INTENT - END - %.1f - slots = %s' % (
+            (time.perf_counter() - t0), str(context.get_slots().to_json())))
 
-        logging.info('PROCESS-INTENT - RESULT="%s"' % resultFunction.get_sentence())
+        logging.info('PROCESS-INTENT - RESULT="%s"' % result_function.get_sentence())
 
-        return resultFunction
+        return result_function
 
     # Protected
 
     def get_intent_configs(self):
         raise NotImplementedError
 
-    def _getIntentConfig(self, context: ExecutionContext):
+    def _get_intent_config(self, context: ExecutionContext):
 
-        intentConfigs = self.get_intent_configs()
+        intent_configs = self.get_intent_configs()
 
         intent = context.get_intent()
 
-        if intent in intentConfigs:
-            return intentConfigs[intent]
+        if intent in intent_configs:
+            return intent_configs[intent]
         return None
 
-    def _getIntentFunction(self, context: ExecutionContext):
+    def _get_intent_function(self, context: ExecutionContext):
 
-        intentConfig = self._getIntentConfig(context)
+        intent_config = self._get_intent_config(context)
 
-        return intentConfig['function']
+        return intent_config['function']
 
-    def _checkConfig(self, context: ExecutionContext) -> bool:
+    def _check_config(self, context: ExecutionContext) -> bool:
 
-        intentConfig = self._getIntentConfig(context)
+        intent_config = self._get_intent_config(context)
 
-        if 'expected-slots' in intentConfig:
+        if 'expected-slots' in intent_config:
 
-            expectedSlots = intentConfig['expected-slots']
+            expected_slots = intent_config['expected-slots']
 
-            for expectedSlotName in expectedSlots:
+            for expected_slot_name in expected_slots:
 
-                inputSlot : Slot = context.get_slot(expectedSlotName)
-                if inputSlot == None:
+                input_slot: Slot = context.get_slot(expected_slot_name)
+                if input_slot is None:
                     return False
 
-                expectedSlot = expectedSlots[expectedSlotName]
-                if expectedSlot == None:
+                expected_slot = expected_slots[expected_slot_name]
+                if expected_slot is None:
                     return True
 
-                if isinstance(expectedSlot, list):
-                    if self.__hasExpectedSlot(inputSlot, expectedSlot):
+                if isinstance(expected_slot, list):
+                    if self.__has_expected_slot(input_slot, expected_slot):
                         return False
-                elif not self.__isExpectedSlot(inputSlot, expectedSlot):
+                elif not self.__is_expected_slot(input_slot, expected_slot):
                     return False
 
         return True
 
-    def getName(self):
+    def get_name(self):
         return self._service_name
 
-
-    def __getAttribute(self, jsonObject, attributeName):
-        if jsonObject == None or attributeName not in jsonObject:
+    def __get_attribute(self, json_object, attribute_name):
+        if json_object is None or attribute_name not in json_object:
             return None
-        return jsonObject[attributeName]
+        return json_object[attribute_name]
 
-    def __hasExpectedSlot(self, inputSlot:Slot, expectedSlots):
-        for acceptableSlot in expectedSlots:
-            if self.__isExpectedSlot(inputSlot, acceptableSlot):
+    def __has_expected_slot(self, input_slot: Slot, expected_slots):
+        for acceptable_slot in expected_slots:
+            if self.__is_expected_slot(input_slot, acceptable_slot):
                 return True
         return False
 
-    def __isExpectedSlot(self, inputSlot:Slot, expectedSlot):
+    def __is_expected_slot(self, input_slot: Slot, expected_slot):
 
-        expectedSlotId = self.__getAttribute(expectedSlot, 'value')
-        expectedSlotValue = self.__getAttribute(expectedSlot, 'id')
+        expected_slot_id = self.__get_attribute(expected_slot, 'value')
+        expected_slot_value = self.__get_attribute(expected_slot, 'id')
 
         return \
-            (expectedSlotId == None or inputSlot.get_id() == expectedSlotId) and \
-            (expectedSlotValue == None or inputSlot.get_value() == expectedSlotValue)
-
-
-
-
+            (expected_slot_id is None or input_slot.get_id() == expected_slot_id) and \
+            (expected_slot_value is None or input_slot.get_value() == expected_slot_value)

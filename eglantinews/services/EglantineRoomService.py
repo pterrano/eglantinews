@@ -27,7 +27,7 @@ class EglantineRoomService(EglantineService):
         self._set_current_room(context, self._get_default_room())
 
     def _get_rooms(self):
-        return self.__yamaha_remote_factory.get_rooms()
+        return self.__yamaha_remote_factory.get_room_ids()
 
     def _get_rooms_slots(self) -> list:
         return self.__yamaha_remote_factory.get_room_slots()
@@ -46,11 +46,6 @@ class EglantineRoomService(EglantineService):
 
     def _get_room_slot(self, room: str) -> Slot:
         return Slot(room, self._get_room_name(room))
-
-    def _get_room_slots(self) -> Slot():
-        room_slots: Slot() = []
-        for room in self._get_rooms():
-            room_slots.append(self._get_room_slot(room))
 
     def _is_multiroom(self, context: ExecutionContext):
         return context.get_slot_id('multiroom', False) or (
@@ -99,7 +94,7 @@ class EglantineRoomService(EglantineService):
 
         volume = int(volume)
 
-        if not volume in range(0, 101):
+        if volume not in range(0, 101):
             return Sentences.VOLUME_RANGE
 
         multiroom = self._is_multiroom(context) and context.get_slot_id('room') is None
@@ -107,7 +102,7 @@ class EglantineRoomService(EglantineService):
         room = self._get_room(context)
 
         if multiroom:
-            for room in self.__yamaha_remote_factory.get_rooms():
+            for room in self.__yamaha_remote_factory.get_room_ids():
                 remote = self._remote(room)
                 remote.turn_on()
                 logging.info('CHANGE VOLUME TO %s (%s)' % (volume, room))

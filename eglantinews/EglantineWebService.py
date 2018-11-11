@@ -171,7 +171,7 @@ class EglantineWebService(Resource):
 
         for service in self.get_session_services(alexa_request):
 
-            if service.canManageIntent(execution_context):
+            if service.can_manage_intent(execution_context):
                 thread_service = EglantineThreadService(service)
 
                 self.__set_current_service(alexa_request, thread_service)

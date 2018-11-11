@@ -19,9 +19,9 @@ class EglantineThreadService(Thread):
 
     def run(self) -> None:
         try:
-            self.__result = self.__service.processIntent(self.__context)
+            self.__result = self.__service.process_intent(self.__context)
         except Exception as e:
-            self.__result = EglantineServiceResult(Sentences.ERROR_SERVICE % self.__service.getName())
+            self.__result = EglantineServiceResult(Sentences.ERROR_SERVICE % self.__service.get_name())
             raise e
 
     def launch(self, context: ExecutionContext):

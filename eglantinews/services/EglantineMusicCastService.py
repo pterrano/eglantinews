@@ -225,7 +225,7 @@ class EglantineMusicService(EglantineRoomService):
 
     def get_intent_configs(self):
 
-        all_rooms = self._get_room_slots()
+        all_rooms = self._get_rooms_slots()
 
         expected_volume = {'volume': None}
         expected_query = {'query': None}
