@@ -1,20 +1,26 @@
 import logging
 
 from alexa.Slot import Slot
+from eglantinews.EglantineConfig import EglantineConfig
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
 from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 from samsungtv.SamsungTvRemote import SamsungTvRemote
 
-
 TV_INPUT = 'av4'
 
 
 class EglantineTVService(EglantineRoomService):
+    __config = EglantineConfig()
+
     _serviceName = "T.V."
 
-    samsung_tv_remote = SamsungTvRemote('tv', '5C:49:7D:EF:35:2B')
+    samsung_tv_remote: SamsungTvRemote = None
+
+    def __init__(self):
+        tv_config = self.__config.get_samsung_tv_config()
+        self.samsung_tv_remote = SamsungTvRemote(tv_config['hostname'], tv_config['mac'])
 
     def __turn_off(self, context: ExecutionContext):
         logging.info('OFF TV')
