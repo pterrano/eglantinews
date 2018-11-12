@@ -19,12 +19,12 @@ class EglantineTVService(EglantineRoomService):
     def __turn_off(self, context: ExecutionContext):
         logging.info('OFF TV')
         self.samsung_tv_remote.turn_off()
-        return TURN_OFF_TV
+        return Sentences.TURN_OFF_TV
 
     def __turn_on(self, context: ExecutionContext):
         logging.info('ON TV')
         self.samsung_tv_remote.turn_on()
-        return TURN_ON_TV
+        return Sentences.TURN_ON_TV
 
     def __next_channel(self, context: ExecutionContext):
         logging.info('NEXT CHANNEL')
@@ -51,22 +51,22 @@ class EglantineTVService(EglantineRoomService):
             self.samsung_tv_remote.send_key('KEY_' + digit)
             logging.info('sendKey KEY_' + digit)
 
-        return EglantineServiceResult(CHANGE_CHANNEL % channel, False)
+        return EglantineServiceResult(Sentences.CHANGE_CHANNEL % channel, False)
 
     def __resume(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_PLAY')
 
-        return EglantineServiceResult(RESUME_TV)
+        return EglantineServiceResult(Sentences.RESUME_TV)
 
     def __pause(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_PAUSE')
 
-        return EglantineServiceResult(PAUSE_TV)
+        return EglantineServiceResult(Sentences.PAUSE_TV)
 
     def __return_direct(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_STOP')
 
-        return EglantineServiceResult(RETURN_TO_DIRECT)
+        return EglantineServiceResult(Sentences.RETURN_TO_DIRECT)
 
     def __nothing(self, context: ExecutionContext):
         return ""

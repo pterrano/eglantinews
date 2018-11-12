@@ -259,8 +259,11 @@ class EglantineWebService(Resource):
 
     def __check_access(self, alexa_request: AlexaRequest) -> bool:
 
-        access_user = alexa_request.get_user_id() in self.__config.get_authorised_users()
+        if not self.__config.is_security_enabled():
+            return True
 
-        access_device = alexa_request.get_device_id() in self.__config.get_authorised_devices()
+        access_user = alexa_request.get_user_id() in self.__config.get_authorized_users()
+
+        access_device = alexa_request.get_device_id() in self.__config.get_authorized_devices()
 
         return access_user and access_device

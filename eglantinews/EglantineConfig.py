@@ -1,41 +1,46 @@
+import json
+import os
+import sys
+
+
 class EglantineConfig:
+    DEFAULT_CONFIG_FILE = "/config/eglantine-skill.json"
 
-    def get_rooms_config(self) -> dict:
-        return {
-            "LIVING": {
-                "hostname": "amplifier",
-                "label": "le salon",
-                "default-volume": 60,
-                "max-volume": 120,
-                "default": True
-            },
+    json_config: dict = None
 
-            "DESKTOP": {
-                "hostname": "wx051",
-                "label": "le bureau",
-                "default-volume": 50
-            }
-        }
+    def __init__(self):
 
-    def get_authorised_users(self):
-        return [
-            '...'
-        ]
+        if len(sys.argv) <= 1:
+            config_file = self.__get_default_config_file()
+        else:
+            config_file = sys.argv[1]
 
-    def get_authorised_devices(self):
-        return [
-            '...'
-        ]
+        with open(config_file) as json_file:
+            self.json_config = json.load(json_file)
+
+    def get_authorized_users(self) -> dict:
+        return self.json_config['security']['authorized-users']
+
+    def get_authorized_devices(self):
+        return self.json_config['security']['authorized-devices']
+
+    def is_security_enabled(self) -> bool:
+        return self.json_config['security']['enabled']
 
     def get_ws_infos(self):
-        return {
-            'name': 'Eglantine Skill WebService',
-            'id': 'eglantine-skill',
-            'version': '1.0'
-        }
+        return self.json_config['infos']
 
-    def get_multiroom_link_group_id(self) -> str:
-        return "d9ded9c3eea94ba8b137a805dc6d8942"
+    def get_rooms_config(self) -> dict:
+        return self.json_config['services']['musiccast']['devices']
 
-    def get_multiroom_link_group_name(self) -> str:
-        return "EglantineGroup"
+    def get_multiroom_link_group_id(self) -> dict:
+        return self.json_config['services']['musiccast']['multiroom']['group-id']
+
+    def get_multiroom_link_group_name(self) -> dict:
+        return self.json_config['services']['musiccast']['multiroom']['group-name']
+
+    def get_samsung_tv_config(self) -> dict:
+        return self.json_config['services']['samsung-tv']
+
+    def __get_default_config_file(self) -> str:
+        return os.path.dirname(os.path.realpath(sys.argv[0])) + self.DEFAULT_CONFIG_FILE

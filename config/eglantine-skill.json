@@ -1,0 +1,42 @@
+{
+  "infos": {
+    "name": "Eglantine Skill WebService",
+    "id": "eglantine-skill",
+    "version": "1.0"
+  },
+  "security": {
+    "enabled": false,
+    "authorized-users": [],
+    "authorized-devices": []
+  },
+  "services": {
+    "musiccast": {
+      "devices": {
+        "LIVING": {
+          "hostname": "amplifier",
+          "label": "le salon",
+          "default-volume": 60,
+          "max-volume": 120,
+          "default": true
+        },
+        "DESKTOP": {
+          "hostname": "wx051",
+          "label": "le bureau",
+          "default-volume": 50
+        }
+      },
+      "multiroom": {
+        "group-id": "d9ded9c3eea94ba8b137a805dc6d8942",
+        "group-name": "EglantineGroup"
+      }
+    },
+    "samsung-tv": {
+      "hostname": "tv",
+      "mac": "5C:49:7D:EF:35:2B"
+    }
+  }
+}
+
+
+
+

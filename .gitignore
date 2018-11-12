@@ -2,4 +2,4 @@
 __pycache__
 build
 dist
-eglantinews/EglantineConfig.py
+config/eglantine-skill-prod.json
