@@ -145,13 +145,13 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        radio = context.get_slot_id('radio')
+        query = context.get_slot_value('query')
 
-        logging.info('LISTEN RADIO %s in %s' % (radio, room))
+        logging.info('LISTEN RADIO %s in %s' % (query, room))
 
         self._process_rooms(context)
 
-        result_search = self._remote(room).play_radio(radio)
+        result_search = self._remote(room).play_radio(query)
 
         if result_search is not None:
             return Sentences.RADIO_FOUND % (result_search, self.__get_music_location(context))
@@ -162,7 +162,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = Sentences.normalize_search(context.get_slot_value('query'))
+        query = context.get_slot_value('query')
 
         logging.info('LISTEN ARTIST %s in %s' % (query, room))
 
@@ -179,7 +179,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = Sentences.normalize_search(context.get_slot_value('query'))
+        query = context.get_slot_value('query')
 
         logging.info('LISTEN TRACK %s in %s' % (query, room))
 
@@ -197,7 +197,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = Sentences.normalize_search(context.get_slot_value('query'))
+        query = context.get_slot_value('query')
 
         logging.info('LISTEN ALBUM %s in %s' % (query, room))
 

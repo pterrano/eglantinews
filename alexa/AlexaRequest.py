@@ -3,15 +3,15 @@ from alexa.Slots import Slots
 
 class AlexaRequest:
 
-    __user_id : str
+    __user_id : str = None
 
-    __device_id : str
+    __device_id : str  = None
 
-    __request_type: str
+    __request_type: str = None
 
-    __intent: str
+    __intent: str = None
 
-    __slots: Slots
+    __slots: Slots = None
 
     def set_request_type(self, request_type: str):
         self.__request_type = request_type

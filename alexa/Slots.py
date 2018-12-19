@@ -26,9 +26,9 @@ class Slots:
             return self.get(slot_name).get_value()
         return None
 
-    def get_id(self, slot_name: str) -> str:
+    def get_id(self, slot_name: str):
         if slot_name in self.__slots:
-            return self.get(slot_name).get_value()
+            return self.get(slot_name).get_id()
         return None
 
     def to_json(self):

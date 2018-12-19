@@ -63,17 +63,17 @@ class AlexaRequestParser:
 
     def __parse_slots(self, json_request) -> Slots:
 
+        slots = Slots()
+
         if 'intent' not in json_request:
-            return None
+            return slots
 
         json_intent = json_request['intent']
 
         if 'slots' not in json_intent:
-            return None
+            return slots
 
         json_slots = json_intent['slots']
-
-        slots = Slots()
 
         for slot_name in json_slots:
 

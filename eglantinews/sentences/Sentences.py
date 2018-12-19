@@ -59,7 +59,7 @@ class Sentences:
     VOLUME_MODIFICATION_WITH_LOCATION = "Modification du volume à %s dans %s"
 
     NORMALISE_WORDS = [
-        'de', 'des', 'le', 'la', 'les', 'du', 'au', 'aux', 'à'
+        'les', 'des', 'aux', 'de', 'le', 'la', 'du', 'au', 'à', 'l\''
     ]
 
     @staticmethod
