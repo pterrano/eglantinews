@@ -52,6 +52,7 @@
                         }
                     ],
                     "samples": [
+                        "extinction {room}",
                         "éteindre {room}",
                         "désactivation {room}",
                         "désactiver {room}"
