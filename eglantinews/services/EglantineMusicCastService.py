@@ -156,7 +156,7 @@ class EglantineMusicService(EglantineRoomService):
         if result_search is not None:
             return Sentences.RADIO_FOUND % (result_search, self.__get_music_location(context))
         else:
-            return Sentences.RADIO_NOT_FOUND % (radio, self.__get_music_location(context))
+            return Sentences.RADIO_NOT_FOUND % (query, self.__get_music_location(context))
 
     def __listen_artist(self, context: ExecutionContext):
 
@@ -262,8 +262,16 @@ class EglantineMusicService(EglantineRoomService):
             'Resume': {
                 'function': self.__resume
             },
+            'ResumeRoom': {
+                'function': self.__resume,
+                'expected-slots': expected_room
+            },
             'Pause': {
                 'function': self.__pause
+            },
+            'PauseRoom': {
+                'function': self.__pause,
+                'expected-slots': expected_room
             },
             'EnableMultiroom': {
                 'function': self.__enable_multiroom

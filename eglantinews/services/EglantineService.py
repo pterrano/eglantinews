@@ -85,8 +85,7 @@ class EglantineService:
                     return True
 
                 if isinstance(expected_slot, list):
-                    if self.__has_expected_slot(input_slot, expected_slot):
-                        return False
+                    return self.__has_expected_slot(input_slot, expected_slot)
                 elif not self.__is_expected_slot(input_slot, expected_slot):
                     return False
 
@@ -108,8 +107,8 @@ class EglantineService:
 
     def __is_expected_slot(self, input_slot: Slot, expected_slot):
 
-        expected_slot_id = self.__get_attribute(expected_slot, 'value')
-        expected_slot_value = self.__get_attribute(expected_slot, 'id')
+        expected_slot_id = expected_slot.get_id();
+        expected_slot_value = expected_slot.get_value();
 
         return \
             (expected_slot_id is None or input_slot.get_id() == expected_slot_id) and \

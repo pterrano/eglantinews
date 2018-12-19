@@ -7,10 +7,8 @@ class Slot:
 
         self.__identifier = identifier
 
-        if value is None:
-            self.__value = identifier
-        else:
-            self.__value = value
+        self.__value = value
+
 
     def get_id(self):
         return self.__identifier

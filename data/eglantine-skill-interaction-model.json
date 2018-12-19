@@ -188,11 +188,36 @@
                     ]
                 },
                 {
+                    "name": "PauseRoom",
+                    "slots": [
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "Pause {room}"
+                    ]
+                },
+                {
                     "name": "Resume",
                     "slots": [],
                     "samples": [
                         "reprendre",
                         "reprise"
+                    ]
+                },
+                {
+                    "name": "ResumeRoom",
+                    "slots": [
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "reprendre {room}",
+                        "reprise {room}"
                     ]
                 },
                 {

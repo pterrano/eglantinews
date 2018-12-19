@@ -126,8 +126,16 @@ class EglantineTVService(EglantineRoomService):
             'Resume': {
                 'function': self.__resume
             },
+            'ResumeRoom': {
+                'function': self.__resume,
+                'expected-slots': expected_tv_room
+            },
             'Pause': {
                 'function': self.__pause
+            },
+            'PauseRoom': {
+                'function': self.__pause,
+                'expected-slots': expected_tv_room
             },
             'ReturnDirect': {
                 'function': self.__return_direct
