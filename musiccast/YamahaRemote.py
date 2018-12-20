@@ -161,17 +161,30 @@ class YamahaRemote:
 
             self.set_input(media)
 
-            # on joue le premier titre
-            if not self.select_after_item(search_type, True, media):
+            # on selectionne all tracks
+            if not self.select_item('all tracks', media):
+                #si on y arrive pas on prend le premier
+                if not self.select_after_item(search_type, True, media):
+                    return None
+
+            # on selectionne le track le plus proche parmis les 8 premiers
+            elif not self.select_nearest(pattern, True, media):
                 return None
+
 
             return self.get_play_info(True)
 
         # albums
         elif search_type == 'albums':
 
-            # on selectionne le premier album
-            if not self.select_after_item(search_type, False, media):
+            # on selectionne all albums
+            if not self.select_item('all albums', media):
+                #si on y arrive pas on prend le premier
+                if not self.select_after_item(search_type, False, media):
+                    return None
+
+            # on selectionne l'album le plus proche parmis les 8 premiers
+            elif not self.select_nearest(pattern, False, media):
                 return None
 
             if len(self.list_info(0, media)['list_info']) == 0:
@@ -186,8 +199,12 @@ class YamahaRemote:
         # artists
         elif search_type == 'artists':
 
-            # on selectionne le premier atist
-            if not self.select_after_item(search_type, False, media):
+            # on selectionne all artists
+            if not self.select_item('all artists', media):
+                if not self.select_after_item(search_type, False, media):
+                    return None
+            # on selectionne l'artist le plus proche parmis les 8 premiers
+            elif not self.select_nearest(pattern, False, media):
                 return None
 
             # on selectionne top tracks
