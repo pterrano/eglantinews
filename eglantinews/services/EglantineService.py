@@ -35,6 +35,8 @@ class EglantineService:
 
         result_function = intent_function(context)
 
+        if result_function is None:
+            result_function = EglantineServiceResult(None, False)
         if isinstance(result_function, str):
             result_function = EglantineServiceResult(result_function)
 

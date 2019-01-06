@@ -76,6 +76,34 @@
                     ]
                 },
                 {
+                    "name": "IncreaseVolume",
+                    "slots": [
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "augmenter le volume dans {room}",
+                        "augmenter le volume"
+                    ]
+                },
+                {
+                    "name": "DecreaseVolume",
+                    "slots": [
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "diminuer le volume dans {room}",
+                        "diminuer le volume",
+                        "réduire le volume dans {room}",
+                        "réduire le volume"
+                    ]
+                },
+                {
                     "name": "ChangeChannel",
                     "slots": [
                         {

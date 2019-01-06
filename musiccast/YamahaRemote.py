@@ -17,6 +17,8 @@ class YamahaRemote:
 
     UNLINK_GROUP = "00000000000000000000000000000000"
 
+    DEFAULT_STEP_VOLUME = 5
+
     FOLDER_ATTRIBUTE = 2
 
     __yamaha_radio = YamahaRadio()
@@ -394,16 +396,26 @@ class YamahaRemote:
         self.__get('select menu index %s' % index, 'netusb/setListControl',
                    params={'type': 'select', 'zone': 'main', 'index': index})
 
-    def set_input(self, input_source: str):
+    def set_input(self, input_source: str, mode:str='autoplay_disabled'):
         current_input = self.get_input()
         if current_input != input_source:
-            self.__get('set input to %s' % input_source, 'main/setInput', params={'input': input_source})
+            self.__get('set input to %s' % input_source, 'main/setInput', params={'input': input_source, 'mode': mode})
             self.__wait_input(input_source)
 
     def set_volume(self, volume: int):
         max_volume = self.__get_max_volume()
         v = int(round((volume * max_volume) / 100))
         self.__get('set volume to %s' % volume, 'main/setVolume', params={'volume': v})
+
+    def increase_volume(self, step:int=DEFAULT_STEP_VOLUME):
+        max_volume = self.__get_max_volume()
+        s=int(max_volume / step)
+        self.__get('increase volume to %s' % s, 'main/setVolume', params={'volume': 'up', 'step': step})
+
+    def decrease_volume(self, step:int=DEFAULT_STEP_VOLUME):
+        max_volume = self.__get_max_volume()
+        s=int(max_volume / step)
+        self.__get('increase volume to %s' % s, 'main/setVolume', params={'volume': 'down', 'step': step})
 
     def set_mute(self, status):
         self.__get('set mute to %s' % status, 'main/setMute', params={'enable': status})

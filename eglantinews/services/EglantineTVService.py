@@ -93,6 +93,12 @@ class EglantineTVService(EglantineRoomService):
                 'function': self._change_volume,
                 'expected-slots': expected_volume
             },
+            'IncreaseVolume': {
+                'function': self._increase_volume,
+            },
+            'DecreaseVolume': {
+                'function': self._decrease_volume,
+            },
             'TurnOn': {
                 'function': self.__turn_on,
                 'expected-slots': expected_tv_room

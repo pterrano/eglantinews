@@ -236,6 +236,12 @@ class EglantineMusicService(EglantineRoomService):
                 'function': self._change_volume,
                 'expected-slots': expected_volume
             },
+            'IncreaseVolume': {
+                'function': self._increase_volume,
+            },
+            'DecreaseVolume': {
+                'function': self._decrease_volume,
+            },
             'TurnOff': {
                 'function': self.__turn_off,
                 'expected-slots': expected_room

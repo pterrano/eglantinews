@@ -85,6 +85,48 @@ class EglantineRoomService(EglantineService):
     def _current_remote(self, context: ExecutionContext):
         return self._remote(self._get_current_room(context))
 
+    def _increase_volume(self, context: ExecutionContext):
+
+        multiroom = self._is_multiroom(context) and context.get_slot_id('room') is None
+
+        room = self._get_room(context)
+
+        if multiroom:
+            for room in self.__yamaha_remote_factory.get_room_ids():
+                remote = self._remote(room)
+                remote.turn_on()
+                logging.info('INCREASE VOLUME (%s)' % (room))
+                remote.increase_volume()
+
+        else:
+            remote = self._remote(room)
+            remote.turn_on()
+            logging.info('INCREASE VOLUME (%s)' % (room))
+            remote.increase_volume()
+
+        return None;
+
+    def _decrease_volume(self, context: ExecutionContext):
+
+        multiroom = self._is_multiroom(context) and context.get_slot_id('room') is None
+
+        room = self._get_room(context)
+
+        if multiroom:
+            for room in self.__yamaha_remote_factory.get_room_ids():
+                remote = self._remote(room)
+                remote.turn_on()
+                logging.info('DECREASE VOLUME (%s)' % (room))
+                remote.decrease_volume()
+
+        else:
+            remote = self._remote(room)
+            remote.turn_on()
+            logging.info('DECREASE VOLUME (%s)' % (room))
+            remote.decrease_volume()
+
+        return None;
+
     def _change_volume(self, context: ExecutionContext):
 
         volume = context.get_slot_value('volume')
