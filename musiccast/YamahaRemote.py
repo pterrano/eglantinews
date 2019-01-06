@@ -17,7 +17,7 @@ class YamahaRemote:
 
     UNLINK_GROUP = "00000000000000000000000000000000"
 
-    DEFAULT_STEP_VOLUME = 5
+    DEFAULT_STEP_VOLUME = 10
 
     FOLDER_ATTRIBUTE = 2
 
@@ -409,13 +409,13 @@ class YamahaRemote:
 
     def increase_volume(self, step:int=DEFAULT_STEP_VOLUME):
         max_volume = self.__get_max_volume()
-        s=int(max_volume / step)
-        self.__get('increase volume to %s' % s, 'main/setVolume', params={'volume': 'up', 'step': step})
+        s = int(round((step * max_volume) / 100))
+        self.__get('increase volume to %s' % s, 'main/setVolume', params={'volume': 'up', 'step': s})
 
     def decrease_volume(self, step:int=DEFAULT_STEP_VOLUME):
         max_volume = self.__get_max_volume()
-        s=int(max_volume / step)
-        self.__get('increase volume to %s' % s, 'main/setVolume', params={'volume': 'down', 'step': step})
+        s = int(round((step * max_volume) / 100))
+        self.__get('decrease volume to %s' % s, 'main/setVolume', params={'volume': 'down', 'step': s})
 
     def set_mute(self, status):
         self.__get('set mute to %s' % status, 'main/setMute', params={'enable': status})
