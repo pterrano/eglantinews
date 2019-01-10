@@ -331,6 +331,12 @@
                             }
                         },
                         {
+                            "id": "BEDROOM",
+                            "name": {
+                                "value": "la chambre"
+                            }
+                        },
+                        {
                             "id": "TV",
                             "name": {
                                 "value": "la télé"

@@ -23,6 +23,11 @@
           "hostname": "wx051",
           "label": "le bureau",
           "default-volume": 50
+        },
+        "BEDROOM": {
+          "hostname": "wx030",
+          "label": "la chambre",
+          "default-volume": 25
         }
       },
       "multiroom": {
