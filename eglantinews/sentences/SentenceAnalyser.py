@@ -30,7 +30,7 @@ class SentenceAnalyser:
         if query.find(pattern) != -1:
             query = query.replace(pattern, "").strip()
             slots.add("query", Slot(None, query), True)
-            slots.add("multiroom", True)
+            slots.add("multiroom", Slot(True), True)
 
     @staticmethod
     def __process_rooms(slots: Slots, room_slots: List[Slot]):
