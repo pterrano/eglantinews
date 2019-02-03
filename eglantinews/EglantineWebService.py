@@ -46,7 +46,7 @@ class EglantineWebService(Resource):
 
     def run(self):
         logging.info('Server started')
-        self.__app.run(debug=True, host='0.0.0.0')
+        self.__app.run(debug=False, host='0.0.0.0')
 
     def __get_session(self, alexa_request: AlexaRequest) -> Session:
 
