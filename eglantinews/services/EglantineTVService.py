@@ -30,6 +30,8 @@ class EglantineTVService(EglantineRoomService):
     def __turn_on(self, context: ExecutionContext):
         logging.info('ON TV')
         self.samsung_tv_remote.turn_on()
+        self.samsung_tv_remote.send_key('KEY_CHUP');
+        self.samsung_tv_remote.send_key('KEY_DOWN');
         return Sentences.TURN_ON_TV
 
     def __next_channel(self, context: ExecutionContext):
