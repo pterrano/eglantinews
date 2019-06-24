@@ -20,12 +20,12 @@
           "default": true
         },
         "DESKTOP": {
-          "hostname": "wx051",
+          "hostname": "speaker-desktop",
           "label": "le bureau",
           "default-volume": 50
         },
         "BEDROOM": {
-          "hostname": "wx030",
+          "hostname": "speaker-living-room",
           "label": "la chambre",
           "default-volume": 25
         }
