@@ -1,17 +1,13 @@
 import logging
 
-from eglantinews.EglantineConstants import QueryType
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
-from eglantinews.sentences.SentenceAnalyser import SentenceAnalyser
 from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 
 
 class EglantineMusicService(EglantineRoomService):
     _service_name = "Musiccast"
-
-    _sentence_analyser = SentenceAnalyser
 
     # Sub-sentence to specify where music will be played
     def __get_music_location(self, context: ExecutionContext):
@@ -122,30 +118,11 @@ class EglantineMusicService(EglantineRoomService):
                 result = result + Sentences.CURRENT_VOLUME_WITH_LOCATION % (volume, self._get_room_name(room))
             return result
 
-    def __listen(self, context: ExecutionContext):
-
-        room_slots = self._get_rooms_slots()
-
-        slots = context.get_slots()
-
-        self._sentence_analyser.analyse_and_create_slots(slots, room_slots)
-
-        query_type = slots.get_id('query-type')
-
-        if query_type == QueryType.LISTEN_ARTIST:
-            return self.__listen_artist(context)
-        elif query_type == QueryType.LISTEN_ALBUM:
-            return self.__listen_album(context)
-        elif query_type == QueryType.LISTEN_TRACK:
-            return self.__listen_track(context)
-        elif query_type == QueryType.LISTEN_RADIO:
-            return self.__listen_radio(context)
-
     def __listen_radio(self, context: ExecutionContext):
 
         room = self._get_room(context)
 
-        query = context.get_slot_value('query')
+        query = context.get_slot_value('queryRadio')
 
         logging.info('LISTEN RADIO %s in %s' % (query, room))
 
@@ -162,7 +139,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = context.get_slot_value('query')
+        query = context.get_slot_value('queryArtist')
 
         logging.info('LISTEN ARTIST %s in %s' % (query, room))
 
@@ -179,7 +156,14 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = context.get_slot_value('query')
+        query_track = context.get_slot_value('queryTrack')
+
+        query_artist = context.get_slot_value('queryArtist')
+
+        if query_artist is None:
+            query = query_track
+        else:
+            query = query_track + " " + query_artist
 
         logging.info('LISTEN TRACK %s in %s' % (query, room))
 
@@ -191,13 +175,20 @@ class EglantineMusicService(EglantineRoomService):
             return Sentences.TRACK_FOUND % (
                 result_search['track'], result_search['artist'], self.__get_music_location(context))
         else:
-            return Sentences.TRACK_NOT_FOUND % query
+            return Sentences.TRACK_NOT_FOUND % query_track
 
     def __listen_album(self, context: ExecutionContext):
 
         room = self._get_room(context)
 
-        query = context.get_slot_value('query')
+        query_album = context.get_slot_value('queryAlbum')
+
+        query_artist = context.get_slot_value('queryArtist')
+
+        if query_artist is None:
+            query = query_album
+        else:
+            query = query_album + " " + query_artist
 
         logging.info('LISTEN ALBUM %s in %s' % (query, room))
 
@@ -209,7 +200,7 @@ class EglantineMusicService(EglantineRoomService):
             return Sentences.ALBUM_FOUND % (
                 result_search['album'], result_search['artist'], self.__get_music_location(context))
         else:
-            return Sentences.ALBUM_NOT_FOUND % query
+            return Sentences.ALBUM_NOT_FOUND % query_album
 
     def __enable_multiroom(self, context: ExecutionContext):
 
@@ -228,7 +219,6 @@ class EglantineMusicService(EglantineRoomService):
         all_rooms = self._get_rooms_slots()
 
         expected_volume = {'volume': None}
-        expected_query = {'query': None}
         expected_room = {'room': all_rooms}
 
         return {
@@ -291,9 +281,21 @@ class EglantineMusicService(EglantineRoomService):
             'CurrentVolume': {
                 'function': self.__current_volume
             },
-            'Listen': {
-                'function': self.__listen,
-                'expected-slots': expected_query
+            'ListenArtist': {
+                'function': self.__listen_artist,
+                'expected-slots': {'queryArtist': None}
+            },
+            'ListenAlbum': {
+                'function': self.__listen_album,
+                'expected-slots': {'queryAlbum': None}
+            },
+            'ListenTrack': {
+                'function': self.__listen_track,
+                'expected-slots': {'queryTrack': None}
+            },
+            'ListenRadio': {
+                'function': self.__listen_radio,
+                'expected-slots': {'queryRadio': None}
             }
 
         }

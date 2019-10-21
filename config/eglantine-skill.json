@@ -13,7 +13,7 @@
     "musiccast": {
       "devices": {
         "LIVING": {
-          "hostname": "amplifier",
+          "hostname": "speaker-office",
           "label": "le salon",
           "default-volume": 60,
           "max-volume": 120,

@@ -170,9 +170,7 @@ class YamahaRemote:
                     return None
 
             # on selectionne le track le plus proche parmis les 8 premiers
-            elif not self.select_nearest(pattern, True, media):
-                return None
-
+            self.menu_play(0)
 
             return self.get_play_info(True)
 
@@ -184,10 +182,6 @@ class YamahaRemote:
                 #si on y arrive pas on prend le premier
                 if not self.select_after_item(search_type, False, media):
                     return None
-
-            # on selectionne l'album le plus proche parmis les 8 premiers
-            elif not self.select_nearest(pattern, False, media):
-                return None
 
             if len(self.list_info(0, media)['list_info']) == 0:
                 return None
@@ -257,6 +251,8 @@ class YamahaRemote:
             return list(map(lambda line: line['text'].lower(), list_item)).index(item)
         except ValueError:
             return None
+
+
 
     def select_nearest(self, selected_item: str, play: bool = False, media='server') -> str:
 

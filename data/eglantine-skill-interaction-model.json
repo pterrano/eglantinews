@@ -156,20 +156,6 @@
                     ]
                 },
                 {
-                    "name": "Listen",
-                    "slots": [
-                        {
-                            "name": "query",
-                            "type": "AMAZON.SearchQuery"
-                        }
-                    ],
-                    "samples": [
-                        "mettre {query}",
-                        "jouer {query}",
-                        "écouter {query}"
-                    ]
-                },
-                {
                     "name": "WatchPhotoAlbum",
                     "slots": [
                         {
@@ -276,10 +262,7 @@
                     "slots": [],
                     "samples": [
                         "quel est le morceau en cours",
-                        "morceau en cours",
-                        "quel est le titre en cours",
-                        "titre en cours",
-                        "ce que nous écoutons actuellement"
+                        "quel est le titre en cours"
                     ]
                 },
                 {
@@ -311,6 +294,112 @@
                     "samples": [
                         "désactiver multiroom",
                         "désactiver le multiroom"
+                    ]
+                },
+                {
+                    "name": "ListenTrack",
+                    "slots": [
+                        {
+                            "name": "queryTrack",
+                            "type": "AMAZON.MusicRecording"
+                        },
+                        {
+                            "name": "queryArtist",
+                            "type": "AMAZON.Artist"
+                        },
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "Ecouter le morceau {queryTrack} dans {room}",
+                        "Mettre le morceau {queryTrack} dans {room}",
+                        "Mettre le morceau de {queryTrack} de {queryArtist} dans {room}",
+                        "Ecouter le morceau {queryTrack} de {queryArtist} dans {room}",
+                        "Mettre {queryTrack} dans {room}",
+                        "Mettre {queryTrack} de {queryArtist} dans {room}",
+                        "Ecouter {queryTrack} dans {room}",
+                        "Ecouter {queryTrack} de {queryArtist} dans {room}",
+                        "Ecouter {queryTrack} de {queryArtist}",
+                        "Ecouter {queryTrack}",
+                        "Mettre {queryTrack} de {queryArtist}",
+                        "Mettre {queryTrack}",
+                        "Ecouter le morceau {queryTrack} de {queryArtist}",
+                        "Mettre le morceau {queryTrack} de {queryArtist}",
+                        "Mettre le morceau {queryTrack}",
+                        "Ecouter le morceau {queryTrack}"
+                    ]
+                },
+                {
+                    "name": "ListenAlbum",
+                    "slots": [
+                        {
+                            "name": "queryAlbum",
+                            "type": "AMAZON.MusicAlbum"
+                        },
+                        {
+                            "name": "queryArtist",
+                            "type": "AMAZON.Artist"
+                        },
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "Mettre l'album {queryAlbum} dans {room}",
+                        "Mettre l'album {queryAlbum} de {queryArtist} dans {room}",
+                        "Mettre l'album {queryAlbum} de {queryArtist}",
+                        "Ecouter l'album {queryAlbum} dans {room}",
+                        "Ecouter l'album {queryAlbum} de {queryArtist} dans {room}",
+                        "Ecouter l'album {queryAlbum} de {queryArtist}",
+                        "Ecouter l'album {queryAlbum}",
+                        "Mettre l'album {queryAlbum}"
+                    ]
+                },
+                {
+                    "name": "ListenArtist",
+                    "slots": [
+                        {
+                            "name": "queryArtist",
+                            "type": "AMAZON.Artist"
+                        },
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "Ecouter l'artiste {queryArtist} dans {room}",
+                        "Mettre l'artiste {queryArtist} dans {room}",
+                        "Mettre le chanteur {queryArtist} dans {room}",
+                        "Ecouter le chanteur {queryArtist} dans {room}",
+                        "Ecouter les titres de {queryArtist} dans {room}",
+                        "Ecouter les titres de {queryArtist}",
+                        "Ecouter le chanteur {queryArtist}",
+                        "Mettre le chanteur {queryArtist}",
+                        "Mettre l'artiste {queryArtist}",
+                        "Ecouter l'artiste {queryArtist}"
+                    ]
+                },
+                {
+                    "name": "ListenRadio",
+                    "slots": [
+                        {
+                            "name": "queryRadio",
+                            "type": "AMAZON.RadioChannel"
+                        },
+                        {
+                            "name": "room",
+                            "type": "room"
+                        }
+                    ],
+                    "samples": [
+                        "Ecouter la radio {queryRadio} dans {room}",
+                        "Mettre la radio {queryRadio} dans {room}",
+                        "Mettre la radio {queryRadio}",
+                        "Ecouter la radio {queryRadio}"
                     ]
                 }
             ],
