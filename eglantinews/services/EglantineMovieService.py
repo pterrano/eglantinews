@@ -6,15 +6,16 @@ from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineTVService import EglantineTVService
 from utils.SearchUtils import simplify
 
+
 class EglantineMovieService(EglantineTVService):
-    __config = EglantineConfig()
+    _kodi_config = EglantineConfig().get_kodi_config()
 
     _serviceName = "KODI"
 
     def __init__(self):
         EglantineTVService.__init__(self)
-        url = self.__config.get_kodi_config()['url']
-        self.__kodi = Kodi(url)
+        self._kodi = Kodi(self._kodi_config['url'])
+        self._kodi_input = self._kodi_config['input']
 
     def __find_movie(self, query: str):
         movies = self.__get_movies()
@@ -32,7 +33,7 @@ class EglantineMovieService(EglantineTVService):
                 return movie
 
     def __get_movies(self):
-        response = self.__kodi.VideoLibrary.GetMovies(
+        response = self._kodi.VideoLibrary.GetMovies(
             {
                 "limits": {
                     "start": 0,
@@ -62,7 +63,11 @@ class EglantineMovieService(EglantineTVService):
         if movie is None:
             return Sentences.MOVIE_NOT_FOUND % (queryMovie)
 
-        response = self.__kodi.Player.Open({"item": {"movieid": movie['movieid']}})
+        room = context.get_slot_id('room', self._get_default_room())
+
+        self._remote(room).set_input(self._kodi_input)
+
+        response = self._kodi.Player.Open({"item": {"movieid": movie['movieid']}})
 
         if self.__check_result(response):
             return Sentences.MOVIE_FOUND % (movie['label'])

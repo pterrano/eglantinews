@@ -8,9 +8,6 @@ from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 from samsungtv.SamsungTvRemote import SamsungTvRemote
 
-TV_INPUT = 'av4'
-
-
 class EglantineTVService(EglantineRoomService):
     __config = EglantineConfig()
 
@@ -20,6 +17,7 @@ class EglantineTVService(EglantineRoomService):
 
     def __init__(self):
         tv_config = self.__config.get_samsung_tv_config()
+        self._tv_input = tv_config['input']
         self.samsung_tv_remote = SamsungTvRemote(tv_config['hostname'], tv_config['mac'])
 
     def __turn_off(self, context: ExecutionContext):
@@ -53,7 +51,7 @@ class EglantineTVService(EglantineRoomService):
 
         self.samsung_tv_remote.ensure_up()
 
-        self._remote(room).set_input(TV_INPUT)
+        self._remote(room).set_input(self._tv_input)
 
         for digit in channel:
             self.samsung_tv_remote.send_key('KEY_' + digit)
