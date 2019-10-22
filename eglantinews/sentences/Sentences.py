@@ -3,7 +3,7 @@ class Sentences:
 
     DEFAULT_PROMPT = "Que puis je faire ?"
     LAUNCH_PROMPT = "Bonjour c'est Eglantine, que puis-je faire ?"
-    TOO_LONG = "Je cherche toujours. Dîtes OK pour avoir ma réponse"
+    TOO_LONG = "Recherche en cours"
     UNKNOWN = "Je ne comprends pas"
     ERROR = "Une erreur s'est produite"
     ERROR_SERVICE = "Une erreur s'est produite dans le service %s"
@@ -16,9 +16,10 @@ class Sentences:
     TURN_ON_TV = "Allumage de la télé"
     TURN_OFF_TV = "Extinction de la télé"
 
-    PAUSE_TV = "Pause de la télé"
-    RESUME_TV = "Reprise du visionnage de la télé"
-    RETURN_TO_DIRECT = "Retour au direct sur la télé"
+    PAUSE_TV = "Mise en pause"
+    STOP_TV = "Arrêt du visionnage"
+    RESUME_TV = "Reprise du visionnage"
+    RETURN_TO_DIRECT = "Retour au direct"
     CHANGE_CHANNEL = "Je mets la chaine %s"
 
     TURN_ON = "Allumage de %s"

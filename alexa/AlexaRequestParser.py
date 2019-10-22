@@ -110,6 +110,9 @@ class AlexaRequestParser:
 
         for resolution_per_authority in resolutions_per_authority:
 
+            if 'values' not in resolution_per_authority:
+                continue
+
             values = resolution_per_authority['values']
 
             if len(values) > 0:

@@ -61,6 +61,10 @@ class EglantineTVService(EglantineRoomService):
 
         return EglantineServiceResult(Sentences.CHANGE_CHANNEL % channel, False)
 
+    def __stop(self, context: ExecutionContext):
+        self.samsung_tv_remote.send_key('KEY_STOP')
+        return EglantineServiceResult(Sentences.STOP_TV)
+
     def __resume(self, context: ExecutionContext):
         self.samsung_tv_remote.send_key('KEY_PLAY')
 
@@ -123,7 +127,7 @@ class EglantineTVService(EglantineRoomService):
                 'function': self.__previous_channel
             },
             'AMAZON.StopIntent': {
-                'function': self.__nothing
+                'function': self.__stop
             },
             'Next': {
                 'function': self.__next_channel

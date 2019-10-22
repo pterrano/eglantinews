@@ -4,7 +4,7 @@ from eglantinews.EglantineConfig import EglantineConfig
 from eglantinews.ExecutionContext import ExecutionContext
 from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineTVService import EglantineTVService
-
+from utils.SearchUtils import simplify
 
 class EglantineMovieService(EglantineTVService):
     __config = EglantineConfig()
@@ -16,17 +16,27 @@ class EglantineMovieService(EglantineTVService):
         url = self.__config.get_kodi_config()['url']
         self.__kodi = Kodi(url)
 
-    def __find_movie(self, label):
+    def __find_movie(self, query: str):
+        movies = self.__get_movies()
+        if movies is None:
+            return None
+
+        simplified_query = simplify(query)
+
+        for movie in movies:
+            if simplified_query == simplify(movie['label']):
+                return movie
+
+        for movie in movies:
+            if simplified_query in simplify(movie['label']):
+                return movie
+
+    def __get_movies(self):
         response = self.__kodi.VideoLibrary.GetMovies(
             {
-                "filter": {
-                    "field": "title",
-                    "operator": "contains",
-                    "value": label
-                },
                 "limits": {
                     "start": 0,
-                    "end": 75
+                    "end": 10000
                 },
                 "sort": {
                     "order": "ascending",
@@ -38,12 +48,7 @@ class EglantineMovieService(EglantineTVService):
         if not 'result' in response or not 'movies' in response['result']:
             return None
 
-        movies = response['result']['movies']
-
-        if len(movies) == 0:
-            return None
-        else:
-            return movies[0]
+        return response['result']['movies']
 
     def __check_result(self, response):
         return 'result' in response and response['result'] == 'OK'

@@ -14,8 +14,8 @@
                 {
                     "name": "AMAZON.StopIntent",
                     "samples": [
-                        "Stop",
-                        "Arrêter"
+                        "Arrêter",
+                        "Stop"
                     ]
                 },
                 {
@@ -151,6 +151,8 @@
                         }
                     ],
                     "samples": [
+                        "visionner {queryMovie}",
+                        "regarder {queryMovie}",
                         "visionner le film {queryMovie}",
                         "mettre le film {queryMovie}",
                         "regarder le film {queryMovie}"
@@ -698,9 +700,10 @@
                         }
                     ]
                 },
-                {   
+                {
                     "name": "Movie",
-                    "values": []
+                    "values": [
+                    ]
                 }
             ]
         }
