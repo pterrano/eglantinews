@@ -1,7 +1,7 @@
 from eglantinews.Session import Session
 from alexa.Slot import Slot
 from alexa.Slots import Slots
-
+from eglantinews.EglantineConstants import EglantineConstants
 
 class ExecutionContext:
 
@@ -52,3 +52,6 @@ class ExecutionContext:
 
     def get_session(self) -> Session:
         return self.__session
+
+    def service_changed(self) -> bool:
+        return self.__session.get_attribute(EglantineConstants.CURRENT_SERVICE_CHANGED)

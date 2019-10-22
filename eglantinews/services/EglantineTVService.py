@@ -43,6 +43,7 @@ class EglantineTVService(EglantineRoomService):
         return EglantineServiceResult(None, False, "")
 
     def __change_channel(self, context: ExecutionContext):
+
         room = context.get_slot_id('room', self._get_default_room())
 
         channel = context.get_slot_id('channel')
@@ -52,6 +53,10 @@ class EglantineTVService(EglantineRoomService):
         self.samsung_tv_remote.ensure_up()
 
         self._remote(room).set_input(self._tv_input)
+
+        if context.service_changed():
+            self.__next_channel(context)
+            self.__previous_channel(context)
 
         for digit in channel:
             self.samsung_tv_remote.send_key('KEY_' + digit)

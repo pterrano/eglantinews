@@ -1,5 +1,7 @@
 class EglantineConstants:
-    LAST_SERVICES_SESSION = 'common.last-services'
+    CURRENT_SERVICE_CHANGED = "common.changed-service"
+    CURRENT_SERVICE = "common.current-service"
+    LAST_SERVICES = 'common.last-services'
     DEFAULT_SERVICE_TIMEOUT = 6
 
     OK_INTENT = 'OK'

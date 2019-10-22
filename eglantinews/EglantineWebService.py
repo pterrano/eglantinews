@@ -221,14 +221,22 @@ class EglantineWebService(Resource):
     """
 
     def __set_current_service(self, alexa_request, thread_service: EglantineThreadService):
-        self.__get_session(alexa_request).set_attribute('common.current-service', thread_service)
+        session = self.__get_session(alexa_request)
+
+        last_service = session.get_attribute(EglantineConstants.CURRENT_SERVICE)
+
+        if last_service != thread_service:
+            session.set_attribute(EglantineConstants.CURRENT_SERVICE, thread_service)
+            session.set_attribute(EglantineConstants.CURRENT_SERVICE_CHANGED, True)
+        else:
+            session.set_attribute(EglantineConstants.CURRENT_SERVICE_CHANGED, False)
 
     """
     Récupération en session du service en cours d'execution
     """
 
     def __get_current_service(self, alexa_request: AlexaRequest) -> EglantineThreadService:
-        return self.__get_session(alexa_request).get_attribute('common.current-service')
+        return self.__get_session(alexa_request).get_attribute(EglantineConstants.CURRENT_SERVICE)
 
     """
     Récupération/Stockage de la liste des services en session
@@ -239,10 +247,10 @@ class EglantineWebService(Resource):
 
         session = self.__get_session(alexa_request)
 
-        last_services = session.get_attribute(EglantineConstants.LAST_SERVICES_SESSION)
+        last_services = session.get_attribute(EglantineConstants.LAST_SERVICES)
         if last_services is None:
             last_services = copy(self.__available_services)
-            session.set_attribute(EglantineConstants.LAST_SERVICES_SESSION, last_services)
+            session.set_attribute(EglantineConstants.LAST_SERVICES, last_services)
 
         return last_services
 
