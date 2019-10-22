@@ -42,5 +42,8 @@ class EglantineConfig:
     def get_samsung_tv_config(self) -> dict:
         return self.json_config['services']['samsung-tv']
 
+    def get_kodi_config(self) -> dict:
+        return self.json_config['services']['kodi']
+
     def __get_default_config_file(self) -> str:
         return os.path.dirname(os.path.realpath(sys.argv[0])) + self.DEFAULT_CONFIG_FILE

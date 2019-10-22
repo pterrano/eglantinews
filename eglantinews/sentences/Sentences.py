@@ -30,11 +30,15 @@ class Sentences:
     RADIO_FOUND = "Ok, je mets %s %s"
     ARTIST_FOUND = "Ok, je mets les titres de %s %s"
     TRACK_FOUND = "Ecoutons %s de %s %s"
+    MOVIE_FOUND = "Visionnons %s"
 
     ALBUM_NOT_FOUND = "Je n'ai pas trouvé d'album %s"
     RADIO_NOT_FOUND = "Je n'ai pas trouvé la radio %s %s"
     ARTIST_NOT_FOUND = "Je n'ai pas trouvé de titre pour %s"
     TRACK_NOT_FOUND = "Je n'ai pas trouvé le titre %s"
+    MOVIE_NOT_FOUND = "Je n'ai pas trouvé le film %s"
+
+    MOVIE_ERROR_STARTED = "Une erreur s'est produite lors du démarrage du visionnage de %s"
 
     ENABLE_MULTIROOM = "Activation du multiroom"
     DISABLE_MULTIROOM = "Désactivation du multiroom"
@@ -57,6 +61,7 @@ class Sentences:
     VOLUME_RANGE = "Le volume maximum est de 100"
     VOLUME_MODIFICATION = "Modification du volume à %s"
     VOLUME_MODIFICATION_WITH_LOCATION = "Modification du volume à %s dans %s"
+
 
     NORMALISE_WORDS = [
         'les', 'des', 'aux', 'de', 'le', 'la', 'du', 'au', 'à', 'l\''

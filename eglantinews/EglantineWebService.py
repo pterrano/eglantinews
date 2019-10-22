@@ -19,12 +19,14 @@ from eglantinews.services.EglantineMockService import EglantineMockService
 from eglantinews.services.EglantineMusicCastService import EglantineMusicService
 from eglantinews.services.EglantineService import EglantineService
 from eglantinews.services.EglantineTVService import EglantineTVService
+from eglantinews.services.EglantineMovieService import EglantineMovieService
 
 
 class EglantineWebService(Resource):
     __available_services: EglantineService = [
         EglantineTVService(),
         EglantineMusicService(),
+        EglantineMovieService(),
         EglantineMockService()
     ]
 

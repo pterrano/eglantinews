@@ -38,6 +38,9 @@
     "samsung-tv": {
       "hostname": "tv",
       "mac": "5C:49:7D:EF:35:2B"
+    },
+    "kodi": {
+      "url": "http://mediacenter:8080/jsonrpc"
     }
   }
 }

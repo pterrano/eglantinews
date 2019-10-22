@@ -23,12 +23,6 @@ class EglantineMockService(EglantineService):
 
     def get_intent_configs(self):
         return {
-            'WatchMovie': {
-                'function': self.__watch_movie,
-                'expected-slots': {
-                    'movie': None
-                }
-            },
             'WatchPhotoAlbum': {
                 'function': self.__watch_photo_album,
                 'expected-slots': {

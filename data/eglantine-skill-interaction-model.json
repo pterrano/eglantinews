@@ -146,13 +146,14 @@
                     "name": "WatchMovie",
                     "slots": [
                         {
-                            "name": "movie",
-                            "type": "AMAZON.Movie"
+                            "name": "queryMovie",
+                            "type": "Movie"
                         }
                     ],
                     "samples": [
-                        "mettre le film {movie}",
-                        "regarder le film {movie}"
+                        "visionner le film {queryMovie}",
+                        "mettre le film {queryMovie}",
+                        "regarder le film {queryMovie}"
                     ]
                 },
                 {
@@ -696,6 +697,10 @@
                             }
                         }
                     ]
+                },
+                {   
+                    "name": "Movie",
+                    "values": []
                 }
             ]
         }

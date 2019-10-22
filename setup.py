@@ -11,6 +11,7 @@ setup(
         'requests===2.19.1',
         'wakeonlan===1.1.6',
         'websockets===6.0',
+        'kodi-json===1.0.0'
     ],
     url='',
     license='',
