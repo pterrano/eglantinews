@@ -1,0 +1,273 @@
+[
+  {
+    "id": "1",
+    "xmltv-id" : "C192.api.telerama.fr",
+    "name": {
+      "value": "1",
+      "synonyms": [
+        "T.F.1."
+      ]
+    }
+  },
+  {
+    "id": "2",
+    "xmltv-id" : "C4.api.telerama.fr",
+    "name": {
+      "value": "2",
+      "synonyms": [
+        "france 2"
+      ]
+    }
+  },
+  {
+    "id": "3",
+    "xmltv-id" : "C80.api.telerama.fr",
+    "name": {
+      "value": "3",
+      "synonyms": [
+        "france 3"
+      ]
+    }
+  },
+  {
+    "id": "4",
+    "xmltv-id" : "C34.api.telerama.fr",
+    "name": {
+      "value": "4",
+      "synonyms": [
+        "canal plus"
+      ]
+    }
+  },
+  {
+    "id": "5",
+    "xmltv-id" : "C47.api.telerama.fr",
+    "name": {
+      "value": "5",
+      "synonyms": [
+        "france 5"
+      ]
+    }
+  },
+  {
+    "id": "6",
+    "xmltv-id" : "C118.api.telerama.fr",
+    "name": {
+      "value": "6",
+      "synonyms": [
+        "M.6."
+      ]
+    }
+  },
+  {
+    "id": "7",
+    "xmltv-id" : "C111.api.telerama.fr",
+    "name": {
+      "value": "7",
+      "synonyms": [
+        "arté"
+      ]
+    }
+  },
+  {
+    "id": "8",
+    "xmltv-id" : "C445.api.telerama.fr",
+    "name": {
+      "value": "8",
+      "synonyms": [
+        "C.8."
+      ]
+    }
+  },
+  {
+    "id": "9",
+    "xmltv-id" : "C119.api.telerama.fr",
+    "name": {
+      "value": "9",
+      "synonyms": [
+        "W.9."
+      ]
+    }
+  },
+  {
+    "id": "10",
+    "xmltv-id" : "C195.api.telerama.fr",
+
+    "name": {
+      "value": "10",
+      "synonyms": [
+        "T.M.C."
+      ]
+    }
+  },
+  {
+    "id": "11",
+    "xmltv-id" : "C446.api.telerama.fr",
+    "name": {
+      "value": "11",
+      "synonyms": [
+        "T.F.X."
+      ]
+    }
+  },
+  {
+    "id": "12",
+    "xmltv-id" : "C444.api.telerama.fr",
+    "name": {
+      "value": "12",
+      "synonyms": [
+        "N.R.J. 12"
+      ]
+    }
+  },
+  {
+    "id": "13",
+    "xmltv-id" : "C234.api.telerama.fr",
+    "name": {
+      "value": "13",
+      "synonyms": [
+        "L.C.P."
+      ]
+    }
+  },
+  {
+    "id": "14",
+    "xmltv-id" : "C78.api.telerama.fr",
+    "name": {
+      "value": "14",
+      "synonyms": [
+        "france 4"
+      ]
+    }
+  },
+  {
+    "id": "15",
+    "xmltv-id" : "C481.api.telerama.fr",
+    "name": {
+      "value": "15",
+      "synonyms": [
+        "B.F.M. T.V."
+      ]
+    }
+  },
+  {
+    "id": "16",
+    "xmltv-id" : "C226.api.telerama.fr",
+    "name": {
+      "value": "16",
+      "synonyms": [
+        "C. news"
+      ]
+    }
+  },
+  {
+    "id": "17",
+    "xmltv-id" : "C458.api.telerama.fr",
+    "name": {
+      "value": "17",
+      "synonyms": [
+        "C. star"
+      ]
+    }
+  },
+  {
+    "id": "18",
+    "xmltv-id" : "C482.api.telerama.fr",
+    "name": {
+      "value": "18",
+      "synonyms": [
+        "gulli"
+      ]
+    }
+  },
+  {
+    "id": "19",
+    "xmltv-id" : "C160.api.telerama.fr",
+    "name": {
+      "value": "19",
+      "synonyms": [
+        "france o"
+      ]
+    }
+  },
+  {
+    "id": "20",
+    "xmltv-id" : "C1404.api.telerama.fr",
+    "name": {
+      "value": "20",
+      "synonyms": [
+        "T.F.1. séries films"
+      ]
+    }
+  },
+  {
+    "id": "21",
+    "xmltv-id" : "C1401.api.telerama.fr",
+    "name": {
+      "value": "21",
+      "synonyms": [
+        "l'équipe"
+      ]
+    }
+  },
+  {
+    "id": "22",
+    "xmltv-id" : "C1403.api.telerama.fr",
+    "name": {
+      "value": "22",
+      "synonyms": [
+        "6. ter"
+      ]
+    }
+  },
+  {
+    "id": "23",
+    "xmltv-id" : "C1402.api.telerama.fr",
+    "name": {
+      "value": "23",
+      "synonyms": [
+        "R.M.C. story"
+      ]
+    }
+  },
+  {
+    "id": "24",
+    "xmltv-id" : "C1400.api.telerama.fr",
+    "name": {
+      "value": "24",
+      "synonyms": [
+        "R.M.C. découverte"
+      ]
+    }
+  },
+  {
+    "id": "25",
+    "xmltv-id" : "C1399.api.telerama.fr",
+    "name": {
+      "value": "25",
+      "synonyms": [
+        "chérie 25"
+      ]
+    }
+  },
+  {
+    "id": "26",
+    "xmltv-id" : "C112.api.telerama.fr",
+    "name": {
+      "value": "26",
+      "synonyms": [
+        "L.C.I."
+      ]
+    }
+  },
+  {
+    "id": "27",
+    "xmltv-id" : "C2111.api.telerama.fr",
+    "name": {
+      "value": "27",
+      "synonyms": [
+        "france info"
+      ]
+    }
+  }
+]
