@@ -91,6 +91,10 @@ def distance(string1: str, string2: str):
     return levenshtein(remove_ignore_words(string1), remove_ignore_words(string2))
 
 def simplify(input_string:str):
+
+    if input_string is None:
+        return None
+
     input_string = input_string.lower()
     input_string = re.sub(r'([0-9]+)[i]?[èe](me)? ', '\\1ième ', input_string)
     input_string = re.sub(r'[\-\,\:\!\[\]\.\']', ' ', input_string)
