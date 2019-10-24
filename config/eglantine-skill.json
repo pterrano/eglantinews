@@ -38,12 +38,14 @@
     "samsung-tv": {
       "hostname": "tv",
       "mac": "5C:49:7D:EF:35:2B",
-      "input" : "av4",
-      "epg-url" : "https://www.xmltv.fr/guide/tvguide.xml"
+      "input": "av4"
+    },
+    "epg": {
+      "url": "https://www.xmltv.fr/guide/tvguide_tnt.xml"
     },
     "kodi": {
       "url": "http://mediacenter:8080/jsonrpc",
-      "input" : "hdmi4"
+      "input": "hdmi4"
     }
   }
 }

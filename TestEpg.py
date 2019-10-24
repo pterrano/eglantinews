@@ -1,20 +1,12 @@
-import os
-import sys
+import logging
 
-from eglantinews.ChannelsConfig import ChannelsConfig
-from epg.XmlTvReader import XmlTvReader
+from eglantinews.epg.XmlTvService import XmlTvService
 
-channels = ChannelsConfig().get_channels()
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [%(levelname)s] - %(message)s')
 
-xml = os.path.dirname(os.path.realpath(sys.argv[0])) + '/config/tvguide_tnt.xml'
+epg_service = XmlTvService()
 
-reader = XmlTvReader(channels, xml)
-
-programs = reader.get_current_programs_by_channels()
+programs = epg_service.get_first_part_programs_by_channels()
 
 for channel in sorted(programs.keys()):
-    print("%s: %s" % (channel, programs[channel]))
-
-
-
-pass
+    print("%s: %s - %s" % (programs[channel].title, programs[channel].start, programs[channel].stop))

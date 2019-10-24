@@ -404,6 +404,30 @@
                         "Mettre la radio {queryRadio}",
                         "Ecouter la radio {queryRadio}"
                     ]
+                },
+                {
+                    "name": "EPGCurrent",
+                    "slots": [],
+                    "samples": [
+                        "Quels sont les programmes en cours",
+                        "Quels sont les programmes en cours à la télé"
+                    ]
+                },
+                {
+                    "name": "EPGFirstPart",
+                    "slots": [],
+                    "samples": [
+                        "Quels sont les programmes en première partie de soirée",
+                        "Quels sont les programmes en première partie"
+                    ]
+                },
+                {
+                    "name": "EPGSecondPart",
+                    "slots": [],
+                    "samples": [
+                        "Quels sont les programmes en deuxième partie de soirée",
+                        "Quels sont les programmes en deuxième partie"
+                    ]
                 }
             ],
             "types": [
@@ -549,7 +573,8 @@
                             "name": {
                                 "value": "11",
                                 "synonyms": [
-                                    "T.F.X."
+                                    "T",
+                                    "F.X."
                                 ]
                             }
                         },
@@ -701,8 +726,7 @@
                 },
                 {
                     "name": "Movie",
-                    "values": [
-                    ]
+                    "values": []
                 }
             ]
         }

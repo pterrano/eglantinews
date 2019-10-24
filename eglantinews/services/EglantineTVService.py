@@ -4,9 +4,11 @@ from alexa.Slot import Slot
 from eglantinews.EglantineConfig import EglantineConfig
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
+from eglantinews.epg.XmlTvService import XmlTvService
 from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
 from samsungtv.SamsungTvRemote import SamsungTvRemote
+
 
 class EglantineTVService(EglantineRoomService):
     __config = EglantineConfig()
@@ -14,6 +16,8 @@ class EglantineTVService(EglantineRoomService):
     _serviceName = "T.V."
 
     samsung_tv_remote: SamsungTvRemote = None
+
+    epg_service = XmlTvService()
 
     def __init__(self):
         tv_config = self.__config.get_samsung_tv_config()
@@ -91,6 +95,26 @@ class EglantineTVService(EglantineRoomService):
         super()._turn_off_all(context)
         return Sentences.TURN_OFF_ALL
 
+    def __epg_current(self, context: ExecutionContext):
+        programs = self.epg_service.get_current_programs_by_channels()
+        return self.__epg_make_response(programs)
+
+    def __epg_first_part(self, context: ExecutionContext):
+        programs = self.epg_service.get_first_part_programs_by_channels()
+        return self.__epg_make_response(programs)
+
+    def __epg_second_part(self, context: ExecutionContext):
+        programs = self.epg_service.get_second_part_programs_by_channels()
+        return self.__epg_make_response(programs)
+
+    def __epg_make_response(self, programs: dict):
+        response = "";
+        for channel in sorted(programs.keys()):
+            program = programs[channel]
+            response += "sur %s, %s,," % (program.channel_name, program.title)
+
+        return response
+
     def get_intent_configs(self):
         tv_room = Slot('TV')
         expected_tv_room = {'room': tv_room}
@@ -155,5 +179,14 @@ class EglantineTVService(EglantineRoomService):
             'ReturnDirect': {
                 'function': self.__return_direct
             },
+            'EPGCurrent': {
+                'function': self.__epg_current
+            },
+            'EPGFirstPart': {
+                'function': self.__epg_first_part
+            },
+            'EPGSecondPart': {
+                'function': self.__epg_second_part
+            }
 
         }

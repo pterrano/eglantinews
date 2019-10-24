@@ -1,19 +1,15 @@
 import json
-import os
-import sys
+
+from utils.PathUtils import get_path
+
+DEFAULT_CONFIG_FILE = "config/eglantine-skill.json"
 
 
 class EglantineConfig:
-    DEFAULT_CONFIG_FILE = "/config/eglantine-skill.json"
-
     json_config: dict = None
 
     def __init__(self):
-
-        if len(sys.argv) <= 1:
-            config_file = self.__get_default_config_file()
-        else:
-            config_file = sys.argv[1]
+        config_file = get_path(DEFAULT_CONFIG_FILE)
 
         with open(config_file) as json_file:
             self.json_config = json.load(json_file)
@@ -45,5 +41,5 @@ class EglantineConfig:
     def get_kodi_config(self) -> dict:
         return self.json_config['services']['kodi']
 
-    def __get_default_config_file(self) -> str:
-        return os.path.dirname(os.path.realpath(sys.argv[0])) + self.DEFAULT_CONFIG_FILE
+    def get_epg_config(self) -> dict:
+        return self.json_config['services']['epg']
