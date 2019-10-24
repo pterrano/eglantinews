@@ -23,8 +23,6 @@ class XmlTvService:
         if not os.path.exists(self.epg_directory):
             os.mkdir(self.epg_directory)
 
-        self.__download_epg_if_needed()
-
     def __get_epg_filename(self):
         return PATTERN_EPG_FILE % datetime.datetime.today().strftime(PATTERN_DATE_EPG_FILE)
 
