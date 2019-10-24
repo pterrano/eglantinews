@@ -5,8 +5,8 @@ import os
 import requests
 
 from eglantinews.EglantineConfig import EglantineConfig
-from eglantinews.epg.XmlTvReader import XmlTvReader
 from eglantinews.epg.XmlTvProgram import XmlTvProgram
+from eglantinews.epg.XmlTvReader import XmlTvReader
 from utils.PathUtils import get_path
 
 PATTERN_DATE_EPG_FILE = '%Y-%m-%d'
@@ -19,6 +19,7 @@ class XmlTvService:
     def __init__(self):
         self.epg_directory = get_path(EPG_DIRECTORY)
         self.epg_url = EglantineConfig().get_epg_config()['url']
+        self.epg_file = None
 
         if not os.path.exists(self.epg_directory):
             os.mkdir(self.epg_directory)
@@ -43,8 +44,11 @@ class XmlTvService:
 
             logging.info("epg has been written to %s (%s bytes)" % (epg_file, os.path.getsize(epg_file)))
 
-        self.epg_reader = XmlTvReader(epg_file)
-        logging.info("epg reloaded.")
+        if self.epg_file != epg_file:
+            logging.info("loading epg...")
+            self.epg_reader = XmlTvReader(epg_file)
+            self.epg_file = epg_file
+            logging.info("epg reloaded.")
 
     def get_programs_by_channel(self, channel_number: str):
         self.__download_epg_if_needed()
