@@ -90,6 +90,14 @@ def remove_ignore_words(input_string: str):
 def distance(string1: str, string2: str):
     return levenshtein(remove_ignore_words(string1), remove_ignore_words(string2))
 
+def simplify_accronym(input_string:str):
+
+    if input_string is None:
+        return None
+
+    input_string = input_string.replace('.', '')
+    return simplify(input_string)
+
 def simplify(input_string:str):
 
     if input_string is None:

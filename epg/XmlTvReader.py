@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import timezone
 
 from utils.JsonUtils import json_serialize
-
+from utils.SearchUtils import simplify_accronym
 
 class XmlTvProgram:
 
@@ -66,7 +66,7 @@ class XmlTvReader:
                     self.__programs[channel['number']] = channel_programs
 
                 program.channel_number = channel['number']
-                program.channel_name = channel['name'].replace('.', '')
+                program.channel_name = simplify_accronym(channel['name'])
 
                 channel_programs.append(program)
 

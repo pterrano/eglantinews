@@ -4,7 +4,7 @@ from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
 from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
-from utils.SearchUtils import simplify
+from utils.SearchUtils import simplify_accronym
 
 
 class EglantineMusicService(EglantineRoomService):
@@ -123,7 +123,7 @@ class EglantineMusicService(EglantineRoomService):
 
         room = self._get_room(context)
 
-        query = simplify(context.get_slot_value('queryRadio'))
+        query = simplify_accronym(context.get_slot_value('queryRadio'))
 
         logging.info('LISTEN RADIO %s in %s' % (query, room))
 
