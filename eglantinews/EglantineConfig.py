@@ -1,4 +1,5 @@
 import json
+import sys
 
 from utils.PathUtils import get_path
 
@@ -9,7 +10,10 @@ class EglantineConfig:
     json_config: dict = None
 
     def __init__(self):
-        config_file = get_path(DEFAULT_CONFIG_FILE)
+        if len(sys.argv) <= 1:
+            config_file = get_path(DEFAULT_CONFIG_FILE)
+        else:
+            config_file = sys.argv[1]
 
         with open(config_file) as json_file:
             self.json_config = json.load(json_file)
