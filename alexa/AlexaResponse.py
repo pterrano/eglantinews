@@ -1,12 +1,9 @@
-import logging
-
-
 class AlexaResponse:
-    __end_session: bool = True
 
-    __sentence: str = ''
-
-    __prompt: str = None
+    def __init__(self, sentence: str = "", end_session: str = True, prompt: str = None):
+        self.__sentence = sentence
+        self.__end_session = end_session
+        self.__prompt = prompt
 
     def set_sentence(self, sentence: str):
         self.__sentence = sentence

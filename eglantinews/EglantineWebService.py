@@ -114,52 +114,54 @@ class EglantineWebService(Resource):
     """
     Traitement de la requête Alexa
     """
-
     def process_request(self, alexa_request) -> AlexaResponse:
+
+        alexa_type = alexa_request.get_request_type()
+        # S'il n'y a pas de type de request, c'est une erreur
+        if alexa_type is None:
+            return AlexaResponse(Sentences.ERROR, True)
+
+        # Si Alexa notifie la fin de la session, on fait rien
+        if alexa_type == EglantineConstants.END_SESSION_REQUEST_TYPE:
+            return AlexaResponse(Sentences.NOTHING, True)
+
+        # S'il n'y a pas de phrase fournie par Alexa, c'est une erreur
+        alexa_intent = alexa_request.get_intent()
+        if alexa_intent is None:
+            return AlexaResponse(Sentences.ERROR, True)
+
+        # Lancement de la skill, la skill se présente
+        if alexa_intent == EglantineConstants.LAUNCH_INTENT:
+            return AlexaResponse(Sentences.LAUNCH_PROMPT, False)
+
+        # Traitement de la requête demandée
+        thread_service = self.__get_current_service(alexa_request)
+
+        # S'il y a un service précédemment non terminé et que l'on dit "OK"
+        if thread_service is not None and alexa_intent == EglantineConstants.OK_INTENT:
+
+            alexa_response = AlexaResponse()
+
+            # On attend le service à nouveau
+            self.__wait_result(alexa_request, alexa_response, thread_service)
+
+            return alexa_response
+
+        # S'il y a service précédemment non terminé, qu'il tourne toujours et que l'on dit autre chose que "OK", on demande d'attendre
+        if thread_service is not None and thread_service.isAlive():
+            return AlexaResponse(Sentences.BUSY, True)
+
+        # S'il n'y a pas ou plus de Thread en cours, on execute la requete demandée
+        execution_context = ExecutionContext(alexa_intent, alexa_request.get_slots(),
+                                             self.__get_session(alexa_request))
 
         alexa_response = AlexaResponse()
 
-        alexa_intent = alexa_request.get_intent()
+        has_candidate = self.process_candidate_service(alexa_request, alexa_response, execution_context)
 
-        # S'il n'y a pas de phrase fournie par Alexa, c'est une erreur
-        if alexa_intent is None:
-            alexa_response.set_sentence(Sentences.ERROR)
-            alexa_response.set_end_session(True)
-
-        # S'il s'agit d'une requete de lancement de la skill
-        elif alexa_intent == EglantineConstants.LAUNCH_INTENT:
-            alexa_response.set_sentence(Sentences.LAUNCH_PROMPT)
+        if not has_candidate:
+            alexa_response.set_sentence(Sentences.UNKNOWN)
             alexa_response.set_end_session(False)
-
-        # Sinon on traite la requete demandée
-        else:
-
-            thread_service = self.__get_current_service(alexa_request)
-
-            # S'il y a un service précédemment non terminé et que l'on dit "OK"
-            if thread_service is not None and alexa_intent == EglantineConstants.OK_INTENT:
-
-                # On attend le service à nouveau
-                self.__wait_result(alexa_request, alexa_response, thread_service)
-
-            # S'il y a Thread précédemment non terminé, qu'il tourne toujours et que l'on dit autre chose que "OK"
-            elif thread_service is not None and thread_service.isAlive():
-
-                # On demande d'attendre
-                alexa_response.set_sentence(Sentences.BUSY)
-                alexa_response.set_end_session(True)
-
-            # S'il n'y a pas ou plus de Thread en cours, on execute la requete
-            else:
-
-                execution_context = ExecutionContext(alexa_intent, alexa_request.get_slots(),
-                                                     self.__get_session(alexa_request))
-
-                has_candidate = self.process_candidate_service(alexa_request, alexa_response, execution_context)
-
-                if not has_candidate:
-                    alexa_response.set_sentence(Sentences.UNKNOWN)
-                    alexa_response.set_end_session(False)
 
         return alexa_response
 

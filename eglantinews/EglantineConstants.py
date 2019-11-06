@@ -6,6 +6,8 @@ class EglantineConstants:
 
     OK_INTENT = 'OK'
     LAUNCH_INTENT = 'LaunchRequest'
+    INTENT_REQUEST_TYPE = 'IntentRequest'
+    END_SESSION_REQUEST_TYPE = 'SessionEndedRequest'
 
 
 class QueryType:

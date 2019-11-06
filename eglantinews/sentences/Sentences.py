@@ -8,7 +8,8 @@ class Sentences:
     ERROR = "Une erreur s'est produite"
     ERROR_SERVICE = "Une erreur s'est produite dans le service %s"
     FORBIDDEN = "Accès non autorisé"
-    BUSY = "Je suis déjà occupé. Peux-tu attendre un instant, s'il te plaît ?"
+    BUSY = "Je suis déjà occupé"
+    NOTHING = ""
 
     TURN_OFF_ALL = "Ok, j'éteins tout"
 
