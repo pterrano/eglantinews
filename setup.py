@@ -8,7 +8,7 @@ setup(
         'click==7.0',
         'flask===1.0.2',
         'flask-restful===0.3.6',
-        'requests===2.19.1',
+        'requests===2.22.0',
         'wakeonlan===1.1.6',
         'websockets===6.0',
         'kodi-json===1.0.0'
