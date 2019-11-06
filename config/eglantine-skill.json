@@ -15,8 +15,7 @@
         "LIVING": {
           "hostname": "speaker-office",
           "label": "le salon",
-          "default-volume": 60,
-          "max-volume": 120,
+          "default-volume": 50,
           "default": true
         },
         "DESKTOP": {
