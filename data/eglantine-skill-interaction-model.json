@@ -428,6 +428,19 @@
                         "Quels sont les programmes en deuxième partie de soirée",
                         "Quels sont les programmes en deuxième partie"
                     ]
+                },
+                {
+                    "name": "EPGCurrentChannel",
+                    "slots": [
+                        {
+                            "name": "channel",
+                            "type": "channel"
+                        }
+                    ],
+                    "samples": [
+                        "Quel est le programme en cours sur {channel}",
+                        "Quel est le programme en cours sur la chaine {channel}"
+                    ]
                 }
             ],
             "types": [
@@ -726,7 +739,8 @@
                 },
                 {
                     "name": "Movie",
-                    "values": []
+                    "values": [
+                    ]
                 }
             ]
         }

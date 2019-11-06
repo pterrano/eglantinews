@@ -69,7 +69,7 @@ class XmlTvService(Thread):
 
     def get_current_programs_by_channel(self, channel_number: str) -> XmlTvProgram:
         if self.epg_file is None:
-            return []
+            return None
         return self.epg_reader.get_current_program_by_channel(channel_number)
 
     def get_first_part_programs_by_channels(self) -> dict:
@@ -79,7 +79,7 @@ class XmlTvService(Thread):
 
     def get_first_part_programs_by_channel(self, channel_number: str) -> XmlTvProgram:
         if self.epg_reader is None:
-            return []
+            return None
         return self.epg_reader.get_first_part_program_by_channel(channel_number)
 
     def get_second_part_programs_by_channels(self) -> dict:
@@ -89,7 +89,7 @@ class XmlTvService(Thread):
 
     def get_second_part_programs_by_channel(self, channel_number: str) -> XmlTvProgram:
         if self.epg_file is None:
-            return []
+            return None
         return self.epg_reader.get_second_part_program_by_channel(channel_number)
 
     def run(self) -> None:

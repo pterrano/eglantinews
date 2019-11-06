@@ -16,6 +16,8 @@ class Sentences:
     """ TV """
     TURN_ON_TV = "Allumage de la télé"
     TURN_OFF_TV = "Extinction de la télé"
+    NO_EPG_CHANNEL = "Je n'ai aucune information de programme pour %s"
+    EPG_CHANNEL = "Actuellement, sur %s, %s"
 
     PAUSE_TV = "Mise en pause"
     STOP_TV = "Arrêt du visionnage"

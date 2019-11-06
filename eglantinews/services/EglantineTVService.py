@@ -107,6 +107,27 @@ class EglantineTVService(EglantineRoomService):
         programs = self.epg_service.get_second_part_programs_by_channels()
         return self.__epg_make_response(programs)
 
+    def __epg_current_channel(self, context: ExecutionContext):
+
+        channel_number = context.get_slot_id('channel')
+
+        channel_name = context.get_slot_value('channel')
+
+        program = self.epg_service.get_current_programs_by_channel(channel_number)
+
+        if program is None:
+            return Sentences.NO_EPG_CHANNEL % channel_name
+
+        program_result = program.title
+
+        if program.sub_title is not None:
+            program_result += "," + program.sub_title
+
+        if program.description is not None:
+            program_result += ",," + program.description
+
+        return Sentences.EPG_CHANNEL % (channel_name, program_result)
+
     def __epg_make_response(self, programs: dict):
         response = "";
         for channel in sorted(programs.keys()):
@@ -187,6 +208,10 @@ class EglantineTVService(EglantineRoomService):
             },
             'EPGSecondPart': {
                 'function': self.__epg_second_part
+            },
+            'EPGCurrentChannel': {
+                'function': self.__epg_current_channel,
+                'expected-slots': expected_channel
             }
 
         }
