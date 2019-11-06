@@ -13,7 +13,7 @@ from samsungtv.SamsungTvRemote import SamsungTvRemote
 class EglantineTVService(EglantineRoomService):
     __config = EglantineConfig()
 
-    _serviceName = "T.V."
+    _service_name = "T.V."
 
     samsung_tv_remote: SamsungTvRemote = None
 

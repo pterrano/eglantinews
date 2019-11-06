@@ -10,7 +10,7 @@ from utils.SearchUtils import simplify
 class EglantineMovieService(EglantineTVService):
     _kodi_config = EglantineConfig().get_kodi_config()
 
-    _serviceName = "KODI"
+    _service_name = "KODI"
 
     def __init__(self):
         EglantineTVService.__init__(self)
