@@ -5,7 +5,8 @@
     "name": {
       "value": "1",
       "synonyms": [
-        "T.F.1."
+        "T.F.1.",
+        "TF1"
       ]
     }
   },
@@ -34,7 +35,9 @@
     "name": {
       "value": "4",
       "synonyms": [
-        "canal plus"
+        "canal",
+        "canal plus",
+        "canal +"
       ]
     }
   },
@@ -54,7 +57,8 @@
     "name": {
       "value": "6",
       "synonyms": [
-        "M.6."
+        "M.6.",
+        "M6"
       ]
     }
   },
@@ -64,7 +68,8 @@
     "name": {
       "value": "7",
       "synonyms": [
-        "arté"
+        "arté",
+        "arte"
       ]
     }
   },
@@ -74,7 +79,8 @@
     "name": {
       "value": "8",
       "synonyms": [
-        "C.8."
+        "C.8.",
+        "C8"
       ]
     }
   },
@@ -84,7 +90,8 @@
     "name": {
       "value": "9",
       "synonyms": [
-        "W.9."
+        "W.9.",
+        "W9"
       ]
     }
   },
@@ -95,7 +102,8 @@
     "name": {
       "value": "10",
       "synonyms": [
-        "T.M.C."
+        "T.M.C.",
+        "TMC"
       ]
     }
   },
@@ -105,25 +113,31 @@
     "name": {
       "value": "11",
       "synonyms": [
-        "T.F.X."
+        "T.F.X.",
+        "TFX"
       ]
     }
   },
   {
     "id": "12",
+    "xmltv-id" : "C444.api.telerama.fr",
     "name": {
       "value": "12",
       "synonyms": [
-        "N.R.J. 12"
+        "N.R.J. 12",
+        "NRJ 12",
+        "NRJ12"
       ]
     }
   },
   {
     "id": "13",
+    "xmltv-id" : "C234.api.telerama.fr",
     "name": {
       "value": "13",
       "synonyms": [
-        "L.C.P."
+        "L.C.P.",
+        "LCP"
       ]
     }
   },
@@ -142,7 +156,8 @@
     "name": {
       "value": "15",
       "synonyms": [
-        "B.F.M. T.V."
+        "B.F.M. T.V.",
+        "BFM TV"
       ]
     }
   },
@@ -151,7 +166,8 @@
     "name": {
       "value": "16",
       "synonyms": [
-        "C. news"
+        "C. news",
+        "C news"
       ]
     }
   },
@@ -161,7 +177,8 @@
     "name": {
       "value": "17",
       "synonyms": [
-        "C. star"
+        "C. star",
+        "C star"
       ]
     }
   },
@@ -191,7 +208,8 @@
     "name": {
       "value": "20",
       "synonyms": [
-        "T.F.1. séries films"
+        "T.F.1. séries films",
+        "TF1 séries films"
       ]
     }
   },
@@ -210,7 +228,8 @@
     "name": {
       "value": "22",
       "synonyms": [
-        "6. ter"
+        "6. ter",
+        "6 ter"
       ]
     }
   },
@@ -220,7 +239,8 @@
     "name": {
       "value": "23",
       "synonyms": [
-        "R.M.C. story"
+        "R.M.C. story",
+        "RMC story"
       ]
     }
   },
@@ -230,7 +250,8 @@
     "name": {
       "value": "24",
       "synonyms": [
-        "R.M.C. découverte"
+        "R.M.C. découverte",
+        "RMC découverte"
       ]
     }
   },
@@ -249,7 +270,8 @@
     "name": {
       "value": "26",
       "synonyms": [
-        "L.C.I."
+        "L.C.I.",
+        "LCI"
       ]
     }
   },

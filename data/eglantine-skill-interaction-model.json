@@ -524,7 +524,9 @@
                             "name": {
                                 "value": "4",
                                 "synonyms": [
-                                    "canal plus"
+                                    "canal",
+                                    "canal plus",
+                                    "canal +"
                                 ]
                             }
                         },
@@ -552,7 +554,8 @@
                             "name": {
                                 "value": "7",
                                 "synonyms": [
-                                    "arté"
+                                    "arté",
+                                    "arte"
                                 ]
                             }
                         },
