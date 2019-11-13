@@ -143,7 +143,7 @@ class YamahaConsole:
             else:
                 file_type = str(index + 1)
 
-            print('%-15s%s' % Color.BOLD + file_type + Color.END, file['text'])
+            print('%-15s%s' % (Color.BOLD + file_type + Color.END, file['text']))
 
     def show_play_list(self, display_title=False):
 
@@ -190,17 +190,17 @@ class YamahaConsole:
         self.remote.goto_play_index(track_number - 1)
         self.play()
 
-    def __goto_path(self, path):
+    def __goto_path(self, path:str):
 
         self.remote.goto_root()
 
         self.remote.select_item('nas')
 
-        self.remote.select_item('Musique')
+        self.remote.select_item('musique')
 
-        self.remote.select_item('Par dossier')
+        self.remote.select_item('par dossier')
 
-        path_tokens = path.split('/')
+        path_tokens = path.lower().split('/')
 
         while '' in path_tokens:
             path_tokens.remove('')
