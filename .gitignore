@@ -2,3 +2,5 @@
 __pycache__
 build
 dist
+config/eglantine-skill-prod.json
+/config/epg/tvguide-*

@@ -1,33 +1,57 @@
 from eglantinews.Session import Session
-
+from alexa.Slot import Slot
+from alexa.Slots import Slots
+from eglantinews.EglantineConstants import EglantineConstants
 
 class ExecutionContext:
 
-    def addSlots(self, slots):
-        if slots!=None:
-            self.__slots.update(slots)
+    __slots: Slots = None
 
-    def __init__(self, intent: str, slots, session: Session):
+    __intent: str = None
+
+    __session: Session = None
+
+    def add_slots(self, slots):
+        if slots is not None:
+            self.__slots.merge(slots)
+
+    def __init__(self, intent: str, slots: Slots, session: Session):
 
         self.__intent = intent
 
-        self.__slots = {}
-
-        self.addSlots(slots)
+        self.__slots = slots
 
         self.__session = session
 
-    def getSlot(self, slotName, defaultValue = None) -> str:
-        if slotName in self.__slots:
-            return self.__slots[slotName]
+    def get_slot_id(self, slot_name, default_value=None) -> str:
 
-        return defaultValue
+        slot: Slot = self.get_slot(slot_name)
 
-    def getSlots(self):
+        if slot is None or slot.get_id() is None:
+            return default_value
+
+        return slot.get_id()
+
+    def get_slot_value(self, slot_name, default_value=None) -> str:
+
+        slot: Slot = self.get_slot(slot_name)
+
+        if slot is None or slot.get_value() is None:
+            return default_value
+
+        return slot.get_value()
+
+    def get_slot(self, slot_name) -> Slot:
+        return self.__slots.get(slot_name)
+
+    def get_slots(self) -> Slots:
         return self.__slots
 
-    def getIntent(self) -> str:
+    def get_intent(self) -> str:
         return self.__intent
 
-    def getSession(self) -> Session:
+    def get_session(self) -> Session:
         return self.__session
+
+    def service_changed(self) -> bool:
+        return self.__session.get_attribute(EglantineConstants.CURRENT_SERVICE_CHANGED)

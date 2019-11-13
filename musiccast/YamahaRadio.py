@@ -8,54 +8,54 @@ from utils.SearchUtils import distance
 
 
 class YamahaRadio:
-    baseURL = 'http://radioyamaha.vtuner.com/setupapp/Yamaha/asp/Browsexml/'
+    BASE_URL = 'http://radioyamaha.vtuner.com/setupapp/Yamaha/asp/Browsexml/'
 
-    def __getTagByName(self, node, nodeName):
-        nodes = node.getElementsByTagName(nodeName)
+    def __get_tag_by_name(self, node, node_name):
+        nodes = node.getElementsByTagName(node_name)
         if len(nodes) > 0:
             return nodes[0]
         else:
             return None
 
-    def __getTagValueByName(self, node, nodeName):
+    def __get_tag_value_by_name(self, node, node_name):
 
-        tag = self.__getTagByName(node, nodeName)
-        if tag == None:
+        tag = self.__get_tag_by_name(node, node_name)
+        if tag is None:
             return None
         else:
-            childNodes = tag.childNodes
-            for textNode in childNodes:
+            child_nodes = tag.childNodes
+            for text_node in child_nodes:
                 rc = []
-                if textNode.nodeType == textNode.TEXT_NODE:
-                    rc.append(textNode.nodeValue)
+                if text_node.nodeType == text_node.TEXT_NODE:
+                    rc.append(text_node.nodeValue)
                 return ''.join(rc)
 
-    def __marshallRadios(self, xml: str):
+    def __marshall_radios(self, xml: str):
 
         dom = parseString(xml)
 
         radios = {}
 
-        for listOfItems in dom.childNodes:
+        for list_of_items in dom.childNodes:
 
-            for item in listOfItems.getElementsByTagName('Item'):
-                stationId = self.__getTagValueByName(item, 'StationId')
-                stationName = self.__getTagValueByName(item, 'StationName')
-                if stationId != None and stationName != None:
-                    radios[stationName] = stationId
+            for item in list_of_items.getElementsByTagName('Item'):
+                station_id = self.__get_tag_value_by_name(item, 'StationId')
+                station_name = self.__get_tag_value_by_name(item, 'StationName')
+                if station_id is not None and station_name is not None:
+                    radios[station_name] = station_id
 
         return radios
 
-    def __http(self, method: str, command: str, params=[]):
+    def __http(self, method: str, command: str, params={}):
 
-        url = self.baseURL + '/' + command
+        url = self.BASE_URL + '/' + command
 
         t0 = time.perf_counter()
 
         if method == 'GET':
             result = requests.get(url=url, params=params).text
             logging.info('%s - %.1f - url=%s params=%s' % (method, time.perf_counter() - t0, url, params))
-            return self.__marshallRadios(result)
+            return self.__marshall_radios(result)
 
         return None
 
@@ -67,25 +67,20 @@ class YamahaRadio:
             return {'id': radios[radio], 'title': radio}
         else:
 
-            radioNames = radios.keys()
+            radio_names = radios.keys()
 
-            nearestRadio = None
-            nearestDistance = float('inf')
+            nearest_radio: str = None
+            nearest_distance = float('inf')
 
-            for currentRadio in radioNames:
+            for current_radio in radio_names:
 
-                currentDistance = distance(currentRadio, radio)
+                current_distance = distance(current_radio, radio)
 
-                if currentDistance < nearestDistance:
-                    nearestDistance = currentDistance
-                    nearestRadio = currentRadio
+                if current_distance < nearest_distance:
+                    nearest_distance = current_distance
+                    nearest_radio = current_radio
 
-            if nearestRadio != None:
-                return {'id': radios[nearestRadio], 'title': nearestRadio}
+            if nearest_radio is not None:
+                return {'id': radios[nearest_radio], 'title': nearest_radio}
 
             return None
-
-
-yamahaRadio = YamahaRadio()
-
-print(yamahaRadio.search('france bleu'))

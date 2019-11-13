@@ -1,0 +1,54 @@
+{
+  "infos": {
+    "name": "Eglantine Skill WebService",
+    "id": "eglantine-skill",
+    "version": "1.0"
+  },
+  "security": {
+    "enabled": false,
+    "authorized-users": [],
+    "authorized-devices": []
+  },
+  "services": {
+    "musiccast": {
+      "devices": {
+        "LIVING": {
+          "hostname": "speaker-office",
+          "label": "le salon",
+          "default-volume": 50,
+          "default": true
+        },
+        "DESKTOP": {
+          "hostname": "speaker-office",
+          "label": "le bureau",
+          "default-volume": 50
+        },
+        "BEDROOM": {
+          "hostname": "speaker-bedroom",
+          "label": "la chambre",
+          "default-volume": 25
+        }
+      },
+      "multiroom": {
+        "group-id": "d9ded9c3eea94ba8b137a805dc6d8942",
+        "group-name": "EglantineGroup"
+      }
+    },
+    "samsung-tv": {
+      "hostname": "tv",
+      "mac": "5C:49:7D:EF:35:2B",
+      "input": "av4"
+    },
+    "epg": {
+      "url": "https://www.xmltv.fr/guide/tvguide_tnt.xml"
+    },
+    "kodi": {
+      "url": "http://mediacenter:8080/jsonrpc",
+      "input": "hdmi4"
+    }
+  }
+}
+
+
+
+

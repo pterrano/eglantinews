@@ -2,239 +2,244 @@ import logging
 
 from eglantinews.EglantineServiceResult import EglantineServiceResult
 from eglantinews.ExecutionContext import ExecutionContext
+from eglantinews.sentences.Sentences import Sentences
 from eglantinews.services.EglantineRoomService import EglantineRoomService
+from utils.SearchUtils import simplify_accronym
 
 
 class EglantineMusicService(EglantineRoomService):
-    _serviceName = "Musiccast"
-
-    NORMALISE_WORDS = [
-        'de', 'des', 'le', 'la', 'les', 'du', 'au', 'aux', 'à'
-    ]
-
-    def normalizeSearch(self, searchPattern: str):
-        searchPattern = ' ' + searchPattern + ' '
-        for word in self.NORMALISE_WORDS:
-            searchPattern = searchPattern.replace(' ' + word + ' ', ' ')
-        return searchPattern.strip(' ')
+    _service_name = "Musiccast"
 
     # Sub-sentence to specify where music will be played
-    def __getMusicLocation(self, context: ExecutionContext):
-        if self._isCurrentMultiroom(context):
-            return "de partout"
+    def __get_music_location(self, context: ExecutionContext):
+        if self._is_current_multiroom(context):
+            return Sentences.MUSIC_LOCATION_MULTIROOM
         else:
-            return "dans %s" % self._getCurrentRoomName(context)
+            return Sentences.MUSIC_LOCATION % self._get_current_room_name(context)
 
-    def __turnOff(self, context: ExecutionContext):
+    def __turn_off(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
         logging.info('TURN ON (%s)' % room)
 
-        remote.turnOff()
+        self._remote(room).turn_off()
 
-        self._setCurrentDefaultRoom(context)
+        self._set_current_default_room(context)
 
-        return 'Arrêt de %s' % self._getRoomName(room)
+        return Sentences.TURN_OFF % self._get_room_name(room)
 
-    def __turnOn(self, context: ExecutionContext):
+    def __turn_on(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
+        room = self._get_room(context)
 
-        remote = self._remoteByRoom(room);
+        logging.info('TURN ON (%s)' % self._get_room_name(room))
 
-        logging.info('TURN ON (%s)' % self._getRoomName(room))
+        self._remote(room).turn_on()
 
-        remote.turnOn()
+        self._set_current_room(context, room)
 
-        self._setCurrentRoom(context, room)
-
-        return 'Allumage de %s' % self._getRoomName(room)
+        return Sentences.TURN_ON % self._get_room_name(room)
 
     def __next(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
-        remote.nextSong()
+        self._remote(room).next_song()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
         return EglantineServiceResult(None, False)
 
     def __previous(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
-        remote.previousSong()
-        remote.previousSong()
+        remote = self._remote(room)
+        remote.previous_song()
+        remote.previous_song()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
         return EglantineServiceResult(None, False)
 
     def __resume(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
-        remote.play()
+        self._remote(room).play()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
-        return EglantineServiceResult('Reprise de la musique %s' % self.__getMusicLocation(context))
+        return EglantineServiceResult(Sentences.RESUME_MUSIC % self.__get_music_location(context))
 
     def __stop(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
-        remote.stop()
+        self._remote(room).stop()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
-        return EglantineServiceResult('Arrêt de la musique %s' % self.__getMusicLocation(context))
+        return EglantineServiceResult(Sentences.STOP_MUSIC % self.__get_music_location(context))
 
     def __pause(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
+        room = self._get_room(context)
 
-        remote.pause()
+        self._remote(room).pause()
 
-        self._setCurrentRoom(context, room)
+        self._set_current_room(context, room)
 
-        return EglantineServiceResult('Pause de la musique %s' % self.__getMusicLocation(context))
+        return EglantineServiceResult(Sentences.PAUSE_MUSIC % self.__get_music_location(context))
 
-    def __currentTitle(self, context: ExecutionContext):
+    def __current_title(self, context: ExecutionContext):
 
-        playInfo = self._currentRemote(context).getPlayInfo(True)
+        play_info = self._current_remote(context).get_play_info(True)
 
-        if playInfo['track'] == '':
-            return 'Aucun titre en cours'
-        elif playInfo['album'] == '':
-            return "Nous écoutons actuellement le titre %s de %s" % (playInfo['track'], playInfo['artist'])
+        if play_info['track'] == '':
+            return Sentences.NO_CURRENT_TRACK
+        elif play_info['album'] == '':
+            return Sentences.CURRENT_TRACK % (play_info['track'], play_info['artist'])
         else:
-            return "Nous écoutons actuellement le titre %s de %s dans l'album %s" % (
-                playInfo['track'], playInfo['artist'], playInfo['album'])
+            return Sentences.CURRENT_TRACK_WITH_ALBUM % (
+                play_info['track'], play_info['artist'], play_info['album'])
 
-    def __currentVolume(self, context: ExecutionContext):
+    def __current_volume(self, context: ExecutionContext):
 
-        if not self._isCurrentMultiroom(context):
-            room = self._getRoom(context)
-            volume = self._remoteByRoom(room).getVolume()
-            return 'Le volume est à %i dans %s.' % (volume, self._getRoomName(room))
+        if not self._is_current_multiroom(context):
+            room = self._get_room(context)
+            volume = self._remote(room).get_volume()
+            return Sentences.CURRENT_VOLUME % (volume, self._get_room_name(room))
 
         else:
             result = ''
-            for room in self._getRooms():
-                volume = self._remoteByRoom(room).getVolume()
-                result = result + 'Le volume est à %i dans %s. ' % (volume, self._getRoomName(room))
+            for room in self._get_rooms():
+                volume = self._remote(room).get_volume()
+                result = result + Sentences.CURRENT_VOLUME_WITH_LOCATION % (volume, self._get_room_name(room))
             return result
 
-    def __listenRadio(self, context: ExecutionContext):
+    def __listen_radio(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
-        radio = self.normalizeSearch(context.getSlot('radio'))
+        room = self._get_room(context)
 
-        logging.info('LISTEN RADIO %s in %s' % (radio, room))
+        query = simplify_accronym(context.get_slot_value('queryRadio'))
 
-        self._processRooms(context)
+        logging.info('LISTEN RADIO %s in %s' % (query, room))
 
-        resultSearch = remote.playRadio(radio)
+        self._process_rooms(context)
 
-        if (resultSearch != None):
-            return "Ok, je mets %s %s" % (resultSearch, self.__getMusicLocation(context))
+        result_search = self._remote(room).play_radio(query)
+
+        if result_search is not None:
+            return Sentences.RADIO_FOUND % (result_search, self.__get_music_location(context))
         else:
-            return "Je n'ai pas trouvé la radio %s %s" % (radio, self.__getMusicLocation(context))
+            return Sentences.RADIO_NOT_FOUND % (query, self.__get_music_location(context))
 
-    def __listenArtist(self, context: ExecutionContext):
+    def __listen_artist(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
-        artist = self.normalizeSearch(context.getSlot('artist'))
+        room = self._get_room(context)
 
-        logging.info('LISTEN ARTIST %s in %s' % (artist, room))
+        query = context.get_slot_value('queryArtist')
 
-        self._processRooms(context)
+        logging.info('LISTEN ARTIST %s in %s' % (query, room))
 
-        resultSearch = remote.searchPlay(artist, 'artists', 'deezer')
+        self._process_rooms(context)
 
-        if (resultSearch != None):
-            return "Ok, je mets les titres de %s %s" % (resultSearch['artist'], self.__getMusicLocation(context))
+        result_search = self._remote(room).search_play(query, 'artists', 'deezer')
+
+        if result_search is not None:
+            return Sentences.ARTIST_FOUND % (result_search['artist'], self.__get_music_location(context))
         else:
-            return "Je n'ai pas trouvé de titre pour %s" % artist
+            return Sentences.ARTIST_NOT_FOUND % query
 
-    def __listenTrack(self, context: ExecutionContext):
+    def __listen_track(self, context: ExecutionContext):
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
-        track = self.normalizeSearch(context.getSlot('track'))
+        room = self._get_room(context)
 
-        logging.info('LISTEN TRACK %s in %s' % (track, room))
+        query_track = context.get_slot_value('queryTrack')
 
-        self._processRooms(context)
+        query_artist = context.get_slot_value('queryArtist')
 
-        resultSearch = remote.searchPlay(track, 'tracks', 'deezer')
-
-        if (resultSearch != None):
-            return "Ecoutons %s de %s %s" % (
-                resultSearch['track'], resultSearch['artist'], self.__getMusicLocation(context))
+        if query_artist is None:
+            query = query_track
         else:
-            return "Je n'ai pas trouvé le titre %s" % track
+            query = query_track + " " + query_artist
 
-    def __listenAlbum(self, context: ExecutionContext):
+        logging.info('LISTEN TRACK %s in %s' % (query, room))
 
-        room = self._getRoom(context)
-        remote = self._remoteByRoom(room);
-        album = self.normalizeSearch(context.getSlot('album'))
+        self._process_rooms(context)
 
-        logging.info('LISTEN ALBUM %s in %s' % (album, room))
+        result_search = self._remote(room).search_play(query, 'tracks', 'deezer')
 
-        self._processRooms(context)
-
-        resultSearch = remote.searchPlay(album, 'albums', 'deezer')
-
-        if (resultSearch != None):
-            return "Ok, je mets l'album %s de %s %s" % (
-                resultSearch['album'], resultSearch['artist'], self.__getMusicLocation(context))
+        if result_search is not None:
+            return Sentences.TRACK_FOUND % (
+                result_search['track'], result_search['artist'], self.__get_music_location(context))
         else:
-            return "Je n'ai pas trouvé d'album %s" % album
+            return Sentences.TRACK_NOT_FOUND % query_track
 
-    def __enableMultiroom(self, context: ExecutionContext):
+    def __listen_album(self, context: ExecutionContext):
 
-        self._setMultiRoomStatus(context, True)
+        room = self._get_room(context)
 
-        return "Activation du multiroom"
+        query_album = context.get_slot_value('queryAlbum')
 
-    def __disableMultiroom(self, context: ExecutionContext):
+        query_artist = context.get_slot_value('queryArtist')
 
-        self._setMultiRoomStatus(context, False)
+        if query_artist is None:
+            query = query_album
+        else:
+            query = query_album + " " + query_artist
 
-        return "Désactivation du multiroom"
+        logging.info('LISTEN ALBUM %s in %s' % (query, room))
 
-    def getIntentConfigs(self):
+        self._process_rooms(context)
+
+        result_search = self._remote(room).search_play(query, 'albums', 'deezer')
+
+        if result_search is not None:
+            return Sentences.ALBUM_FOUND % (
+                result_search['album'], result_search['artist'], self.__get_music_location(context))
+        else:
+            return Sentences.ALBUM_NOT_FOUND % query_album
+
+    def __enable_multiroom(self, context: ExecutionContext):
+
+        self._set_multi_room_status(context, True)
+
+        return Sentences.ENABLE_MULTIROOM
+
+    def __disable_multiroom(self, context: ExecutionContext):
+
+        self._set_multi_room_status(context, False)
+
+        return Sentences.DISABLE_MULTIROOM
+
+    def get_intent_configs(self):
+
+        all_rooms = self._get_rooms_slots()
+
+        expected_volume = {'volume': None}
+        expected_room = {'room': all_rooms}
+
         return {
             'ChangeVolume': {
-                'function': self._changeVolume,
-                'expected-slots': {
-                    'volume': None
-                }
+                'function': self._change_volume,
+                'expected-slots': expected_volume
+            },
+            'IncreaseVolume': {
+                'function': self._increase_volume,
+            },
+            'DecreaseVolume': {
+                'function': self._decrease_volume,
             },
             'TurnOff': {
-                'function': self.__turnOff,
-                'expected-slots': {
-                    'room': self._getRooms()
-                }
+                'function': self.__turn_off,
+                'expected-slots': expected_room
             },
             'TurnOn': {
-                'function': self.__turnOn,
-                'expected-slots': {
-                    'room': self._getRooms()
-                }
+                'function': self.__turn_on,
+                'expected-slots': expected_room
             },
             'AMAZON.StopIntent': {
                 'function': self.__stop
@@ -254,156 +259,44 @@ class EglantineMusicService(EglantineRoomService):
             'Resume': {
                 'function': self.__resume
             },
+            'ResumeRoom': {
+                'function': self.__resume,
+                'expected-slots': expected_room
+            },
             'Pause': {
                 'function': self.__pause
             },
+            'PauseRoom': {
+                'function': self.__pause,
+                'expected-slots': expected_room
+            },
             'EnableMultiroom': {
-                'function': self.__enableMultiroom
+                'function': self.__enable_multiroom
             },
             'DisableMultiroom': {
-                'function': self.__disableMultiroom
+                'function': self.__disable_multiroom
             },
             'CurrentTitle': {
-                'function': self.__currentTitle
+                'function': self.__current_title
             },
             'CurrentVolume': {
-                'function': self.__currentVolume
-            },
-            'ListenAlbum': {
-                'function': self.__listenAlbum,
-                'expected-slots': {
-                    'album': None
-                }
-            },
-            'ListenAlbumAll': {
-                'function': self.__listenAlbum,
-                'expected-slots': {
-                    'album': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING',
-                    'multiroom': True
-                }
-            },
-            'ListenAlbumDesktop': {
-                'function': self.__listenAlbum,
-                'expected-slots': {
-                    'album': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP',
-                }
-            },
-            'ListenAlbumLiving': {
-                'function': self.__listenAlbum,
-                'expected-slots': {
-                    'album': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING',
-                }
+                'function': self.__current_volume
             },
             'ListenArtist': {
-                'function': self.__listenArtist,
-                'expected-slots': {
-                    'artist': None
-                },
+                'function': self.__listen_artist,
+                'expected-slots': {'queryArtist': None}
             },
-            'ListenArtistAll': {
-                'function': self.__listenArtist,
-                'expected-slots': {
-                    'artist': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP',
-                    'multiroom': True
-                }
-            },
-            'ListenArtistDesktop': {
-                'function': self.__listenArtist,
-                'expected-slots': {
-                    'artist': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP'
-                }
-            },
-            'ListenArtistLiving': {
-                'function': self.__listenArtist,
-                'expected-slots': {
-                    'artist': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP'
-                }
+            'ListenAlbum': {
+                'function': self.__listen_album,
+                'expected-slots': {'queryAlbum': None}
             },
             'ListenTrack': {
-                'function': self.__listenTrack,
-                'expected-slots': {
-                    'track': None
-                },
-            },
-            'ListenTrackAll': {
-                'function': self.__listenTrack,
-                'expected-slots': {
-                    'track': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING',
-                    'multiroom': True
-                }
-            },
-            'ListenTrackDesktop': {
-                'function': self.__listenTrack,
-                'expected-slots': {
-                    'track': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP'
-                }
-            },
-            'ListenTrackLiving': {
-                'function': self.__listenTrack,
-                'expected-slots': {
-                    'track': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING'
-                }
+                'function': self.__listen_track,
+                'expected-slots': {'queryTrack': None}
             },
             'ListenRadio': {
-                'function': self.__listenRadio,
-                'expected-slots': {
-                    'radio': None
-                }
-            },
-            'ListenRadioAll': {
-                'function': self.__listenRadio,
-                'expected-slots': {
-                    'radio': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING',
-                    'multiroom': True
-                }
-            },
-            'ListenRadioDesktop': {
-                'function': self.__listenRadio,
-                'expected-slots': {
-                    'radio': None
-                },
-                'complete-slots': {
-                    'room': 'DESKTOP'
-                }
-            },
-            'ListenRadioLiving': {
-                'function': self.__listenRadio,
-                'expected-slots': {
-                    'radio': None
-                },
-                'complete-slots': {
-                    'room': 'LIVING'
-                }
-            },
+                'function': self.__listen_radio,
+                'expected-slots': {'queryRadio': None}
+            }
 
         }

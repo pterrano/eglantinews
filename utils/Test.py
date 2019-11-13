@@ -1,34 +1,24 @@
-import re
-
-NORMALISE_WORDS = [
-    'de', 'des', 'le', 'la', 'les', 'du', 'au', 'aux', 'à'
-]
-
-def normalizeSearch(searchPattern: str):
-    searchPattern = ' ' + searchPattern.lower() + ' '
-    for word in NORMALISE_WORDS:
-        searchPattern = searchPattern.replace(' ' + word + ' ', ' ')
-
-        searchPattern=searchPattern.strip(' ')
-
-        p1=None
-        p2=None
-
-        for c in searchPattern:
-
-            if c!=' ' and c!='.':
-
-                if (p1!=None)
-
-            if p1==' ' and p2=='.':
+import requests
 
 
-            p2=p1
-            p1=c
+def send_soap(path, urn, service, body):
+    soap = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
+    soap += '<s:Body>'
+    soap += '<u:{service} xmlns:u="{urn}">{body}</u:{service}>'
+    soap += '</s:Body>'
+    soap += '</s:Envelope>'
+    soap = soap.format(urn=urn, service=service, body=body)
 
+    headers = {
+        'content-type': 'text/xml;charset="utf-8"',
+        'soapaction': '{urn}#{service}'
+    }
 
-        return searchPattern
+    result = requests.post('http://tv:7676/%s' % path, data=soap, headers=headers)
+
+    print(result.text)
 
 
 
-print(normalizeSearch('n. r. j.'))
+
+#_source_names = send_soap('rcr', 'urn:samsung.com:service:MainTVAgent2:1', 'GetSourceList', '')

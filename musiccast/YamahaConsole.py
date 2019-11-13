@@ -1,230 +1,221 @@
-from musiccast.Color import Color;
-from musiccast.YamahaRemote import YamahaRemote;
+from musiccast.Color import Color
+from musiccast.YamahaRemote import YamahaRemote
+
 
 class YamahaConsole:
+    DIRECTORY_TYPE = 125829122
 
-    DIRECTORY_TYPE=125829122
+    SPR = '    '
 
-    SPR='    '
+    def __init__(self, host_name):
+        self.remote = YamahaRemote(host_name)
 
-    def __init__(self, hostName):
-        self.remote = YamahaRemote(hostName);
+    def set_input(self, input_source: str):
 
-    def setInput(self, input):
+        lower_input = input_source.lower()
 
-        lowerInput=input.lower()
+        for remote_input in self.get_inputs():
 
-        for remoteInput in self.getInputs():
+            input_id = remote_input['id'].lower()
+            input_text = remote_input['text'].lower()
 
-            inputId = remoteInput['id'].lower()
-            inputText = remoteInput['text'].lower()
+            if input_id == lower_input or input_text == lower_input:
+                self.remote.set_input(input_id)
 
-            if inputId == lowerInput or inputText == lowerInput:
-                self.remote.setInput(inputId);
+    def set_volume(self, volume):
+        self.remote.set_volume(volume)
 
-
-    def setVolume(self, volume):
-        self.remote.setVolume(volume);
-
-    def setMute(self, mute):
-        self.remote.setMute(mute);
+    def set_mute(self, mute):
+        self.remote.set_mute(mute)
 
     def play(self):
-        self.remote.play();
+        self.remote.play()
 
     def stop(self):
-        self.remote.stop();
+        self.remote.stop()
 
     def pause(self):
-        self.remote.pause();
+        self.remote.pause()
 
-    def nextSong(self):
-        self.remote.nextSong();
+    def next_song(self):
+        self.remote.next_song()
 
-    def previousSong(self):
-        self.remote.previousSong();
+    def previous_song(self):
+        self.remote.previous_song()
 
-    def isOn(self):
-        self.remote.isOn();
+    def is_on(self):
+        self.remote.is_on()
 
-    def turnOn(self):
-        self.remote.turnOn();
+    def turn_on(self):
+        self.remote.turn_on()
 
-    def turnOff(self):
-        self.remote.turnOff();
+    def turn_off(self):
+        self.remote.turn_off()
 
-    def getInputs(self):
-        return self.remote.getAllLabels()['input_list']
+    def get_inputs(self):
+        return self.remote.get_all_labels()['input_list']
 
-    def prepareInput(self, input):
-        self.remote.prepareInput(input)
+    def prepare_input(self, input_source):
+        self.remote.prepare_input(input_source)
 
-    def search(self, pattern, searchType, media='server'):
-        return self.remote.searchPlay(pattern, searchType, media)
+    def search(self, pattern, search_type, media='server'):
+        return self.remote.search_play(pattern, search_type, media)
 
-    def sumUp(self):
-        self.showCommonInfo()
-        self.showPlayback(True)
-        self.showPlayList(True)
+    def sum_up(self):
+        self.show_common_info()
+        self.show_playback(True)
+        self.show_play_list(True)
 
-    def showInputs(self, displayTitle = False):
+    def show_inputs(self, display_title=False):
 
-        if displayTitle:
+        if display_title:
             print()
             print('Inputs list')
 
-        currentInput = self.remote.getInput();
+        current_input = self.remote.get_input()
 
-        for input in self.getInputs():
+        for inputSource in self.get_inputs():
 
-            line = '%-15s%-15s' % (input['id'], input['text'])
+            line = '%-15s%-15s' % (inputSource['id'], inputSource['text'])
 
-            if input['id'] == currentInput:
+            if inputSource['id'] == current_input:
                 print(Color.BOLD + Color.GREEN + '(*) ' + line + Color.END)
             else:
                 print(self.SPR + line)
 
-    def showCommonInfo(self):
+    def show_common_info(self):
 
-        if (self.remote.isOn()):
+        if self.remote.is_on():
             power = Color.GREEN + '[ON]' + Color.END
         else:
             power = Color.RED + '[OFF]' + Color.END
 
         print('Power : %s' % power)
 
-        if (self.remote.isPlay()):
+        if self.remote.is_play():
             playback = Color.GREEN + '[PLAY]' + Color.END
-        elif (self.remote.isPaused()):
+        elif self.remote.is_paused():
             playback = Color.YELLOW + '[PAUSE]' + Color.END
-        elif (self.remote.isStopped()):
+        else:
             playback = Color.RED + '[STOPPED]' + Color.END
+
         print('Playback : %s' % playback)
 
-        if (self.remote.isMute()):
+        if self.remote.is_mute():
             muted = ' (muted)'
         else:
             muted = ''
 
-        print('Level : {}/100 {}'.format(self.remote.getVolume(), muted))
+        print('Level : {}/100 {}'.format(self.remote.get_volume(), muted))
 
-    def showPlayback(self, displayTitle = False):
+    def show_playback(self, display_title=False):
 
-        playInfo=self.remote.getPlayInfo()
+        play_info = self.remote.get_play_info()
 
-        if not self.remote.isStopped():
-            if displayTitle:
+        if not self.remote.is_stopped():
+            if display_title:
                 print()
                 print('Current playback...')
-            if self.remote.getInput() == 'net_radio':
-                print(self.SPR+'Radio: %s' % playInfo['artist'])
+            if self.remote.get_input() == 'net_radio':
+                print(self.SPR + 'Radio: %s' % play_info['artist'])
             else:
-                print(self.SPR+'Artist: %s' % playInfo['artist'])
-                print(self.SPR+'Album: %s' % playInfo['album'])
-                print(self.SPR+'Track: %s' % playInfo['track'])
-                print(self.SPR+'Time: %i' % playInfo['play_time'])
+                print(self.SPR + 'Artist: %s' % play_info['artist'])
+                print(self.SPR + 'Album: %s' % play_info['album'])
+                print(self.SPR + 'Track: %s' % play_info['track'])
+                print(self.SPR + 'Time: %i' % play_info['play_time'])
 
+    def show_directory(self, path, display_title=False):
 
-    def showDirectory(self, path, displayTitle = False):
+        self.__goto_path(path)
 
-        self.__gotoPath(path)
+        files = self.remote.list_directory()
 
-        files=self.remote.listDirectory()
-
-        if displayTitle:
+        if display_title:
             print()
-            print('%-15s%s' % Color.BOLD+''+Color.END, Color.BOLD+'List music files'+Color.END)
-            print
+            print('%-15s%s' % Color.BOLD + '' + Color.END, Color.BOLD + 'List music files' + Color.END)
+            print()
         for index in range(len(files)):
 
-            file=files[index]
+            file = files[index]
 
-            if file['attribute']==self.DIRECTORY_TYPE:
-                fileType='[dir]'
+            if file['attribute'] == self.DIRECTORY_TYPE:
+                file_type = '[dir]'
             else:
-                fileType=str(index+1)
+                file_type = str(index + 1)
 
-            print('%-15s%s' % Color.BOLD+fileType+Color.END, file['text'])
+            print('%-15s%s' % Color.BOLD + file_type + Color.END, file['text'])
 
+    def show_play_list(self, display_title=False):
 
-    def showPlayList(self, displayTitle = False):
-
-        if not self.remote.isStopped():
-            if displayTitle:
+        if not self.remote.is_stopped():
+            if display_title:
                 print()
                 print('Playlist')
 
-            playIndex = self.remote.getPlayIndex()
-            playList = self.remote.getPlayList()
+            play_index = self.remote.get_play_index()
+            play_list = self.remote.get_play_list()
 
-            for index in range(len(playList)):
+            for index in range(len(play_list)):
 
-                track = self.SPR+'{:02d} {}'.format(index + 1, playList[index]['text'])
+                track = self.SPR + '{:02d} {}'.format(index + 1, play_list[index]['text'])
 
-                if (index == playIndex):
+                if index == play_index:
                     print(Color.BOLD + track + Color.END)
                 else:
                     print(track)
 
+    def play_file(self, path, track_number):
 
-    def playFile(self, path, trackNumber):
+        self.__goto_path(path)
 
-        self.__gotoPath(path)
+        self.remote.list_info(0)
 
-        self.remote.listInfo(0)
+        self.remote.menu_play(track_number - 1)
 
-        self.remote.menuPlay(trackNumber-1)
+    def play_directory(self, path):
 
-    def playDirectory(self, path):
+        self.__goto_path(path)
 
-        self.__gotoPath(path)
-
-        files=self.remote.listDirectory()
+        files = self.remote.list_directory()
 
         for index in range(len(files)):
 
-            file=files[index]
+            file = files[index]
 
             if file['attribute'] != self.DIRECTORY_TYPE:
-                self.remote.menuPlay(index)
+                self.remote.menu_play(index)
                 return
 
-    def playTrack(self, trackNumber):
-        self.remote.gotoPlayIndex(trackNumber - 1)
+    def play_track(self, track_number):
+        self.remote.goto_play_index(track_number - 1)
         self.play()
 
+    def __goto_path(self, path):
 
+        self.remote.goto_root()
 
-    def __gotoPath(self, path):
+        self.remote.select_item('nas')
 
-        self.remote.gotoRoot();
+        self.remote.select_item('Musique')
 
-        self.remote.selectItem('nas')
+        self.remote.select_item('Par dossier')
 
-        self.remote.selectItem('Musique')
+        path_tokens = path.split('/')
 
-        self.remote.selectItem('Par dossier')
+        while '' in path_tokens:
+            path_tokens.remove('')
 
+        if len(path_tokens) > 0 and path_tokens[0] == 'media':
+            path_tokens.remove('media')
 
-        pathTokens=path.split('/')
+        if len(path_tokens) > 0 and path_tokens[0] == 'nas':
+            path_tokens.remove('nas')
 
-        while '' in pathTokens:
-            pathTokens.remove('')
+        if len(path_tokens) > 0 and path_tokens[0] == 'music':
+            path_tokens.remove('music')
 
+        for path_token in path_tokens:
+            self.goto_directory(path_token)
 
-        if len(pathTokens)>0 and pathTokens[0]=='media':
-            pathTokens.remove('media')
-
-        if len(pathTokens)>0 and pathTokens[0]=='nas':
-            pathTokens.remove('nas')
-
-        if len(pathTokens)>0 and pathTokens[0]=='music':
-            pathTokens.remove('music')
-
-
-        for pathToken in pathTokens:
-            self.gotoDirectory(pathToken)
-
-
-    def gotoDirectory(self, gotoItem):
-        return self.remote.selectItem(gotoItem)
+    def goto_directory(self, goto_item: str):
+        return self.remote.select_item(goto_item)
