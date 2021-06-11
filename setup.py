@@ -10,7 +10,7 @@ setup(
         'flask-restful===0.3.6',
         'requests===2.22.0',
         'wakeonlan===1.1.6',
-        'websockets===6.0',
+        'websockets===9.1',
         'kodi-json===1.0.0'
     ],
     url='',
